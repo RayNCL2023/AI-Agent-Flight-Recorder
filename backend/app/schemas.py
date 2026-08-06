@@ -45,6 +45,7 @@ class BranchOut(BaseModel):
     status: BranchStatus
     label: BranchLabel
     diagnosis: str | None
+    analysis_source: str  # "recorded" | "heuristic" | "llm"
     color_index: int
     created_at: datetime
 
@@ -75,6 +76,19 @@ class RunCreate(BaseModel):
     seed: int = 42
 
 
+class ExperimentOut(BaseModel):
+    """A curated fork variant recorded alongside a library trace."""
+
+    id: str
+    title: str
+    description: str
+    fork_seq: int
+    edited_prompt: str | None = None
+    tool_overrides: dict[str, dict] = Field(default_factory=dict)
+    recorded_label: BranchLabel = BranchLabel.UNLABELED
+    recorded_diagnosis: str | None = None
+
+
 class RunOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -85,7 +99,24 @@ class RunOut(BaseModel):
     seed: int
     status: RunStatus
     summary: str | None
+    source: str  # "recorded" | "live"
+    description: str | None
+    tools_used: list[str]
+    experiments: list[ExperimentOut]
     created_at: datetime
+
+
+class RunStats(BaseModel):
+    events: int = 0
+    tokens: int = 0
+    cost_usd: float = 0.0
+    duration_ms: float = 0.0
+
+
+class RunListItem(RunOut):
+    """Library card: a run plus aggregate stats over its stored events."""
+
+    stats: RunStats
 
 
 class RunDetail(RunOut):
@@ -138,11 +169,36 @@ class RunSummaryResult(BaseModel):
 # ---------------------------------------------------------------- export
 
 
+class ToolCacheOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    cache_key: str
+    tool: str
+    args: dict
+    output: dict
+
+
+class LLMCacheOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    cache_key: str
+    response: dict
+
+
 class RunExport(BaseModel):
-    version: int = 1
+    """Complete portable trace bundle.
+
+    Version 2 carries both replay caches so an imported trace replays (and
+    forks) deterministically. Version 1 bundles import with empty caches: their
+    events remain inspectable but forks stop with an honest replay_miss.
+    """
+
+    version: int = 2
     run: RunOut
     branches: list[BranchOut]
     events: list[EventOut]
+    tool_cache: list[ToolCacheOut] = Field(default_factory=list)
+    llm_cache: list[LLMCacheOut] = Field(default_factory=list)
 
 
 class OkResponse(BaseModel):

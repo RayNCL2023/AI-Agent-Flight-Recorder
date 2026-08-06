@@ -48,3 +48,15 @@ def health() -> dict:
         "version": __version__,
         "mode": settings.mode,
     }
+
+
+@app.get("/api/meta", tags=["meta"])
+def meta() -> dict:
+    """Execution-mode facts the UI must surface truthfully."""
+    settings = get_settings()
+    return {
+        "mode": settings.mode,
+        "live_available": settings.live_available,
+        "model": settings.llm_model if settings.live_available else "recorded",
+        "version": __version__,
+    }

@@ -8,57 +8,13 @@ fabrication attempt would be impossible by construction.
 import asyncio
 
 from app.agent.engine import execute_branch
-from app.agent.replay import create_fork, effective_events, initial_messages
-from app.agent.scripted import SCRIPTED_MODEL, ScriptedProvider, Turn
+from app.agent.replay import create_fork, effective_events
 from app.db import SessionLocal
 from app.events import BranchStatus
 from app.models import Branch, LLMCacheEntry, Run
 from app.schemas import ForkRequest
 
-SCRIPT = [
-    Turn(
-        reasoning="The prompt asks for a height; searching for evidence.",
-        tool_calls=[{"name": "web_search", "arguments": {"query": "Eiffel Tower height"}}],
-        latency_ms=5,
-    ),
-    Turn(
-        reasoning="One source is enough for a single fact.",
-        content="The Eiffel Tower is 330 metres tall.",
-        latency_ms=5,
-    ),
-]
-
-
-def _record_scripted_run() -> tuple[str, str]:
-    """Create a run and execute it with the scripted provider; return ids."""
-    db = SessionLocal()
-    try:
-        run = Run(
-            title="scripted",
-            prompt="How tall is the Eiffel Tower?",
-            model=SCRIPTED_MODEL,
-            seed=7,
-            source="recorded",
-        )
-        root = Branch(name="main", status=BranchStatus.PENDING, color_index=0)
-        run.branches.append(root)
-        db.add(run)
-        db.commit()
-        run_id, root_id = run.id, root.id
-    finally:
-        db.close()
-
-    asyncio.run(
-        execute_branch(
-            run_id,
-            root_id,
-            initial_messages("How tall is the Eiffel Tower?"),
-            start_seq=1,
-            parent_event_id=None,
-            provider=ScriptedProvider(SCRIPT),
-        )
-    )
-    return run_id, root_id
+from .util import SCRIPT, record_scripted_run as _record_scripted_run
 
 
 def _signature(events) -> list[tuple]:
@@ -143,5 +99,7 @@ def test_unrecorded_edit_stops_honestly_with_replay_miss(client):
         )
         miss = next(e for e in events if e.type == "replay_miss")
         assert miss.payload["message"] == "No recorded execution matches this request."
+        assert fork.label == "unrecorded"
+        assert fork.analysis_source == "heuristic"
     finally:
         db.close()

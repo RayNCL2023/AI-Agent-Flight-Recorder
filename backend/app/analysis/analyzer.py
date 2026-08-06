@@ -1,9 +1,13 @@
-"""Post-run analysis.
+"""Post-run analysis with explicit provenance.
 
-When a real LLM is configured it acts as the judge; in mock mode a deterministic
-heuristic analyzer produces the same shaped output so the product is fully
-functional offline. Results are written to the branch/run rows and broadcast on
-the SSE bus.
+Every verdict carries an `analysis_source` so the UI never passes one kind of
+analysis off as another:
+
+- "recorded"  — the branch reproduces a curated experiment; its label/diagnosis
+                were recorded with the trace bundle.
+- "llm"       — Live Mode with a real key: an actual LLM judged the branch.
+- "heuristic" — deterministic rules over the event log (including the honest
+                `unrecorded` verdict when replay left recorded coverage).
 """
 
 import json
@@ -32,16 +36,28 @@ async def analyze_branch(branch_id: str) -> None:
         events = effective_events(db, branch)
         parent = db.get(Branch, branch.parent_branch_id) if branch.parent_branch_id else None
         parent_events = effective_events(db, parent) if parent else []
+        run = db.get(Run, branch.run_id)
 
-        label, diagnosis = _heuristic_analysis(branch, events, parent, parent_events)
-        if settings.live_available:
-            try:
-                label, diagnosis = await _llm_analysis(branch, events, parent_events, label, diagnosis)
-            except Exception:
-                logger.exception("LLM analysis failed; keeping heuristic result")
+        source = "heuristic"
+        recorded = _matching_experiment(run, branch)
+        if any(e.type == EventType.REPLAY_MISS for e in events):
+            label, diagnosis = _unrecorded_analysis(branch)
+        elif recorded is not None:
+            label = BranchLabel(recorded.get("recorded_label", BranchLabel.UNLABELED))
+            diagnosis = recorded.get("recorded_diagnosis") or ""
+            source = "recorded"
+        else:
+            label, diagnosis = _heuristic_analysis(branch, events, parent, parent_events)
+            if settings.live_available:
+                try:
+                    label, diagnosis = await _llm_analysis(branch, events, parent_events, label, diagnosis)
+                    source = "llm"
+                except Exception:
+                    logger.exception("LLM analysis failed; keeping heuristic result")
 
         branch.label = label
         branch.diagnosis = diagnosis
+        branch.analysis_source = source
         db.commit()
         await bus.publish(
             branch.run_id,
@@ -71,6 +87,40 @@ async def summarize_run_if_settled(run_id: str) -> None:
 
 
 # ------------------------------------------------------------------- heuristics
+
+
+def _matching_experiment(run: Run | None, branch: Branch) -> dict | None:
+    """The curated experiment this fork reproduces, if any.
+
+    A branch matches when it forked at the experiment's step with exactly the
+    experiment's overrides — i.e. it replays the recorded variant end-to-end.
+    """
+    if run is None or branch.parent_branch_id is None:
+        return None
+    overrides = branch.overrides or {}
+    for exp in run.experiments or []:
+        if (
+            branch.fork_seq == exp.get("fork_seq")
+            and (overrides.get("edited_prompt") or None) == (exp.get("edited_prompt") or None)
+            and (overrides.get("tool_overrides") or {}) == (exp.get("tool_overrides") or {})
+        ):
+            return exp
+    return None
+
+
+def _unrecorded_analysis(branch: Branch) -> tuple[BranchLabel, str]:
+    diagnosis = (
+        "Replay stopped honestly: the modification left the coverage of the "
+        "recorded execution, and nothing is ever fabricated in Replay Mode. "
+        "Try one of this trace's recorded experiments, or enable Live Mode "
+        "with your own API key to execute new states for real."
+    )
+    if branch.parent_branch_id is None:
+        diagnosis = (
+            "Replay stopped honestly: this run has no recorded coverage for its "
+            "execution state. Nothing is ever fabricated in Replay Mode."
+        )
+    return BranchLabel.UNRECORDED, diagnosis
 
 
 def _heuristic_analysis(
