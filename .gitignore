@@ -1,0 +1,23 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+backend/data/
+
+# node
+node_modules/
+frontend/dist/
+
+# env & local
+.env
+*.local
+
+# db
+*.db
+*.db-wal
+*.db-shm
+
+# editor
+.vscode/
+.idea/

@@ -1,0 +1,4 @@
+Team notes, sprint 42:
+- Ship the flight recorder demo on Friday.
+- The replay cache made fork comparisons exact — keep it.
+- TODO: investigate the p95 spike on day 3 (see metrics.csv).

@@ -1,0 +1,197 @@
+/**
+ * Divergence panel: the selected branch against its parent — aligned event
+ * rows, the AI verdict + diagnosis, and a word-level diff of final answers.
+ */
+
+import { useEffect, useState } from "react";
+import { api } from "../api/client";
+import type { BranchDiff } from "../api/types";
+import { wordDiff } from "../lib/diff";
+import { EVENT_GLYPH, LABEL_TINT, laneColor } from "../lib/format";
+import { useStore } from "../store/useStore";
+
+export function DiffPanel() {
+  const run = useStore((s) => s.run);
+  const branch = useStore((s) =>
+    s.run?.branches.find((b) => b.id === s.selection.branchId),
+  );
+  const timelines = useStore((s) => s.timelines);
+  const [diff, setDiff] = useState<BranchDiff | null>(null);
+
+  const branchSettled =
+    branch && (branch.status === "completed" || branch.status === "failed");
+
+  useEffect(() => {
+    setDiff(null);
+    if (!branch?.parent_branch_id || !branchSettled) return;
+    let cancelled = false;
+    api
+      .diff(branch.id)
+      .then((d) => !cancelled && setDiff(d))
+      .catch(() => !cancelled && setDiff(null));
+    return () => {
+      cancelled = true;
+    };
+    // timelines in deps: refresh once streaming settles new events
+  }, [branch?.id, branch?.status, branchSettled, timelines]);
+
+  if (!run || !branch) {
+    return <Shell><Empty>No branch selected.</Empty></Shell>;
+  }
+
+  const parent = run.branches.find((b) => b.id === branch.parent_branch_id);
+
+  return (
+    <Shell>
+      <div className="flex flex-col gap-3 overflow-y-auto p-3">
+        <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+          <div className="stencil mb-1.5">Verdict</div>
+          <div className="flex items-center gap-2">
+            <span
+              className="rounded-sm border px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
+              style={{
+                color: LABEL_TINT[branch.label],
+                borderColor: LABEL_TINT[branch.label],
+              }}
+            >
+              {branch.label}
+            </span>
+            <span className="text-[10px] text-dim">{branch.name}</span>
+          </div>
+          {branch.diagnosis && (
+            <p className="mt-2 whitespace-pre-wrap text-[11px] leading-relaxed text-ink">
+              {branch.diagnosis}
+            </p>
+          )}
+        </div>
+
+        {run.summary && (
+          <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+            <div className="stencil mb-1.5">Run summary</div>
+            <p className="text-[11px] leading-relaxed text-dim">{run.summary}</p>
+          </div>
+        )}
+
+        {!parent && (
+          <Empty>
+            This is the root branch. Fork any step (F) and the divergence will
+            appear here, side by side.
+          </Empty>
+        )}
+
+        {parent && !branchSettled && <Empty>Waiting for the branch to settle…</Empty>}
+
+        {parent && diff && (
+          <>
+            <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+              <div className="stencil mb-1.5">
+                Steps — {parent.name} vs {branch.name}
+              </div>
+              <div className="flex flex-col gap-px">
+                {diff.entries.map((entry, i) => {
+                  const ev = entry.b ?? entry.a;
+                  if (!ev) return null;
+                  const tint =
+                    entry.kind === "same"
+                      ? "var(--color-dim)"
+                      : entry.kind === "changed"
+                        ? "var(--color-warn)"
+                        : entry.kind === "added_b"
+                          ? "var(--color-ok)"
+                          : "var(--color-err)";
+                  const marker =
+                    entry.kind === "same"
+                      ? "="
+                      : entry.kind === "changed"
+                        ? "≠"
+                        : entry.kind === "added_b"
+                          ? "+"
+                          : "−";
+                  return (
+                    <div
+                      key={i}
+                      className="flex items-center gap-2 rounded-sm px-1.5 py-0.5 text-[11px]"
+                      style={{
+                        background:
+                          entry.kind === "same" ? "transparent" : "var(--color-bg)",
+                      }}
+                    >
+                      <span className="w-3 text-center" style={{ color: tint }}>
+                        {marker}
+                      </span>
+                      <span className="w-6 text-right text-dim">#{ev.seq}</span>
+                      <span style={{ color: tint }}>{EVENT_GLYPH[ev.type]}</span>
+                      <span className="truncate" style={{ color: tint }}>
+                        {ev.name}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <AnswerDiff diff={diff} parentColor={laneColor(parent.color_index)} branchColor={laneColor(branch.color_index)} />
+          </>
+        )}
+      </div>
+    </Shell>
+  );
+}
+
+function AnswerDiff({
+  diff,
+  parentColor,
+  branchColor,
+}: {
+  diff: BranchDiff;
+  parentColor: string;
+  branchColor: string;
+}) {
+  const answerA = findAnswer(diff, "a");
+  const answerB = findAnswer(diff, "b");
+  if (answerA === null || answerB === null) return null;
+  const tokens = wordDiff(answerA, answerB);
+  return (
+    <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+      <div className="stencil mb-1.5">Final answer — word diff</div>
+      <p className="whitespace-pre-wrap text-[11px] leading-relaxed">
+        {tokens.map((t, i) =>
+          t.kind === "same" ? (
+            <span key={i} className="text-dim">{t.text}</span>
+          ) : t.kind === "removed" ? (
+            <del key={i} className="rounded-sm px-0.5 no-underline" style={{ color: parentColor, background: "var(--color-bg)", textDecoration: "line-through" }}>
+              {t.text}
+            </del>
+          ) : (
+            <ins key={i} className="rounded-sm px-0.5 no-underline" style={{ color: branchColor, background: "var(--color-bg)" }}>
+              {t.text}
+            </ins>
+          ),
+        )}
+      </p>
+    </div>
+  );
+}
+
+function findAnswer(diff: BranchDiff, side: "a" | "b"): string | null {
+  for (let i = diff.entries.length - 1; i >= 0; i--) {
+    const ev = diff.entries[i][side];
+    if (ev?.type === "completion") return String(ev.payload.content ?? "");
+  }
+  return null;
+}
+
+function Shell({ children }: { children: React.ReactNode }) {
+  return (
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col border-l border-line bg-panel">
+      <div className="flex h-8 shrink-0 items-center border-b border-line px-3">
+        <h2 className="stencil">Divergence</h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function Empty({ children }: { children: React.ReactNode }) {
+  return <p className="p-4 text-[11px] leading-relaxed text-dim">{children}</p>;
+}
