@@ -8,7 +8,8 @@ export type EventType =
   | "tool_result"
   | "retry"
   | "error"
-  | "completion";
+  | "completion"
+  | "replay_miss";
 
 export type RunStatus = "pending" | "running" | "completed" | "failed";
 export type BranchStatus = RunStatus;
@@ -17,7 +18,19 @@ export type BranchLabel =
   | "hallucination"
   | "loop"
   | "failed"
+  | "unrecorded"
   | "unlabeled";
+
+/** Provenance of a branch verdict — never presented as anything else. */
+export type AnalysisSource = "recorded" | "heuristic" | "llm";
+
+/** Execution-mode facts served by /api/meta. */
+export interface Meta {
+  mode: "replay" | "live";
+  live_available: boolean;
+  model: string;
+  version: string;
+}
 
 export interface EventOut {
   id: string;
@@ -51,6 +64,7 @@ export interface BranchOut {
   status: BranchStatus;
   label: BranchLabel;
   diagnosis: string | null;
+  analysis_source: AnalysisSource;
   color_index: number;
   created_at: string;
 }
@@ -70,6 +84,18 @@ export interface BranchTimeline {
   stats: BranchStats;
 }
 
+/** A curated fork variant recorded alongside a library trace. */
+export interface ExperimentOut {
+  id: string;
+  title: string;
+  description: string;
+  fork_seq: number;
+  edited_prompt: string | null;
+  tool_overrides: Record<string, Record<string, unknown>>;
+  recorded_label: BranchLabel;
+  recorded_diagnosis: string | null;
+}
+
 export interface RunOut {
   id: string;
   title: string;
@@ -78,7 +104,23 @@ export interface RunOut {
   seed: number;
   status: RunStatus;
   summary: string | null;
+  source: "recorded" | "live";
+  description: string | null;
+  tools_used: string[];
+  experiments: ExperimentOut[];
   created_at: string;
+}
+
+export interface RunStatsOut {
+  events: number;
+  tokens: number;
+  cost_usd: number;
+  duration_ms: number;
+}
+
+/** Library card: a run plus aggregate stats over its stored events. */
+export interface RunListItem extends RunOut {
+  stats: RunStatsOut;
 }
 
 export interface RunDetail extends RunOut {

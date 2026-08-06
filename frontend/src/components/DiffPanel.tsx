@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api/client";
 import type { BranchDiff } from "../api/types";
 import { wordDiff } from "../lib/diff";
-import { EVENT_GLYPH, LABEL_TINT, laneColor } from "../lib/format";
+import { ANALYSIS_SOURCE_LABEL, EVENT_GLYPH, LABEL_TINT, laneColor } from "../lib/format";
 import { useStore } from "../store/useStore";
 
 export function DiffPanel() {
@@ -46,7 +46,7 @@ export function DiffPanel() {
       <div className="flex flex-col gap-3 overflow-y-auto p-3">
         <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
           <div className="stencil mb-1.5">Verdict</div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className="rounded-sm border px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
               style={{
@@ -57,6 +57,14 @@ export function DiffPanel() {
               {branch.label}
             </span>
             <span className="text-[10px] text-dim">{branch.name}</span>
+            {branch.label !== "unlabeled" && (
+              <span
+                className="rounded-sm border border-line px-1.5 py-0.5 text-[8px] uppercase tracking-wider text-faint"
+                title="Where this verdict comes from"
+              >
+                {ANALYSIS_SOURCE_LABEL[branch.analysis_source] ?? branch.analysis_source}
+              </span>
+            )}
           </div>
           {branch.diagnosis && (
             <p className="mt-2 whitespace-pre-wrap text-[11px] leading-relaxed text-ink">

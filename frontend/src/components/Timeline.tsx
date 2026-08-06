@@ -15,6 +15,7 @@ import {
   laneColor,
 } from "../lib/format";
 import { branchStats, sortedBranches, useStore } from "../store/useStore";
+import { PlayerBar } from "./PlayerBar";
 
 const LANE_H = 60;
 const STEP = 52;
@@ -67,9 +68,10 @@ export function Timeline() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col border-b border-line bg-panel">
-      <div className="flex items-center justify-between border-b border-line px-3 py-1.5">
-        <span className="stencil">Timeline — flight data</span>
-        <span className="stencil">
+      <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-1.5">
+        <span className="stencil shrink-0">Timeline — flight data</span>
+        <PlayerBar />
+        <span className="stencil hidden shrink-0 md:inline">
           {branches.length} branch{branches.length === 1 ? "" : "es"} ·{" "}
           {maxSeq} steps
         </span>

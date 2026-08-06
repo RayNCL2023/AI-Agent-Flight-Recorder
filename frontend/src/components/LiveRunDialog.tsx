@@ -1,4 +1,8 @@
-/** New-run dialog with example prompts that exercise every tool. */
+/**
+ * Live-run dialog. Renders only when Live Mode is actually available — free
+ * text input never appears in Replay Mode, because nothing could honestly
+ * answer it there.
+ */
 
 import { useState } from "react";
 import { useStore } from "../store/useStore";
@@ -7,12 +11,13 @@ const EXAMPLES = [
   "What is 2+2*3? Also what's the weather in Paris?",
   "How tall is the Eiffel Tower? And compute 330*3.28",
   "Read notes.txt and tell me what the team should investigate.",
-  "What is the speed of light? Search for it, then compute 299792458/1000.",
-  "Tell me about the lost city of Zerzura and the weather in Cairo.",
+  "Compare Python and Rust for a high-throughput API server.",
 ];
 
-export function RunLauncher() {
+export function LiveRunDialog() {
   const open = useStore((s) => s.launcherOpen);
+  const liveAvailable = useStore((s) => Boolean(s.meta?.live_available));
+  const model = useStore((s) => s.meta?.model ?? "");
   const setOpen = useStore((s) => s.setLauncherOpen);
   const createRun = useStore((s) => s.createRun);
   const setError = useStore((s) => s.setError);
@@ -20,7 +25,7 @@ export function RunLauncher() {
   const [seed, setSeed] = useState(42);
   const [busy, setBusy] = useState(false);
 
-  if (!open) return null;
+  if (!open || !liveAvailable) return null;
 
   const launch = async () => {
     if (!prompt.trim()) return;
@@ -40,19 +45,23 @@ export function RunLauncher() {
       onClick={() => setOpen(false)}
       role="dialog"
       aria-modal="true"
-      aria-label="Start a new run"
+      aria-label="Record a live run"
     >
       <div
         className="w-full max-w-xl rounded border border-line bg-panel shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-line px-4 py-2">
-          <h2 className="stencil">▶ New run</h2>
+          <h2 className="stencil">▶ Record a live run</h2>
           <button onClick={() => setOpen(false)} className="text-dim hover:text-ink" aria-label="Close">
             ✕
           </button>
         </div>
         <div className="flex flex-col gap-3 p-4">
+          <p className="text-[10px] leading-relaxed text-faint">
+            Executes for real against <code className="text-accent">{model}</code>{" "}
+            using your API key, and records every step as it happens.
+          </p>
           <label className="flex flex-col gap-1">
             <span className="stencil">Agent task</span>
             <textarea
@@ -88,7 +97,7 @@ export function RunLauncher() {
               className="w-24 rounded border border-line bg-bg px-2 py-1 text-ink"
             />
             <span className="text-[10px] text-faint">
-              same seed + same prompt ⇒ identical trace
+              passed to the provider; tool replay is exact, LLM replay best-effort
             </span>
           </label>
 

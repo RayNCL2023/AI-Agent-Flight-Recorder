@@ -123,6 +123,51 @@ body {
   animation: lane-in 320ms ease-out both;
 }
 
+/* Hero backdrop: a decorative replay sweep across a branching trace. */
+.hero-trace {
+  opacity: 0.55;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 22%,
+    black 78%,
+    transparent 100%
+  );
+}
+
+@keyframes hero-node {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+  4% {
+    opacity: 1;
+    fill: var(--color-panel-2);
+  }
+  16% {
+    opacity: 0.85;
+  }
+  30% {
+    opacity: 0.28;
+  }
+}
+.hero-node {
+  opacity: 0.28;
+  animation: hero-node 14s linear infinite;
+}
+
+@keyframes hero-playhead {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(1200px);
+  }
+}
+.hero-playhead {
+  animation: hero-playhead 14s linear infinite;
+}
+
 /* Typewriter caret. */
 @keyframes caret-blink {
   0%,
@@ -143,8 +188,13 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .node-pop,
   .lane-in,
-  .rec-pulse {
+  .rec-pulse,
+  .hero-node,
+  .hero-playhead {
     animation: none;
+  }
+  .hero-playhead {
+    transform: translateX(440px); /* rest at the fork point */
   }
   .caret::after {
     animation: none;
@@ -153,6 +203,36 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Playback scrub slider, tuned to the instrument. */
+.player-scrub {
+  appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-line);
+  cursor: pointer;
+}
+.player-scrub::-webkit-slider-thumb {
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-accent);
+}
+.player-scrub::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-accent);
+}
+.player-scrub:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 button:focus-visible,

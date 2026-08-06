@@ -26,6 +26,15 @@ export function useKeyboard() {
       }
       if (typing) return;
 
+      if (e.key === " ") {
+        const { view, playing, setPlaying } = useStore.getState();
+        if (view === "trace") {
+          e.preventDefault();
+          setPlaying(!playing);
+        }
+        return;
+      }
+
       switch (e.key) {
         case "ArrowLeft":
           e.preventDefault();
