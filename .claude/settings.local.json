@@ -10,7 +10,9 @@
       "Bash(npm run *)",
       "Bash(./.venv/Scripts/python.exe -m pytest)",
       "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py -q)",
-      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py)"
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_engine_replay.py tests/test_llm_cache.py)",
+      "Bash(grep -vE \"warning|Deprecat|noqa|^$|Docs:\")"
     ]
   }
 }

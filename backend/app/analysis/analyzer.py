@@ -34,7 +34,7 @@ async def analyze_branch(branch_id: str) -> None:
         parent_events = effective_events(db, parent) if parent else []
 
         label, diagnosis = _heuristic_analysis(branch, events, parent, parent_events)
-        if settings.llm_provider == "openai":
+        if settings.live_available:
             try:
                 label, diagnosis = await _llm_analysis(branch, events, parent_events, label, diagnosis)
             except Exception:
@@ -57,7 +57,7 @@ async def summarize_run_if_settled(run_id: str) -> None:
         if run is None or run.status not in (RunStatus.COMPLETED, RunStatus.FAILED):
             return
         summary = _heuristic_summary(db, run)
-        if settings.llm_provider == "openai":
+        if settings.live_available:
             try:
                 summary = await _llm_summary(db, run)
             except Exception:

@@ -18,7 +18,7 @@ PRICING: dict[str, ModelPricing] = {
     "gpt-4o-mini": ModelPricing(0.15, 0.60),
     "gpt-4.1": ModelPricing(2.00, 8.00),
     "gpt-4.1-mini": ModelPricing(0.40, 1.60),
-    "mock-agent-v1": ModelPricing(0.15, 0.60),  # mock provider mirrors 4o-mini rates
+    "scripted-demo-agent": ModelPricing(0.15, 0.60),  # curated library traces (4o-mini rates)
 }
 
 DEFAULT_PRICING = ModelPricing(1.00, 3.00)

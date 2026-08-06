@@ -46,5 +46,5 @@ def health() -> dict:
     return {
         "status": "ok",
         "version": __version__,
-        "llm_provider": settings.llm_provider,
+        "mode": settings.mode,
     }
