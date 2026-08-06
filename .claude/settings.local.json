@@ -15,7 +15,10 @@
       "Bash(grep -vE \"warning|Deprecat|noqa|^$|Docs:\")",
       "Bash(./.venv/Scripts/python.exe -m pytest tests/test_api_modes.py tests/test_engine_replay.py tests/test_llm_cache.py)",
       "Bash(./.venv/Scripts/python.exe -m pytest tests/test_api_modes.py::test_export_import_v2_roundtrips_caches)",
-      "Bash(./.venv/Scripts/python.exe -)"
+      "Bash(./.venv/Scripts/python.exe -)",
+      "Bash(./.venv/Scripts/python.exe scripts/record_fixtures.py)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_library.py tests/test_tools.py)",
+      "Bash(git rm *)"
     ]
   }
 }

@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session
 from ..agent.engine import execute_branch
 from ..agent.llm import model_name
 from ..agent.replay import initial_messages
+from ..bundles import apply_import
 from ..config import get_settings
 from ..db import get_db
 from ..events import BranchStatus, RunStatus
@@ -146,23 +147,10 @@ def export_run(run_id: str, db: Session = Depends(get_db)) -> RunExport:
 
 @router.post("/import", response_model=RunDetail, status_code=201)
 def import_run(payload: RunExport, db: Session = Depends(get_db)) -> RunDetail:
-    if db.get(Run, payload.run.id) is not None:
-        raise HTTPException(409, "a run with this id already exists")
-    run = Run(**payload.run.model_dump())
-    db.add(run)
-    # Cache entries have no ORM relationship to Run, so the unit of work would
-    # not order their inserts after the run row; flush it first.
-    db.flush()
-    for b in payload.branches:
-        db.add(Branch(**b.model_dump()))
-    for e in payload.events:
-        db.add(Event(**e.model_dump()))
-    for t in payload.tool_cache:
-        db.add(ToolCacheEntry(run_id=payload.run.id, **t.model_dump()))
-    for c in payload.llm_cache:
-        db.add(LLMCacheEntry(run_id=payload.run.id, **c.model_dump()))
-    db.commit()
-    db.refresh(run)
+    try:
+        run = apply_import(db, payload)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
     return _detail(run)
 
 

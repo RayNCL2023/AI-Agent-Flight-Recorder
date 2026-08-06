@@ -1,0 +1,11 @@
+2026-08-05 01:58:12 INFO  deploy: starting release v2.14.0
+2026-08-05 01:59:47 INFO  deploy: release v2.14.0 live on 4 hosts
+2026-08-05 02:00:03 INFO  api: worker pool resized 4 -> 16
+2026-08-05 02:00:41 INFO  jobs: nightly analytics batch started (full table scan)
+2026-08-05 02:01:07 ERROR db: sqlite3.OperationalError: database is locked (endpoint=/api/orders)
+2026-08-05 02:01:09 ERROR db: database is locked (endpoint=/api/orders retry=1)
+2026-08-05 02:01:15 WARN  db: 37 requests queued behind write lock
+2026-08-05 02:02:30 ERROR db: database is locked (endpoint=/api/users)
+2026-08-05 02:03:11 INFO  jobs: analytics batch still running (elapsed 150s)
+2026-08-05 02:04:56 ERROR db: database is locked (endpoint=/api/orders)
+2026-08-05 02:05:20 INFO  db: journal_mode=DELETE busy_timeout=0

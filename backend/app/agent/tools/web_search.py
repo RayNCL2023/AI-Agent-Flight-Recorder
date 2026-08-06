@@ -71,6 +71,63 @@ _CORPUS: list[dict[str, str]] = [
         "text": "The Great Barrier Reef is the world's largest coral reef system, "
         "stretching over 2,300 kilometres off the coast of Queensland, Australia.",
     },
+    {
+        "title": "Anthropic — company overview",
+        "url": "https://en.wikipedia.org/wiki/Anthropic",
+        "text": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and "
+        "Daniela Amodei. It develops the Claude family of large language models and "
+        "focuses on building reliable, interpretable and steerable AI systems.",
+    },
+    {
+        "title": "Anthropic funding and investors",
+        "url": "https://example.com/anthropic-funding",
+        "text": "Anthropic has raised billions in venture funding, including a 2023 "
+        "agreement with Amazon worth up to 4 billion USD and investment from Google. "
+        "The startup's total raised exceeds 7 billion USD across multiple rounds.",
+    },
+    {
+        "title": "Mistral AI — company overview",
+        "url": "https://en.wikipedia.org/wiki/Mistral_AI",
+        "text": "Mistral AI is a French startup founded in 2023 by former DeepMind and "
+        "Meta researchers. It builds open-weight large language models and raised "
+        "600 million EUR in 2024 at a valuation near 6 billion EUR.",
+    },
+    {
+        "title": "Rust (programming language) — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+        "text": "Rust is a systems programming language that guarantees memory safety "
+        "without garbage collection through ownership and borrowing. Stable since 2015, "
+        "its async ecosystem (Tokio, hyper) powers very high-throughput network servers.",
+    },
+    {
+        "title": "Go (programming language) — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+        "text": "Go is a statically typed language designed at Google and released in "
+        "2009. Goroutines and channels make concurrent servers simple to write; it is "
+        "garbage collected, compiles fast, and deploys as a single static binary.",
+    },
+    {
+        "title": "SQLite Frequently Asked Questions — database is locked",
+        "url": "https://sqlite.org/faq.html",
+        "text": "The SQLITE_BUSY 'database is locked' error occurs when one connection "
+        "holds a write transaction while another tries to write. Long-running write "
+        "transactions are the usual cause; enabling WAL journal mode and setting a "
+        "busy_timeout are the standard fixes.",
+    },
+    {
+        "title": "Tokyo travel guide — autumn highlights",
+        "url": "https://example.com/tokyo-travel-november",
+        "text": "Top Tokyo attractions include the Senso-ji temple in Asakusa, Shibuya "
+        "crossing, teamLab Planets and the Meiji Shrine. November brings autumn foliage, "
+        "mild days and low rainfall, making it one of the best months to visit.",
+    },
+    {
+        "title": "Python for web services — throughput notes",
+        "url": "https://example.com/python-async-apis",
+        "text": "Python with asyncio and frameworks like FastAPI handles I/O-bound API "
+        "workloads well, though the GIL limits CPU-bound parallelism and raw throughput "
+        "trails compiled languages. Developer velocity and ecosystem are its strengths.",
+    },
 ]
 
 _WORD = re.compile(r"[a-z0-9]+")
@@ -96,4 +153,9 @@ def run_web_search(args: dict[str, Any], _seed: int) -> dict[str, Any]:
         {"title": d["title"], "url": d["url"], "snippet": d["text"][:220]}
         for _score, d in scored[:3]
     ]
-    return {"query": query, "results": results, "total": len(results)}
+    return {
+        "query": query,
+        "results": results,
+        "total": len(results),
+        "source": "offline_corpus",
+    }

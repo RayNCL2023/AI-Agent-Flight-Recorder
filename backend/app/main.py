@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import __version__
 from .api import branches, runs, stream
+from .bundles import load_bundled_traces
 from .config import get_settings
 from .db import init_db
 
@@ -16,6 +17,7 @@ from .db import init_db
 async def lifespan(_app: FastAPI):
     logging.basicConfig(level=get_settings().log_level.upper())
     init_db()
+    load_bundled_traces()
     yield
 
 

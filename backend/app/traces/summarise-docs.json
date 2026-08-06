@@ -1,0 +1,273 @@
+{
+  "version": 2,
+  "run": {
+    "id": "4e0567c39d1a437c89e20a8e10a0b33a",
+    "title": "Summarise documentation",
+    "prompt": "Read mission_report.md and summarise the key findings and open risks for the team.",
+    "model": "scripted-demo-agent",
+    "seed": 52,
+    "status": "completed",
+    "summary": "A single file read feeds a faithful summary; the control-replay experiment demonstrates that an unmodified fork reproduces the recording event-for-event.",
+    "source": "recorded",
+    "description": "The simplest trace: read a report, summarise it faithfully. Its experiment is a control replay — the determinism proof for the whole library.",
+    "tools_used": [
+      "file_reader"
+    ],
+    "experiments": [
+      {
+        "id": "docs-control-replay",
+        "title": "Control replay (determinism proof)",
+        "description": "Fork with no changes at all. The replay must reproduce the original event-for-event — proof that any divergence you see elsewhere was caused by your edit.",
+        "fork_seq": 1,
+        "edited_prompt": null,
+        "tool_overrides": {},
+        "recorded_label": "success",
+        "recorded_diagnosis": "A control replay: nothing was edited, and the fork reproduced the original event-for-event from the recorded caches. This is the determinism guarantee that makes every other experiment trustworthy — any difference you ever see in a fork traces back to the thing you changed."
+      }
+    ],
+    "created_at": "2026-08-06T20:23:58.905065"
+  },
+  "branches": [
+    {
+      "id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "name": "main",
+      "parent_branch_id": null,
+      "fork_seq": null,
+      "overrides": {},
+      "status": "completed",
+      "label": "success",
+      "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
+      "analysis_source": "heuristic",
+      "color_index": 0,
+      "created_at": "2026-08-06T20:23:58.905210"
+    }
+  ],
+  "events": [
+    {
+      "id": "f7e01204eda447cb8f89f0f335f96f26",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 1,
+      "parent_event_id": null,
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "e51b150df1fc4f5f9cfbe521576a8d2f",
+      "type": "run_started",
+      "name": "run started",
+      "ts": "2026-08-06T20:23:58.908560",
+      "duration_ms": 0.0,
+      "payload": {
+        "prompt": "Read mission_report.md and summarise the key findings and open risks for the team.",
+        "model": "scripted-demo-agent",
+        "seed": 52
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "mode": "replay",
+        "live": true
+      }
+    },
+    {
+      "id": "47b5bef3013f465aaa3a76d1847b9b03",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 2,
+      "parent_event_id": "f7e01204eda447cb8f89f0f335f96f26",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "8d684cfcaf99417fad93f01312b493bc",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:23:59.529739",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Read the document before summarising anything."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "4a318fc4db73496db9d3b6d76dac8aa7",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 3,
+      "parent_event_id": "47b5bef3013f465aaa3a76d1847b9b03",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "4cef53ceb233429595f46d86367d814d",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:23:59.531225",
+      "duration_ms": 617.09,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_241c9f4cf022",
+            "name": "file_reader",
+            "arguments": {
+              "path": "mission_report.md"
+            }
+          }
+        ]
+      },
+      "tokens_in": 91,
+      "tokens_out": 28,
+      "cost_usd": 3.045e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "3926f75e7d9446da95f01bd6e21b2698",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 4,
+      "parent_event_id": "4a318fc4db73496db9d3b6d76dac8aa7",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "6f1ef0030ede4e2188ae7d076f75f184",
+      "type": "tool_call",
+      "name": "call file_reader",
+      "ts": "2026-08-06T20:23:59.532461",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "file_reader",
+        "arguments": {
+          "path": "mission_report.md"
+        },
+        "tool_call_id": "call_241c9f4cf022"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "b8c1e665b8284fa0b2e2a662790d1a57",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 5,
+      "parent_event_id": "3926f75e7d9446da95f01bd6e21b2698",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "882acc66118c4574b21907eba2e1c006",
+      "type": "tool_result",
+      "name": "file_reader result",
+      "ts": "2026-08-06T20:23:59.536283",
+      "duration_ms": 2.35,
+      "payload": {
+        "tool": "file_reader",
+        "output": {
+          "path": "mission_report.md",
+          "size_bytes": 249,
+          "content": "# Mission Report — Q3 Orbital Survey\n\nStatus: COMPLETE\nDuration: 14 days\nAnomalies: 2 (both resolved)\n\nThe survey covered 1,240 orbital passes. Sensor drift was corrected on day 6.\nTotal data captured: 82.4 TB. Downlink efficiency averaged 97.2%.\n"
+        },
+        "cached": false,
+        "tool_call_id": "call_241c9f4cf022"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "60105d343dab4ba78036f3784b7d7b73",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 6,
+      "parent_event_id": "b8c1e665b8284fa0b2e2a662790d1a57",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "2be3934ef7f0424c9e7d73c4bc482372",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:24:01.049274",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "The report is short and complete — summarising findings, then flagging risks."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "b654e66f21c54b449c04fd3fdf0801c1",
+      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "seq": 7,
+      "parent_event_id": "60105d343dab4ba78036f3784b7d7b73",
+      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "span_id": "7e0a23d6c725477aba9d302d8a87bd9c",
+      "type": "completion",
+      "name": "final answer",
+      "ts": "2026-08-06T20:24:01.050732",
+      "duration_ms": 1509.47,
+      "payload": {
+        "content": "**Summary of Mission Report — Q3 Orbital Survey**: the survey is complete — 14 days, 1,240 orbital passes, 82.4 TB captured, downlink efficiency averaging 97.2%. Two anomalies occurred and both are resolved; sensor drift was corrected on day 6.\n\n**Open risks:** none are flagged in the report itself, but the day-6 sensor-drift correction deserves a follow-up calibration check before the next survey window."
+      },
+      "tokens_in": 240,
+      "tokens_out": 121,
+      "cost_usd": 0.0001086,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    }
+  ],
+  "tool_cache": [
+    {
+      "cache_key": "1f25bddec50413270cb7fcd033f1c2e1c2105114e334a39a90dd75536a3cbfd4",
+      "tool": "file_reader",
+      "args": {
+        "path": "mission_report.md"
+      },
+      "output": {
+        "path": "mission_report.md",
+        "size_bytes": 249,
+        "content": "# Mission Report — Q3 Orbital Survey\n\nStatus: COMPLETE\nDuration: 14 days\nAnomalies: 2 (both resolved)\n\nThe survey covered 1,240 orbital passes. Sensor drift was corrected on day 6.\nTotal data captured: 82.4 TB. Downlink efficiency averaged 97.2%.\n"
+      }
+    }
+  ],
+  "llm_cache": [
+    {
+      "cache_key": "0d9cce72255ca11ebd9040c71a8b3d63e45052889f2d295ca538b8cfba377356",
+      "response": {
+        "content": "**Summary of Mission Report — Q3 Orbital Survey**: the survey is complete — 14 days, 1,240 orbital passes, 82.4 TB captured, downlink efficiency averaging 97.2%. Two anomalies occurred and both are resolved; sensor drift was corrected on day 6.\n\n**Open risks:** none are flagged in the report itself, but the day-6 sensor-drift correction deserves a follow-up calibration check before the next survey window.",
+        "reasoning": "The report is short and complete — summarising findings, then flagging risks.",
+        "tool_calls": [],
+        "tokens_in": 240,
+        "tokens_out": 121,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1509.47
+      }
+    },
+    {
+      "cache_key": "dffc0d5dbcb1e00244b3eb27533c97b101d171dcc3951c6ad924ecb4b99357b1",
+      "response": {
+        "content": null,
+        "reasoning": "Read the document before summarising anything.",
+        "tool_calls": [
+          {
+            "id": "call_241c9f4cf022",
+            "name": "file_reader",
+            "arguments": {
+              "path": "mission_report.md"
+            }
+          }
+        ],
+        "tokens_in": 91,
+        "tokens_out": 28,
+        "model": "scripted-demo-agent",
+        "duration_ms": 617.09
+      }
+    }
+  ]
+}

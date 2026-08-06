@@ -7,7 +7,7 @@ from pathlib import Path
 
 _TMP = Path(tempfile.mkdtemp(prefix="afr-test-"))
 os.environ["DATABASE_URL"] = f"sqlite:///{(_TMP / 'test.db').as_posix()}"
-os.environ["LLM_PROVIDER"] = "mock"
+os.environ["AFR_MODE"] = "replay"
 os.environ["FILE_READER_ROOT"] = str(Path(__file__).resolve().parent.parent / "sample_data")
 
 import pytest

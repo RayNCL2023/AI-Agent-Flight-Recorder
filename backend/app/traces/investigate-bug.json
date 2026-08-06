@@ -1,0 +1,662 @@
+{
+  "version": 2,
+  "run": {
+    "id": "0ba02e970a9248828955c2982aa96484",
+    "title": "Investigate a bug",
+    "prompt": "Our API started throwing 'database is locked' errors right after the 02:00 deploy. Read server.log and figure out what went wrong.",
+    "model": "scripted-demo-agent",
+    "seed": 31,
+    "status": "completed",
+    "summary": "The investigation survives a failed file read, pins the lock errors to a long-running analytics write transaction amplified by a worker-pool resize, and confirms the WAL + busy_timeout fix against SQLite docs.",
+    "source": "recorded",
+    "description": "A real debugging arc: a wrong file path fails and retries, the log reveals lock contention, a doc search confirms the fix. The experiment rewrites the evidence into a different root cause.",
+    "tools_used": [
+      "file_reader",
+      "web_search"
+    ],
+    "experiments": [
+      {
+        "id": "bug-disk-full",
+        "title": "Rewrite the log evidence",
+        "description": "Replace the log content with a disk-exhaustion incident and watch the diagnosis — and the tool plan — change.",
+        "fork_seq": 13,
+        "edited_prompt": null,
+        "tool_overrides": {
+          "2642f653622549ce979c6de911a0e72e": {
+            "path": "server.log",
+            "size_bytes": 432,
+            "content": "2026-08-05 01:58:12 INFO  deploy: starting release v2.14.0\n2026-08-05 02:00:03 INFO  api: worker pool resized 4 -> 16\n2026-08-05 02:01:07 ERROR db: sqlite3.OperationalError: disk I/O error (endpoint=/api/orders)\n2026-08-05 02:01:22 ERROR db: database or disk is full (endpoint=/api/orders)\n2026-08-05 02:02:05 WARN  storage: volume /data at 100% capacity\n2026-08-05 02:03:40 ERROR db: database or disk is full (endpoint=/api/users)\n"
+          }
+        },
+        "recorded_label": "success",
+        "recorded_diagnosis": "With the log evidence swapped, the same investigation reaches a different verdict: storage exhaustion instead of lock contention. The fork also skips the SQLite-locking search — the rewritten evidence made that step unnecessary — so the branches diverge in both their tool plan and their final diagnosis."
+      }
+    ],
+    "created_at": "2026-08-06T20:23:45.796929"
+  },
+  "branches": [
+    {
+      "id": "443f74272b184c22996d9f553eb11b81",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "name": "main",
+      "parent_branch_id": null,
+      "fork_seq": null,
+      "overrides": {},
+      "status": "completed",
+      "label": "success",
+      "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
+      "analysis_source": "heuristic",
+      "color_index": 0,
+      "created_at": "2026-08-06T20:23:45.797300"
+    }
+  ],
+  "events": [
+    {
+      "id": "8d4434f9d28443c6981ac4299daab6e5",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 1,
+      "parent_event_id": null,
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "019092bcd8e54c48bc36cf5fd8e6f477",
+      "type": "run_started",
+      "name": "run started",
+      "ts": "2026-08-06T20:23:45.805162",
+      "duration_ms": 0.0,
+      "payload": {
+        "prompt": "Our API started throwing 'database is locked' errors right after the 02:00 deploy. Read server.log and figure out what went wrong.",
+        "model": "scripted-demo-agent",
+        "seed": 31
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "mode": "replay",
+        "live": true
+      }
+    },
+    {
+      "id": "9c16e4be43d245258c7adb48955922ff",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 2,
+      "parent_event_id": "8d4434f9d28443c6981ac4299daab6e5",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "a09fbe38783842d2acf06d5230b59069",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:23:46.434206",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "First, the evidence: read the server log covering the deploy window."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "0bed496be9ca4b888b3c5d9ee13586f6",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 3,
+      "parent_event_id": "9c16e4be43d245258c7adb48955922ff",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "8a4de0710b4e4921b2416f774ae7a0b9",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:23:46.435825",
+      "duration_ms": 624.33,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_2faddd837a9c",
+            "name": "file_reader",
+            "arguments": {
+              "path": "logs/server.log"
+            }
+          }
+        ]
+      },
+      "tokens_in": 103,
+      "tokens_out": 33,
+      "cost_usd": 3.525e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "c1a5d95ad50f412db2dc4c89b63dc9e2",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 4,
+      "parent_event_id": "0bed496be9ca4b888b3c5d9ee13586f6",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "55af118da5a64e38a69c9bfb6b0a6d95",
+      "type": "tool_call",
+      "name": "call file_reader",
+      "ts": "2026-08-06T20:23:46.437137",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "file_reader",
+        "arguments": {
+          "path": "logs/server.log"
+        },
+        "tool_call_id": "call_2faddd837a9c"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "2169093f0c554a22a08f476bfc189c5a",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 5,
+      "parent_event_id": "c1a5d95ad50f412db2dc4c89b63dc9e2",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "7b3d620cd91748859e1c86d669e227ce",
+      "type": "error",
+      "name": "file_reader failed",
+      "ts": "2026-08-06T20:23:46.441569",
+      "duration_ms": 2.85,
+      "payload": {
+        "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log",
+        "recoverable": true
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "5bb7abab74f94eae92325d344a680c73",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 6,
+      "parent_event_id": "2169093f0c554a22a08f476bfc189c5a",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "c139bcc727164702b9d35b940e80ae0f",
+      "type": "retry",
+      "name": "retrying file_reader",
+      "ts": "2026-08-06T20:23:46.443190",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "file_reader",
+        "attempt": 2,
+        "of": 2
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "654f1d197b7e45338c6ab06675100673",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 7,
+      "parent_event_id": "5bb7abab74f94eae92325d344a680c73",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "bef350e3c1cc4d52aa57cc4712d03bab",
+      "type": "error",
+      "name": "file_reader failed",
+      "ts": "2026-08-06T20:23:46.446120",
+      "duration_ms": 1.68,
+      "payload": {
+        "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log",
+        "recoverable": false
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "8abb66c57d6842a59eced3733a304a40",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 8,
+      "parent_event_id": "654f1d197b7e45338c6ab06675100673",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "5ce8c29bd0944afeadb26787ea9776bf",
+      "type": "tool_result",
+      "name": "file_reader result (error)",
+      "ts": "2026-08-06T20:23:46.449509",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "file_reader",
+        "output": {
+          "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log"
+        },
+        "cached": false,
+        "tool_call_id": "call_2faddd837a9c"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "9704eb2d339547608199d0c36afcfb66",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 9,
+      "parent_event_id": "8abb66c57d6842a59eced3733a304a40",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "6567a252d9fe4486a02d9abc1b0e5205",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:23:47.102043",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "The path was wrong — the sandbox lists server.log at its root. Retrying with the correct path."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "91cf52047a3a4e9d856884e1b64269cf",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 10,
+      "parent_event_id": "9704eb2d339547608199d0c36afcfb66",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "e73706e739f24bdb971915dec2265d7b",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:23:47.103782",
+      "duration_ms": 648.59,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_b99b4745f3e1",
+            "name": "file_reader",
+            "arguments": {
+              "path": "server.log"
+            }
+          }
+        ]
+      },
+      "tokens_in": 197,
+      "tokens_out": 39,
+      "cost_usd": 5.295e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "12ffd35472c94abbbeafd7e917985495",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 11,
+      "parent_event_id": "91cf52047a3a4e9d856884e1b64269cf",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "6fb78fcf9cb140239d92d2e313eebe84",
+      "type": "tool_call",
+      "name": "call file_reader",
+      "ts": "2026-08-06T20:23:47.105380",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "file_reader",
+        "arguments": {
+          "path": "server.log"
+        },
+        "tool_call_id": "call_b99b4745f3e1"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "2642f653622549ce979c6de911a0e72e",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 12,
+      "parent_event_id": "12ffd35472c94abbbeafd7e917985495",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "9111b5250ee04cb3af4ca30b04d3362c",
+      "type": "tool_result",
+      "name": "file_reader result",
+      "ts": "2026-08-06T20:23:47.110694",
+      "duration_ms": 3.23,
+      "payload": {
+        "tool": "file_reader",
+        "output": {
+          "path": "server.log",
+          "size_bytes": 796,
+          "content": "2026-08-05 01:58:12 INFO  deploy: starting release v2.14.0\n2026-08-05 01:59:47 INFO  deploy: release v2.14.0 live on 4 hosts\n2026-08-05 02:00:03 INFO  api: worker pool resized 4 -> 16\n2026-08-05 02:00:41 INFO  jobs: nightly analytics batch started (full table scan)\n2026-08-05 02:01:07 ERROR db: sqlite3.OperationalError: database is locked (endpoint=/api/orders)\n2026-08-05 02:01:09 ERROR db: database is locked (endpoint=/api/orders retry=1)\n2026-08-05 02:01:15 WARN  db: 37 requests queued behind write lock\n2026-08-05 02:02:30 ERROR db: database is locked (endpoint=/api/users)\n2026-08-05 02:03:11 INFO  jobs: analytics batch still running (elapsed 150s)\n2026-08-05 02:04:56 ERROR db: database is locked (endpoint=/api/orders)\n2026-08-05 02:05:20 INFO  db: journal_mode=DELETE busy_timeout=0\n"
+        },
+        "cached": false,
+        "tool_call_id": "call_b99b4745f3e1"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "3e5275061c314cdc80c1f90397c22697",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 13,
+      "parent_event_id": "2642f653622549ce979c6de911a0e72e",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "80cc34e929f44abcb788652a1ed603c9",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:23:47.930334",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "The log shows lock errors starting seconds after a full-table-scan batch job began, on a freshly enlarged worker pool. Checking the standard causes of SQLITE_BUSY to confirm before diagnosing."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "742dfebdcc1c44ec9a364463eaa3ac8d",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 14,
+      "parent_event_id": "3e5275061c314cdc80c1f90397c22697",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "78cb5efd8c084e9899cfbfdf811c42ba",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:23:47.931834",
+      "duration_ms": 815.07,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_263aa51bd8f7",
+            "name": "web_search",
+            "arguments": {
+              "query": "sqlite database is locked write transaction fix"
+            }
+          }
+        ]
+      },
+      "tokens_in": 480,
+      "tokens_out": 72,
+      "cost_usd": 0.0001152,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "b78a58dcf2044c4f9dcfb975c0a82bb3",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 15,
+      "parent_event_id": "742dfebdcc1c44ec9a364463eaa3ac8d",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "b502be90dde4427b880daa05af39110c",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:23:47.933092",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "sqlite database is locked write transaction fix"
+        },
+        "tool_call_id": "call_263aa51bd8f7"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "668ee7f6d56a4828937ecf7166b5fb6e",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 16,
+      "parent_event_id": "b78a58dcf2044c4f9dcfb975c0a82bb3",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "3fac9cac57464e90b6541787ebf3f009",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:23:47.936786",
+      "duration_ms": 1.91,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "sqlite database is locked write transaction fix",
+          "results": [
+            {
+              "title": "SQLite Frequently Asked Questions — database is locked",
+              "url": "https://sqlite.org/faq.html",
+              "snippet": "The SQLITE_BUSY 'database is locked' error occurs when one connection holds a write transaction while another tries to write. Long-running write transactions are the usual cause; enabling WAL journal mode and setting a b"
+            },
+            {
+              "title": "Go (programming language) — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+              "snippet": "Go is a statically typed language designed at Google and released in 2009. Goroutines and channels make concurrent servers simple to write; it is garbage collected, compiles fast, and deploys as a single static binary."
+            },
+            {
+              "title": "Speed of light — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Speed_of_light",
+              "snippet": "The speed of light in vacuum is exactly 299,792,458 metres per second. It is the upper limit for the speed of matter and information."
+            }
+          ],
+          "total": 3,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_263aa51bd8f7"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "0242b9251cda4c068e80c080b4662e1a",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 17,
+      "parent_event_id": "668ee7f6d56a4828937ecf7166b5fb6e",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "ea3643b5a74c4d2cafed08650716ca90",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:23:49.853338",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Log evidence and documentation agree — writing the diagnosis."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "a54b33e6edd343df85fce63bb4915f0f",
+      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "seq": 18,
+      "parent_event_id": "0242b9251cda4c068e80c080b4662e1a",
+      "trace_id": "0ba02e970a9248828955c2982aa96484",
+      "span_id": "6ec09a48e8f34db4843c0a412dab0d53",
+      "type": "completion",
+      "name": "final answer",
+      "ts": "2026-08-06T20:23:49.854724",
+      "duration_ms": 1912.82,
+      "payload": {
+        "content": "**Root cause:** at 02:00:41 the nightly analytics batch opened a long full-table-scan write transaction, and the deploy had just resized the worker pool from 4 to 16 — so sixteen workers piled up behind a single write lock. The log's `journal_mode=DELETE busy_timeout=0` line confirms the database runs in rollback-journal mode, where one long write blocks every other writer; this matches the SQLITE_BUSY guidance found.\n\n**Fix:** enable WAL journal mode and set a busy_timeout, and move the analytics scan off the API database (or out of deploy windows). The deploy itself only amplified the contention — it did not cause it."
+      },
+      "tokens_in": 831,
+      "tokens_out": 172,
+      "cost_usd": 0.00022785,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    }
+  ],
+  "tool_cache": [
+    {
+      "cache_key": "6a7f7fa24b2de6c2b3bcf0ba4914527c151a1c9e91780462897953380e8e0850",
+      "tool": "web_search",
+      "args": {
+        "query": "sqlite database is locked write transaction fix"
+      },
+      "output": {
+        "query": "sqlite database is locked write transaction fix",
+        "results": [
+          {
+            "title": "SQLite Frequently Asked Questions — database is locked",
+            "url": "https://sqlite.org/faq.html",
+            "snippet": "The SQLITE_BUSY 'database is locked' error occurs when one connection holds a write transaction while another tries to write. Long-running write transactions are the usual cause; enabling WAL journal mode and setting a b"
+          },
+          {
+            "title": "Go (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+            "snippet": "Go is a statically typed language designed at Google and released in 2009. Goroutines and channels make concurrent servers simple to write; it is garbage collected, compiles fast, and deploys as a single static binary."
+          },
+          {
+            "title": "Speed of light — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Speed_of_light",
+            "snippet": "The speed of light in vacuum is exactly 299,792,458 metres per second. It is the upper limit for the speed of matter and information."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "70423d0706c52c832a493aed1ec7f6e9cf9815a0d0ebf724b488304c5737253e",
+      "tool": "file_reader",
+      "args": {
+        "path": "server.log"
+      },
+      "output": {
+        "path": "server.log",
+        "size_bytes": 796,
+        "content": "2026-08-05 01:58:12 INFO  deploy: starting release v2.14.0\n2026-08-05 01:59:47 INFO  deploy: release v2.14.0 live on 4 hosts\n2026-08-05 02:00:03 INFO  api: worker pool resized 4 -> 16\n2026-08-05 02:00:41 INFO  jobs: nightly analytics batch started (full table scan)\n2026-08-05 02:01:07 ERROR db: sqlite3.OperationalError: database is locked (endpoint=/api/orders)\n2026-08-05 02:01:09 ERROR db: database is locked (endpoint=/api/orders retry=1)\n2026-08-05 02:01:15 WARN  db: 37 requests queued behind write lock\n2026-08-05 02:02:30 ERROR db: database is locked (endpoint=/api/users)\n2026-08-05 02:03:11 INFO  jobs: analytics batch still running (elapsed 150s)\n2026-08-05 02:04:56 ERROR db: database is locked (endpoint=/api/orders)\n2026-08-05 02:05:20 INFO  db: journal_mode=DELETE busy_timeout=0\n"
+      }
+    },
+    {
+      "cache_key": "fff382686e4364d3c22f50f9f162672d56f18351bb8e7dae98f828fea8c11716",
+      "tool": "file_reader",
+      "args": {
+        "path": "logs/server.log"
+      },
+      "output": {
+        "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log"
+      }
+    }
+  ],
+  "llm_cache": [
+    {
+      "cache_key": "4f549238bc38fe8a5d6d6dc97ec45b7cc9085313c7258e826c76124e49cd39d7",
+      "response": {
+        "content": "**Root cause:** at 02:00:41 the nightly analytics batch opened a long full-table-scan write transaction, and the deploy had just resized the worker pool from 4 to 16 — so sixteen workers piled up behind a single write lock. The log's `journal_mode=DELETE busy_timeout=0` line confirms the database runs in rollback-journal mode, where one long write blocks every other writer; this matches the SQLITE_BUSY guidance found.\n\n**Fix:** enable WAL journal mode and set a busy_timeout, and move the analytics scan off the API database (or out of deploy windows). The deploy itself only amplified the contention — it did not cause it.",
+        "reasoning": "Log evidence and documentation agree — writing the diagnosis.",
+        "tool_calls": [],
+        "tokens_in": 831,
+        "tokens_out": 172,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1912.82
+      }
+    },
+    {
+      "cache_key": "633f1ea8c57c5d910feba11943c1f5dc445323381731336afba05c8aa4b9ded4",
+      "response": {
+        "content": null,
+        "reasoning": "The path was wrong — the sandbox lists server.log at its root. Retrying with the correct path.",
+        "tool_calls": [
+          {
+            "id": "call_b99b4745f3e1",
+            "name": "file_reader",
+            "arguments": {
+              "path": "server.log"
+            }
+          }
+        ],
+        "tokens_in": 197,
+        "tokens_out": 39,
+        "model": "scripted-demo-agent",
+        "duration_ms": 648.59
+      }
+    },
+    {
+      "cache_key": "89f13f9baa9356604fc5e878f54b1059f59b276eef527e9cad842be0856af3db",
+      "response": {
+        "content": null,
+        "reasoning": "First, the evidence: read the server log covering the deploy window.",
+        "tool_calls": [
+          {
+            "id": "call_2faddd837a9c",
+            "name": "file_reader",
+            "arguments": {
+              "path": "logs/server.log"
+            }
+          }
+        ],
+        "tokens_in": 103,
+        "tokens_out": 33,
+        "model": "scripted-demo-agent",
+        "duration_ms": 624.33
+      }
+    },
+    {
+      "cache_key": "8a5a4ec16afaf0689a17fcd4c8bc3a8d6041bff60b3c9e3704566e12cba911aa",
+      "response": {
+        "content": null,
+        "reasoning": "The log shows lock errors starting seconds after a full-table-scan batch job began, on a freshly enlarged worker pool. Checking the standard causes of SQLITE_BUSY to confirm before diagnosing.",
+        "tool_calls": [
+          {
+            "id": "call_263aa51bd8f7",
+            "name": "web_search",
+            "arguments": {
+              "query": "sqlite database is locked write transaction fix"
+            }
+          }
+        ],
+        "tokens_in": 480,
+        "tokens_out": 72,
+        "model": "scripted-demo-agent",
+        "duration_ms": 815.07
+      }
+    },
+    {
+      "cache_key": "907945304bf767b31e79593217769fc1d0e00d70f30912f6ecb280c53429e95a",
+      "response": {
+        "content": "**Root cause:** the /data volume hit 100% capacity at 02:02, so SQLite began failing with 'database or disk is full' — the timing next to the deploy is coincidental, and the worker-pool resize only amplified the error rate.\n\n**Fix:** free or grow the /data volume, add disk-usage alerting, and cap whatever filled it. No locking or journal-mode change is needed.",
+        "reasoning": "This log shows no lock contention at all — it is storage exhaustion. The planned locking search is unnecessary now; the evidence is already sufficient.",
+        "tool_calls": [],
+        "tokens_in": 386,
+        "tokens_out": 128,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1610.13
+      }
+    }
+  ]
+}
