@@ -5,7 +5,12 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit -q -m 'chore: baseline before honest-replay-demo refactor *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(./.venv/Scripts/python.exe -m pytest -q)",
+      "Bash(npm run *)",
+      "Bash(./.venv/Scripts/python.exe -m pytest)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py -q)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py)"
     ]
   }
 }
