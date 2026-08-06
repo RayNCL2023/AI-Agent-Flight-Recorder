@@ -99,6 +99,16 @@ function EventBody({ event, fresh }: { event: EventOut; fresh: boolean }) {
           <p className="mt-2 text-[10px] text-dim">
             model {String(p.model)} · seed {String(p.seed)}
           </p>
+          {Boolean(p.system_prompt) && (
+            <details className="mt-2">
+              <summary className="stencil cursor-pointer select-none list-none">
+                ▸ System prompt
+              </summary>
+              <p className="mt-1 whitespace-pre-wrap rounded border border-line bg-bg p-2 text-[11px] leading-relaxed text-dim">
+                {String(p.system_prompt)}
+              </p>
+            </details>
+          )}
         </Block>
       );
     case "reasoning":

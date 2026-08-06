@@ -1,7 +1,7 @@
 {
   "version": 2,
   "run": {
-    "id": "4e0567c39d1a437c89e20a8e10a0b33a",
+    "id": "a0220fa97f4f4904bbd5d12829c4e04e",
     "title": "Summarise documentation",
     "prompt": "Read mission_report.md and summarise the key findings and open risks for the team.",
     "model": "scripted-demo-agent",
@@ -25,12 +25,12 @@
         "recorded_diagnosis": "A control replay: nothing was edited, and the fork reproduced the original event-for-event from the recorded caches. This is the determinism guarantee that makes every other experiment trustworthy — any difference you ever see in a fork traces back to the thing you changed."
       }
     ],
-    "created_at": "2026-08-06T20:23:58.905065"
+    "created_at": "2026-08-06T20:39:50.773989"
   },
   "branches": [
     {
-      "id": "9e27ab3d1ff240dfa8ac868038f85dce",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
+      "id": "4574d7a28e444695b361cc9a4ca6db27",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
       "name": "main",
       "parent_branch_id": null,
       "fork_seq": null,
@@ -40,24 +40,25 @@
       "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
       "analysis_source": "heuristic",
       "color_index": 0,
-      "created_at": "2026-08-06T20:23:58.905210"
+      "created_at": "2026-08-06T20:39:50.774150"
     }
   ],
   "events": [
     {
-      "id": "f7e01204eda447cb8f89f0f335f96f26",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "dd7ddbcb2f804f6bba4c5505efcaaaa7",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 1,
       "parent_event_id": null,
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "e51b150df1fc4f5f9cfbe521576a8d2f",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "7285524c5d35442498b9b5160b683aef",
       "type": "run_started",
       "name": "run started",
-      "ts": "2026-08-06T20:23:58.908560",
+      "ts": "2026-08-06T20:39:50.779266",
       "duration_ms": 0.0,
       "payload": {
         "prompt": "Read mission_report.md and summarise the key findings and open risks for the team.",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
         "model": "scripted-demo-agent",
         "seed": 52
       },
@@ -70,16 +71,16 @@
       }
     },
     {
-      "id": "47b5bef3013f465aaa3a76d1847b9b03",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "ef6f4570b6634209b829f7bd78f5b5f3",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 2,
-      "parent_event_id": "f7e01204eda447cb8f89f0f335f96f26",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "8d684cfcaf99417fad93f01312b493bc",
+      "parent_event_id": "dd7ddbcb2f804f6bba4c5505efcaaaa7",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "f3f44452478547f98920c5d4ac2b36ad",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:59.529739",
+      "ts": "2026-08-06T20:39:51.408265",
       "duration_ms": 0.0,
       "payload": {
         "text": "Read the document before summarising anything."
@@ -93,17 +94,17 @@
       }
     },
     {
-      "id": "4a318fc4db73496db9d3b6d76dac8aa7",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "d734323766d04eb1a7bc401a6474af56",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 3,
-      "parent_event_id": "47b5bef3013f465aaa3a76d1847b9b03",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "4cef53ceb233429595f46d86367d814d",
+      "parent_event_id": "ef6f4570b6634209b829f7bd78f5b5f3",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "43b24e654113406f8c751bfaf2ba385d",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:59.531225",
-      "duration_ms": 617.09,
+      "ts": "2026-08-06T20:39:51.409610",
+      "duration_ms": 624.8,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -125,16 +126,16 @@
       }
     },
     {
-      "id": "3926f75e7d9446da95f01bd6e21b2698",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "d63ea0b480fd40ae9a52b692928d2db0",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 4,
-      "parent_event_id": "4a318fc4db73496db9d3b6d76dac8aa7",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "6f1ef0030ede4e2188ae7d076f75f184",
+      "parent_event_id": "d734323766d04eb1a7bc401a6474af56",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "e7c461b232a946089bb905af7ab2dcfc",
       "type": "tool_call",
       "name": "call file_reader",
-      "ts": "2026-08-06T20:23:59.532461",
+      "ts": "2026-08-06T20:39:51.410962",
       "duration_ms": 0.0,
       "payload": {
         "tool": "file_reader",
@@ -149,17 +150,17 @@
       "meta": {}
     },
     {
-      "id": "b8c1e665b8284fa0b2e2a662790d1a57",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "799853b9682f42379bc691f4548bd027",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 5,
-      "parent_event_id": "3926f75e7d9446da95f01bd6e21b2698",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "882acc66118c4574b21907eba2e1c006",
+      "parent_event_id": "d63ea0b480fd40ae9a52b692928d2db0",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "02d0cec79ad544c68581f974527e9502",
       "type": "tool_result",
       "name": "file_reader result",
-      "ts": "2026-08-06T20:23:59.536283",
-      "duration_ms": 2.35,
+      "ts": "2026-08-06T20:39:51.415111",
+      "duration_ms": 2.55,
       "payload": {
         "tool": "file_reader",
         "output": {
@@ -176,16 +177,16 @@
       "meta": {}
     },
     {
-      "id": "60105d343dab4ba78036f3784b7d7b73",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "f34212377638485aba256538e67acf70",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 6,
-      "parent_event_id": "b8c1e665b8284fa0b2e2a662790d1a57",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "2be3934ef7f0424c9e7d73c4bc482372",
+      "parent_event_id": "799853b9682f42379bc691f4548bd027",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "3d9645899a5e4ef5b079323543cb797a",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:24:01.049274",
+      "ts": "2026-08-06T20:39:52.931404",
       "duration_ms": 0.0,
       "payload": {
         "text": "The report is short and complete — summarising findings, then flagging risks."
@@ -199,17 +200,17 @@
       }
     },
     {
-      "id": "b654e66f21c54b449c04fd3fdf0801c1",
-      "run_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "branch_id": "9e27ab3d1ff240dfa8ac868038f85dce",
+      "id": "ad67e036803d44dfa280f4e57e32be6b",
+      "run_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "branch_id": "4574d7a28e444695b361cc9a4ca6db27",
       "seq": 7,
-      "parent_event_id": "60105d343dab4ba78036f3784b7d7b73",
-      "trace_id": "4e0567c39d1a437c89e20a8e10a0b33a",
-      "span_id": "7e0a23d6c725477aba9d302d8a87bd9c",
+      "parent_event_id": "f34212377638485aba256538e67acf70",
+      "trace_id": "a0220fa97f4f4904bbd5d12829c4e04e",
+      "span_id": "b6609a0bfef64f76ae1a30c611c91608",
       "type": "completion",
       "name": "final answer",
-      "ts": "2026-08-06T20:24:01.050732",
-      "duration_ms": 1509.47,
+      "ts": "2026-08-06T20:39:52.932789",
+      "duration_ms": 1512.09,
       "payload": {
         "content": "**Summary of Mission Report — Q3 Orbital Survey**: the survey is complete — 14 days, 1,240 orbital passes, 82.4 TB captured, downlink efficiency averaging 97.2%. Two anomalies occurred and both are resolved; sensor drift was corrected on day 6.\n\n**Open risks:** none are flagged in the report itself, but the day-6 sensor-drift correction deserves a follow-up calibration check before the next survey window."
       },
@@ -246,7 +247,7 @@
         "tokens_in": 240,
         "tokens_out": 121,
         "model": "scripted-demo-agent",
-        "duration_ms": 1509.47
+        "duration_ms": 1512.09
       }
     },
     {
@@ -266,7 +267,7 @@
         "tokens_in": 91,
         "tokens_out": 28,
         "model": "scripted-demo-agent",
-        "duration_ms": 617.09
+        "duration_ms": 624.8
       }
     }
   ]

@@ -78,10 +78,18 @@ async def execute_branch(
 
         try:
             if start_seq == 1:
+                system_prompt = (
+                    messages[0]["content"] if messages and messages[0].get("role") == "system" else None
+                )
                 await recorder.record(
                     EventType.RUN_STARTED,
                     "run started",
-                    {"prompt": messages[-1]["content"], "model": run.model, "seed": run.seed},
+                    {
+                        "prompt": messages[-1]["content"],
+                        "system_prompt": system_prompt,
+                        "model": run.model,
+                        "seed": run.seed,
+                    },
                     meta={"mode": settings.mode, "live": provider is not None},
                 )
             completed = await _agent_loop(

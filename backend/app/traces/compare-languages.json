@@ -1,7 +1,7 @@
 {
   "version": 2,
   "run": {
-    "id": "aed7398b989249d2b42d58bbe4843d98",
+    "id": "5518c00163284121bcecde20a4dc11a2",
     "title": "Compare two programming languages",
     "prompt": "Compare Python and Rust for building a high-throughput API server. Which would you pick and why?",
     "model": "scripted-demo-agent",
@@ -25,12 +25,12 @@
         "recorded_diagnosis": "Swapping Rust for Go changed the first search and the whole comparison axis: the fork's recommendation leans on Go's goroutines and single-binary deployment story rather than Rust's zero-cost memory safety. The Python evidence step is identical in both branches — same query, and the result replays from the run's tool cache."
       }
     ],
-    "created_at": "2026-08-06T20:23:39.634483"
+    "created_at": "2026-08-06T20:39:31.485397"
   },
   "branches": [
     {
-      "id": "4de2f17b9e0a447897599508123b84f5",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
+      "id": "ddd73110f8844de6b5c73e32eff640d0",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
       "name": "main",
       "parent_branch_id": null,
       "fork_seq": null,
@@ -40,24 +40,25 @@
       "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
       "analysis_source": "heuristic",
       "color_index": 0,
-      "created_at": "2026-08-06T20:23:39.634677"
+      "created_at": "2026-08-06T20:39:31.485564"
     }
   ],
   "events": [
     {
-      "id": "5db471fd662a4bd1a04c44086a47e58a",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "588dbebde3474b1ca915c18a38b45ed3",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 1,
       "parent_event_id": null,
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "ec62f4794e0d46f78148a678b72c42c8",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "35e9bf5689434b0e9eb110270da34d9a",
       "type": "run_started",
       "name": "run started",
-      "ts": "2026-08-06T20:23:39.657803",
+      "ts": "2026-08-06T20:39:31.491828",
       "duration_ms": 0.0,
       "payload": {
         "prompt": "Compare Python and Rust for building a high-throughput API server. Which would you pick and why?",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
         "model": "scripted-demo-agent",
         "seed": 23
       },
@@ -70,16 +71,16 @@
       }
     },
     {
-      "id": "722cea5a69cd4a168eddc7277d40de1a",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "64e65d6c884a41088bf815cee8a2265b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 2,
-      "parent_event_id": "5db471fd662a4bd1a04c44086a47e58a",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "b7fc9bb1260d462b96c20b945f617d31",
+      "parent_event_id": "588dbebde3474b1ca915c18a38b45ed3",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "7f1a8f487e0b49e3852baa1ae85b77f0",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:40.394249",
+      "ts": "2026-08-06T20:39:32.238586",
       "duration_ms": 0.0,
       "payload": {
         "text": "Two candidates to compare; gathering evidence on Rust's server story first."
@@ -93,17 +94,17 @@
       }
     },
     {
-      "id": "4c46323f723b41fb95b51e9d23c7b539",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "6cc34be5d96849ad90d7153f4e56f820",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 3,
-      "parent_event_id": "722cea5a69cd4a168eddc7277d40de1a",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "16ad5cb6cb47409d8253b826a4d3236c",
+      "parent_event_id": "64e65d6c884a41088bf815cee8a2265b",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "a8f2a68524774ce18fc9fd8a8f6f2420",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:40.395824",
-      "duration_ms": 731.54,
+      "ts": "2026-08-06T20:39:32.239750",
+      "duration_ms": 742.46,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -125,16 +126,16 @@
       }
     },
     {
-      "id": "e57b24f21a8d454e80e65cc4ba29f9d9",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "f5f4079fdba34cb59b43e14fcdfd663e",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 4,
-      "parent_event_id": "4c46323f723b41fb95b51e9d23c7b539",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "a7d733422a554374841ea7f449880c51",
+      "parent_event_id": "6cc34be5d96849ad90d7153f4e56f820",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "ca2d5850fe5c4207a129cb2f276a301d",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:40.397362",
+      "ts": "2026-08-06T20:39:32.240806",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -149,17 +150,17 @@
       "meta": {}
     },
     {
-      "id": "bb5cc5e82f5648b1a6afe247bf797068",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "32f4359f4aad4224a83ecf6fb4ef4fa2",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 5,
-      "parent_event_id": "e57b24f21a8d454e80e65cc4ba29f9d9",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "f80173a49e0d438b9479e586f7266666",
+      "parent_event_id": "f5f4079fdba34cb59b43e14fcdfd663e",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "a366d000d8bc444ea169d40d53f576ea",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:40.402038",
-      "duration_ms": 2.62,
+      "ts": "2026-08-06T20:39:32.244827",
+      "duration_ms": 2.61,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -193,16 +194,16 @@
       "meta": {}
     },
     {
-      "id": "a16bd241363b4b6ba42c4905e590f8ae",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "bb3ef6635edb46f998ffaec59c5f862b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 6,
-      "parent_event_id": "bb5cc5e82f5648b1a6afe247bf797068",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "1e21b01970544c03b6c4fa1c77a89824",
+      "parent_event_id": "32f4359f4aad4224a83ecf6fb4ef4fa2",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "37c90c2a300b446ba66b4b4c08e62144",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:41.104990",
+      "ts": "2026-08-06T20:39:32.945744",
       "duration_ms": 0.0,
       "payload": {
         "text": "Now the Python side, specifically async throughput characteristics."
@@ -216,17 +217,17 @@
       }
     },
     {
-      "id": "4f9374dcdd29427e8da34e8d5d5ee788",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "293a67be6926455cb79b7df85106c189",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 7,
-      "parent_event_id": "a16bd241363b4b6ba42c4905e590f8ae",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "36695dc161af4f64bb07365216d2332a",
+      "parent_event_id": "bb3ef6635edb46f998ffaec59c5f862b",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "69f9beee817a40ff9bc9d3c2f60feeb4",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:41.107108",
-      "duration_ms": 698.44,
+      "ts": "2026-08-06T20:39:32.948753",
+      "duration_ms": 692.76,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -248,16 +249,16 @@
       }
     },
     {
-      "id": "f73fc864ceee451887d3c760c66d2212",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "588ae0274400497b84c678e345a5c6dc",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 8,
-      "parent_event_id": "4f9374dcdd29427e8da34e8d5d5ee788",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "fd32a28f496148e1a9ec6dd461a9c0db",
+      "parent_event_id": "293a67be6926455cb79b7df85106c189",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "5d4b2c37f8ff49eeafca2cf0c25398ce",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:41.108480",
+      "ts": "2026-08-06T20:39:32.951013",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -272,17 +273,17 @@
       "meta": {}
     },
     {
-      "id": "282e28c36ec04487bb012e780455abde",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "389a2c30f4e04d789ba8af65741904c6",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 9,
-      "parent_event_id": "f73fc864ceee451887d3c760c66d2212",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "26a611ecb6df4e9badce367aa7b53bef",
+      "parent_event_id": "588ae0274400497b84c678e345a5c6dc",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "9678efa56c8845618548191bb5708f4c",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:41.112287",
-      "duration_ms": 1.96,
+      "ts": "2026-08-06T20:39:32.954855",
+      "duration_ms": 2.04,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -316,16 +317,16 @@
       "meta": {}
     },
     {
-      "id": "b810951ee9ca444c91b157fe03b96c3c",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "874bdffa47d14d149bd384dac02f3a68",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 10,
-      "parent_event_id": "282e28c36ec04487bb012e780455abde",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "fbe8eb3a331645c2a00fd1542c02d91c",
+      "parent_event_id": "389a2c30f4e04d789ba8af65741904c6",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "1015b7025bae426d8e41643a5663da18",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:42.777204",
+      "ts": "2026-08-06T20:39:34.619093",
       "duration_ms": 0.0,
       "payload": {
         "text": "Evidence on both sides — weighing raw throughput against developer velocity."
@@ -339,17 +340,17 @@
       }
     },
     {
-      "id": "115e76056b604c478f501b60851e7906",
-      "run_id": "aed7398b989249d2b42d58bbe4843d98",
-      "branch_id": "4de2f17b9e0a447897599508123b84f5",
+      "id": "3b697f6f425c46ba9daf7f0ae03ad72b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
       "seq": 11,
-      "parent_event_id": "b810951ee9ca444c91b157fe03b96c3c",
-      "trace_id": "aed7398b989249d2b42d58bbe4843d98",
-      "span_id": "b956da77995542049ebf08a576908701",
+      "parent_event_id": "874bdffa47d14d149bd384dac02f3a68",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "4c021ce1f133496ca18221d021481e7d",
       "type": "completion",
       "name": "final answer",
-      "ts": "2026-08-06T20:23:42.778878",
-      "duration_ms": 1660.79,
+      "ts": "2026-08-06T20:39:34.620402",
+      "duration_ms": 1660.55,
       "payload": {
         "content": "For a high-throughput API server, **Rust** is the stronger pick on raw performance: memory safety without garbage collection, and an async ecosystem (Tokio, hyper) built for very high-throughput network services. **Python** with asyncio and FastAPI handles I/O-bound workloads well and wins on developer velocity and ecosystem, but the GIL limits CPU-bound parallelism and raw throughput trails compiled languages.\n\nPick Rust when throughput is the hard requirement; pick Python when iteration speed matters more than the last order of magnitude."
       },
@@ -469,7 +470,7 @@
         "tokens_in": 456,
         "tokens_out": 38,
         "model": "scripted-demo-agent",
-        "duration_ms": 698.44
+        "duration_ms": 692.76
       }
     },
     {
@@ -489,7 +490,7 @@
         "tokens_in": 459,
         "tokens_out": 37,
         "model": "scripted-demo-agent",
-        "duration_ms": 685.7
+        "duration_ms": 694.9
       }
     },
     {
@@ -501,7 +502,7 @@
         "tokens_in": 814,
         "tokens_out": 156,
         "model": "scripted-demo-agent",
-        "duration_ms": 1660.79
+        "duration_ms": 1660.55
       }
     },
     {
@@ -513,7 +514,7 @@
         "tokens_in": 817,
         "tokens_out": 125,
         "model": "scripted-demo-agent",
-        "duration_ms": 1500.46
+        "duration_ms": 1503.68
       }
     },
     {
@@ -533,7 +534,7 @@
         "tokens_in": 94,
         "tokens_out": 44,
         "model": "scripted-demo-agent",
-        "duration_ms": 731.54
+        "duration_ms": 742.46
       }
     },
     {
@@ -553,7 +554,7 @@
         "tokens_in": 94,
         "tokens_out": 42,
         "model": "scripted-demo-agent",
-        "duration_ms": 712.3
+        "duration_ms": 713.16
       }
     }
   ]

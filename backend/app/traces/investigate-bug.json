@@ -1,7 +1,7 @@
 {
   "version": 2,
   "run": {
-    "id": "0ba02e970a9248828955c2982aa96484",
+    "id": "2122802580774b608459d57df2603839",
     "title": "Investigate a bug",
     "prompt": "Our API started throwing 'database is locked' errors right after the 02:00 deploy. Read server.log and figure out what went wrong.",
     "model": "scripted-demo-agent",
@@ -22,7 +22,7 @@
         "fork_seq": 13,
         "edited_prompt": null,
         "tool_overrides": {
-          "2642f653622549ce979c6de911a0e72e": {
+          "ae72471cd84c4ccaabb61d6168aa9164": {
             "path": "server.log",
             "size_bytes": 432,
             "content": "2026-08-05 01:58:12 INFO  deploy: starting release v2.14.0\n2026-08-05 02:00:03 INFO  api: worker pool resized 4 -> 16\n2026-08-05 02:01:07 ERROR db: sqlite3.OperationalError: disk I/O error (endpoint=/api/orders)\n2026-08-05 02:01:22 ERROR db: database or disk is full (endpoint=/api/orders)\n2026-08-05 02:02:05 WARN  storage: volume /data at 100% capacity\n2026-08-05 02:03:40 ERROR db: database or disk is full (endpoint=/api/users)\n"
@@ -32,12 +32,12 @@
         "recorded_diagnosis": "With the log evidence swapped, the same investigation reaches a different verdict: storage exhaustion instead of lock contention. The fork also skips the SQLite-locking search — the rewritten evidence made that step unnecessary — so the branches diverge in both their tool plan and their final diagnosis."
       }
     ],
-    "created_at": "2026-08-06T20:23:45.796929"
+    "created_at": "2026-08-06T20:39:37.639002"
   },
   "branches": [
     {
-      "id": "443f74272b184c22996d9f553eb11b81",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
+      "id": "2b0a49c9281e453187e8fbbbcada5171",
+      "run_id": "2122802580774b608459d57df2603839",
       "name": "main",
       "parent_branch_id": null,
       "fork_seq": null,
@@ -47,24 +47,25 @@
       "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
       "analysis_source": "heuristic",
       "color_index": 0,
-      "created_at": "2026-08-06T20:23:45.797300"
+      "created_at": "2026-08-06T20:39:37.639143"
     }
   ],
   "events": [
     {
-      "id": "8d4434f9d28443c6981ac4299daab6e5",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "912910eb58f842319ddab5c18c2c6b4d",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 1,
       "parent_event_id": null,
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "019092bcd8e54c48bc36cf5fd8e6f477",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "6f3191c9f63e4e1183912145f3086fc3",
       "type": "run_started",
       "name": "run started",
-      "ts": "2026-08-06T20:23:45.805162",
+      "ts": "2026-08-06T20:39:37.646571",
       "duration_ms": 0.0,
       "payload": {
         "prompt": "Our API started throwing 'database is locked' errors right after the 02:00 deploy. Read server.log and figure out what went wrong.",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
         "model": "scripted-demo-agent",
         "seed": 31
       },
@@ -77,16 +78,16 @@
       }
     },
     {
-      "id": "9c16e4be43d245258c7adb48955922ff",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "b9f6a3e8eb57439c8384e310a1f359c8",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 2,
-      "parent_event_id": "8d4434f9d28443c6981ac4299daab6e5",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "a09fbe38783842d2acf06d5230b59069",
+      "parent_event_id": "912910eb58f842319ddab5c18c2c6b4d",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "d0afea8b62a240649cfb706563f84d29",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:46.434206",
+      "ts": "2026-08-06T20:39:38.281988",
       "duration_ms": 0.0,
       "payload": {
         "text": "First, the evidence: read the server log covering the deploy window."
@@ -100,17 +101,17 @@
       }
     },
     {
-      "id": "0bed496be9ca4b888b3c5d9ee13586f6",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "cbf0baec95594b2f9a7bf2fc22c6ff20",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 3,
-      "parent_event_id": "9c16e4be43d245258c7adb48955922ff",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "8a4de0710b4e4921b2416f774ae7a0b9",
+      "parent_event_id": "b9f6a3e8eb57439c8384e310a1f359c8",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "701abd37cad64eefadec8ca6ce2e8568",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:46.435825",
-      "duration_ms": 624.33,
+      "ts": "2026-08-06T20:39:38.283403",
+      "duration_ms": 631.36,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -132,16 +133,16 @@
       }
     },
     {
-      "id": "c1a5d95ad50f412db2dc4c89b63dc9e2",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "bd05cf2d0b3a42189bc26143ef0e6f85",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 4,
-      "parent_event_id": "0bed496be9ca4b888b3c5d9ee13586f6",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "55af118da5a64e38a69c9bfb6b0a6d95",
+      "parent_event_id": "cbf0baec95594b2f9a7bf2fc22c6ff20",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "2e9bec275a054b31876733faca1c71ac",
       "type": "tool_call",
       "name": "call file_reader",
-      "ts": "2026-08-06T20:23:46.437137",
+      "ts": "2026-08-06T20:39:38.285306",
       "duration_ms": 0.0,
       "payload": {
         "tool": "file_reader",
@@ -156,17 +157,17 @@
       "meta": {}
     },
     {
-      "id": "2169093f0c554a22a08f476bfc189c5a",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "1a998de63c6341f9b248411d9b6cf928",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 5,
-      "parent_event_id": "c1a5d95ad50f412db2dc4c89b63dc9e2",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "7b3d620cd91748859e1c86d669e227ce",
+      "parent_event_id": "bd05cf2d0b3a42189bc26143ef0e6f85",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "f46be5cc09434fe7b83dfa67fde36e37",
       "type": "error",
       "name": "file_reader failed",
-      "ts": "2026-08-06T20:23:46.441569",
-      "duration_ms": 2.85,
+      "ts": "2026-08-06T20:39:38.290751",
+      "duration_ms": 3.3,
       "payload": {
         "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log",
         "recoverable": true
@@ -177,16 +178,16 @@
       "meta": {}
     },
     {
-      "id": "5bb7abab74f94eae92325d344a680c73",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "145ca6f8865b499fb2acd80b0242f52a",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 6,
-      "parent_event_id": "2169093f0c554a22a08f476bfc189c5a",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "c139bcc727164702b9d35b940e80ae0f",
+      "parent_event_id": "1a998de63c6341f9b248411d9b6cf928",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "6ea0f22360a64426bd741dd71bb06d0e",
       "type": "retry",
       "name": "retrying file_reader",
-      "ts": "2026-08-06T20:23:46.443190",
+      "ts": "2026-08-06T20:39:38.292657",
       "duration_ms": 0.0,
       "payload": {
         "tool": "file_reader",
@@ -199,17 +200,17 @@
       "meta": {}
     },
     {
-      "id": "654f1d197b7e45338c6ab06675100673",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "74ccb8d7e16148abb71104ef46338287",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 7,
-      "parent_event_id": "5bb7abab74f94eae92325d344a680c73",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "bef350e3c1cc4d52aa57cc4712d03bab",
+      "parent_event_id": "145ca6f8865b499fb2acd80b0242f52a",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "02bfc8d7b28e4a40a58205b74963e89f",
       "type": "error",
       "name": "file_reader failed",
-      "ts": "2026-08-06T20:23:46.446120",
-      "duration_ms": 1.68,
+      "ts": "2026-08-06T20:39:38.295512",
+      "duration_ms": 1.2,
       "payload": {
         "error": "file not found: logs/server.log. Available files: metrics.csv, mission_report.md, notes.txt, server.log",
         "recoverable": false
@@ -220,16 +221,16 @@
       "meta": {}
     },
     {
-      "id": "8abb66c57d6842a59eced3733a304a40",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "3ae3750aca2049d8bb3d14ce36d35936",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 8,
-      "parent_event_id": "654f1d197b7e45338c6ab06675100673",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "5ce8c29bd0944afeadb26787ea9776bf",
+      "parent_event_id": "74ccb8d7e16148abb71104ef46338287",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "255d9b7c6a7e429291e1716799391b4c",
       "type": "tool_result",
       "name": "file_reader result (error)",
-      "ts": "2026-08-06T20:23:46.449509",
+      "ts": "2026-08-06T20:39:38.298182",
       "duration_ms": 0.0,
       "payload": {
         "tool": "file_reader",
@@ -245,16 +246,16 @@
       "meta": {}
     },
     {
-      "id": "9704eb2d339547608199d0c36afcfb66",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "1c1d6aec90cb4645ad9a250b5dc4011c",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 9,
-      "parent_event_id": "8abb66c57d6842a59eced3733a304a40",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "6567a252d9fe4486a02d9abc1b0e5205",
+      "parent_event_id": "3ae3750aca2049d8bb3d14ce36d35936",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "6143d18ca36a4735bfb1e38cea40ec28",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:47.102043",
+      "ts": "2026-08-06T20:39:38.951583",
       "duration_ms": 0.0,
       "payload": {
         "text": "The path was wrong — the sandbox lists server.log at its root. Retrying with the correct path."
@@ -268,17 +269,17 @@
       }
     },
     {
-      "id": "91cf52047a3a4e9d856884e1b64269cf",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "32b86079ccb447d490557d7f4608e215",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 10,
-      "parent_event_id": "9704eb2d339547608199d0c36afcfb66",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "e73706e739f24bdb971915dec2265d7b",
+      "parent_event_id": "1c1d6aec90cb4645ad9a250b5dc4011c",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "38a676e75d1b431fb4bba2ba09e1741e",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:47.103782",
-      "duration_ms": 648.59,
+      "ts": "2026-08-06T20:39:38.953014",
+      "duration_ms": 649.2,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -300,16 +301,16 @@
       }
     },
     {
-      "id": "12ffd35472c94abbbeafd7e917985495",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "e40b1311664141b4add65f901145f56d",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 11,
-      "parent_event_id": "91cf52047a3a4e9d856884e1b64269cf",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "6fb78fcf9cb140239d92d2e313eebe84",
+      "parent_event_id": "32b86079ccb447d490557d7f4608e215",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "96d7fe175d114b90836feb93f1bc4a51",
       "type": "tool_call",
       "name": "call file_reader",
-      "ts": "2026-08-06T20:23:47.105380",
+      "ts": "2026-08-06T20:39:38.954340",
       "duration_ms": 0.0,
       "payload": {
         "tool": "file_reader",
@@ -324,17 +325,17 @@
       "meta": {}
     },
     {
-      "id": "2642f653622549ce979c6de911a0e72e",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "ae72471cd84c4ccaabb61d6168aa9164",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 12,
-      "parent_event_id": "12ffd35472c94abbbeafd7e917985495",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "9111b5250ee04cb3af4ca30b04d3362c",
+      "parent_event_id": "e40b1311664141b4add65f901145f56d",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "06660beb6c7546bdbdc80fe8c260f8fa",
       "type": "tool_result",
       "name": "file_reader result",
-      "ts": "2026-08-06T20:23:47.110694",
-      "duration_ms": 3.23,
+      "ts": "2026-08-06T20:39:38.959058",
+      "duration_ms": 2.96,
       "payload": {
         "tool": "file_reader",
         "output": {
@@ -351,16 +352,16 @@
       "meta": {}
     },
     {
-      "id": "3e5275061c314cdc80c1f90397c22697",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "92197d539dd84ff0a5892a0ac5ce81c8",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 13,
-      "parent_event_id": "2642f653622549ce979c6de911a0e72e",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "80cc34e929f44abcb788652a1ed603c9",
+      "parent_event_id": "ae72471cd84c4ccaabb61d6168aa9164",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "6b97ca8ec4b64129a7293dfa4962f234",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:47.930334",
+      "ts": "2026-08-06T20:39:39.776515",
       "duration_ms": 0.0,
       "payload": {
         "text": "The log shows lock errors starting seconds after a full-table-scan batch job began, on a freshly enlarged worker pool. Checking the standard causes of SQLITE_BUSY to confirm before diagnosing."
@@ -374,17 +375,17 @@
       }
     },
     {
-      "id": "742dfebdcc1c44ec9a364463eaa3ac8d",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "f5aba47d8aed413aa35d8f2b0d6b87cd",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 14,
-      "parent_event_id": "3e5275061c314cdc80c1f90397c22697",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "78cb5efd8c084e9899cfbfdf811c42ba",
+      "parent_event_id": "92197d539dd84ff0a5892a0ac5ce81c8",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "3282df3b486c485d8f9e6c5df9754680",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:47.931834",
-      "duration_ms": 815.07,
+      "ts": "2026-08-06T20:39:39.778636",
+      "duration_ms": 813.69,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -406,16 +407,16 @@
       }
     },
     {
-      "id": "b78a58dcf2044c4f9dcfb975c0a82bb3",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "9e50d0cd4d074361a0a24f4a6c336322",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 15,
-      "parent_event_id": "742dfebdcc1c44ec9a364463eaa3ac8d",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "b502be90dde4427b880daa05af39110c",
+      "parent_event_id": "f5aba47d8aed413aa35d8f2b0d6b87cd",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "8c8f7c1260fc488ca414c4a15e9f4104",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:47.933092",
+      "ts": "2026-08-06T20:39:39.780317",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -430,17 +431,17 @@
       "meta": {}
     },
     {
-      "id": "668ee7f6d56a4828937ecf7166b5fb6e",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "7b29dcf0111c4fb1be811562c2cfaa91",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 16,
-      "parent_event_id": "b78a58dcf2044c4f9dcfb975c0a82bb3",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "3fac9cac57464e90b6541787ebf3f009",
+      "parent_event_id": "9e50d0cd4d074361a0a24f4a6c336322",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "7b579ffe6ca641bf8df95ebd69a3d592",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:47.936786",
-      "duration_ms": 1.91,
+      "ts": "2026-08-06T20:39:39.784191",
+      "duration_ms": 1.81,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -474,16 +475,16 @@
       "meta": {}
     },
     {
-      "id": "0242b9251cda4c068e80c080b4662e1a",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "673c64fb5306416796176843a7354b5e",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 17,
-      "parent_event_id": "668ee7f6d56a4828937ecf7166b5fb6e",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "ea3643b5a74c4d2cafed08650716ca90",
+      "parent_event_id": "7b29dcf0111c4fb1be811562c2cfaa91",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "80dc92d6290748218b8b25dfa9bd1034",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:49.853338",
+      "ts": "2026-08-06T20:39:41.703434",
       "duration_ms": 0.0,
       "payload": {
         "text": "Log evidence and documentation agree — writing the diagnosis."
@@ -497,17 +498,17 @@
       }
     },
     {
-      "id": "a54b33e6edd343df85fce63bb4915f0f",
-      "run_id": "0ba02e970a9248828955c2982aa96484",
-      "branch_id": "443f74272b184c22996d9f553eb11b81",
+      "id": "6629d40ca2b24d818d0028e6f536e33c",
+      "run_id": "2122802580774b608459d57df2603839",
+      "branch_id": "2b0a49c9281e453187e8fbbbcada5171",
       "seq": 18,
-      "parent_event_id": "0242b9251cda4c068e80c080b4662e1a",
-      "trace_id": "0ba02e970a9248828955c2982aa96484",
-      "span_id": "6ec09a48e8f34db4843c0a412dab0d53",
+      "parent_event_id": "673c64fb5306416796176843a7354b5e",
+      "trace_id": "2122802580774b608459d57df2603839",
+      "span_id": "484eb77b7496432f9b495f565a9d38e9",
       "type": "completion",
       "name": "final answer",
-      "ts": "2026-08-06T20:23:49.854724",
-      "duration_ms": 1912.82,
+      "ts": "2026-08-06T20:39:41.704834",
+      "duration_ms": 1915.39,
       "payload": {
         "content": "**Root cause:** at 02:00:41 the nightly analytics batch opened a long full-table-scan write transaction, and the deploy had just resized the worker pool from 4 to 16 — so sixteen workers piled up behind a single write lock. The log's `journal_mode=DELETE busy_timeout=0` line confirms the database runs in rollback-journal mode, where one long write blocks every other writer; this matches the SQLITE_BUSY guidance found.\n\n**Fix:** enable WAL journal mode and set a busy_timeout, and move the analytics scan off the API database (or out of deploy windows). The deploy itself only amplified the contention — it did not cause it."
       },
@@ -583,7 +584,7 @@
         "tokens_in": 831,
         "tokens_out": 172,
         "model": "scripted-demo-agent",
-        "duration_ms": 1912.82
+        "duration_ms": 1915.39
       }
     },
     {
@@ -603,7 +604,7 @@
         "tokens_in": 197,
         "tokens_out": 39,
         "model": "scripted-demo-agent",
-        "duration_ms": 648.59
+        "duration_ms": 649.2
       }
     },
     {
@@ -623,7 +624,7 @@
         "tokens_in": 103,
         "tokens_out": 33,
         "model": "scripted-demo-agent",
-        "duration_ms": 624.33
+        "duration_ms": 631.36
       }
     },
     {
@@ -643,7 +644,7 @@
         "tokens_in": 480,
         "tokens_out": 72,
         "model": "scripted-demo-agent",
-        "duration_ms": 815.07
+        "duration_ms": 813.69
       }
     },
     {
@@ -655,7 +656,7 @@
         "tokens_in": 386,
         "tokens_out": 128,
         "model": "scripted-demo-agent",
-        "duration_ms": 1610.13
+        "duration_ms": 1600.41
       }
     }
   ]

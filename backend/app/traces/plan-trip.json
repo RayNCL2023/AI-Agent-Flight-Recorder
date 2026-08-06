@@ -1,7 +1,7 @@
 {
   "version": 2,
   "run": {
-    "id": "f7fa840f97fa478ea81eb6d68dffeba7",
+    "id": "c1804366297243528b1f688075ae05e8",
     "title": "Plan a trip",
     "prompt": "Plan a 3-day Tokyo trip for mid-November: check the weather, estimate the budget at $180/day plus a $950 flight, and suggest what to see.",
     "model": "scripted-demo-agent",
@@ -23,7 +23,7 @@
         "fork_seq": 6,
         "edited_prompt": null,
         "tool_overrides": {
-          "82de8a18c1684f698dfb03db476e9068": {
+          "30b1a9169a9f4e1fad3cc664bcd4b990": {
             "city": "Tokyo",
             "temperature_c": 8.4,
             "condition": "thunderstorms",
@@ -36,12 +36,12 @@
         "recorded_diagnosis": "Only the weather evidence changed, and only the itinerary responds: the budget arithmetic replays byte-identically from the tool cache while the recommendation flips from outdoor-first to indoor-first. A clean single-input counterfactual."
       }
     ],
-    "created_at": "2026-08-06T20:23:51.524908"
+    "created_at": "2026-08-06T20:39:43.376564"
   },
   "branches": [
     {
-      "id": "3221b0d9125d4456bd6d332c9464cdb1",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
+      "id": "909c07fe9d554b5e875da18880dfba38",
+      "run_id": "c1804366297243528b1f688075ae05e8",
       "name": "main",
       "parent_branch_id": null,
       "fork_seq": null,
@@ -51,24 +51,25 @@
       "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
       "analysis_source": "heuristic",
       "color_index": 0,
-      "created_at": "2026-08-06T20:23:51.525192"
+      "created_at": "2026-08-06T20:39:43.376780"
     }
   ],
   "events": [
     {
-      "id": "4f3449ede33e42a0bc50b331fe796ae8",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "350dccdd550342a49f78be5d922c32a2",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 1,
       "parent_event_id": null,
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "dfbb4445c768459fa5d0c7fd4052f0e5",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "72009614b8c94b92b7649646fa376614",
       "type": "run_started",
       "name": "run started",
-      "ts": "2026-08-06T20:23:51.532656",
+      "ts": "2026-08-06T20:39:43.382974",
       "duration_ms": 0.0,
       "payload": {
         "prompt": "Plan a 3-day Tokyo trip for mid-November: check the weather, estimate the budget at $180/day plus a $950 flight, and suggest what to see.",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
         "model": "scripted-demo-agent",
         "seed": 4
       },
@@ -81,16 +82,16 @@
       }
     },
     {
-      "id": "976555c78cc84942815a0fc74c47b87d",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "3a0897da074d45ee91ffc3c9ea7fc537",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 2,
-      "parent_event_id": "4f3449ede33e42a0bc50b331fe796ae8",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "a59cf2856177446f964c80394477a514",
+      "parent_event_id": "350dccdd550342a49f78be5d922c32a2",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "1904732342ac4de9917692be254ca7ea",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:52.110497",
+      "ts": "2026-08-06T20:39:43.956673",
       "duration_ms": 0.0,
       "payload": {
         "text": "Weather first — it decides whether this is an outdoor or indoor itinerary."
@@ -104,17 +105,17 @@
       }
     },
     {
-      "id": "4ddacb4dd1f04492b4b0da71a772b59e",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "2981fd3dedfb4915a3b320948f62e380",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 3,
-      "parent_event_id": "976555c78cc84942815a0fc74c47b87d",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "969ce9a2baa64e9bbed8b2779c4345d1",
+      "parent_event_id": "3a0897da074d45ee91ffc3c9ea7fc537",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "fe4afa8969b94053b1f1035d3b2a2c0f",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:52.112739",
-      "duration_ms": 573.1,
+      "ts": "2026-08-06T20:39:43.958280",
+      "duration_ms": 569.68,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -136,16 +137,16 @@
       }
     },
     {
-      "id": "86972faee404480790896e5dfd6abf30",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "6cf74fb195494b7f98d827f93890a35f",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 4,
-      "parent_event_id": "4ddacb4dd1f04492b4b0da71a772b59e",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "0fb7040ee4314c19b6616963e9385aa6",
+      "parent_event_id": "2981fd3dedfb4915a3b320948f62e380",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "9e068b6c9b734b0ab7893cbe466c76d3",
       "type": "tool_call",
       "name": "call weather",
-      "ts": "2026-08-06T20:23:52.114268",
+      "ts": "2026-08-06T20:39:43.959616",
       "duration_ms": 0.0,
       "payload": {
         "tool": "weather",
@@ -160,17 +161,17 @@
       "meta": {}
     },
     {
-      "id": "82de8a18c1684f698dfb03db476e9068",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "30b1a9169a9f4e1fad3cc664bcd4b990",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 5,
-      "parent_event_id": "86972faee404480790896e5dfd6abf30",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "e0b92cdf5eac4f3b91578dd22d13919f",
+      "parent_event_id": "6cf74fb195494b7f98d827f93890a35f",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "00258e523f874840a8e53bacbf5f8862",
       "type": "tool_result",
       "name": "weather result",
-      "ts": "2026-08-06T20:23:52.117954",
-      "duration_ms": 1.93,
+      "ts": "2026-08-06T20:39:43.962869",
+      "duration_ms": 1.73,
       "payload": {
         "tool": "weather",
         "output": {
@@ -190,16 +191,16 @@
       "meta": {}
     },
     {
-      "id": "d6eb957352174f46a6fa77f50b7d482e",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "57a7d9a41c86475c99d9d069fe58cf6e",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 6,
-      "parent_event_id": "82de8a18c1684f698dfb03db476e9068",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "6c3134379c4f43e3ac99b2c55d351564",
+      "parent_event_id": "30b1a9169a9f4e1fad3cc664bcd4b990",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "41261a3cf53d4c209465f338462e5a0a",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:52.610929",
+      "ts": "2026-08-06T20:39:44.456002",
       "duration_ms": 0.0,
       "payload": {
         "text": "Now the arithmetic: three days at $180 plus the flight."
@@ -213,17 +214,17 @@
       }
     },
     {
-      "id": "0de091fd72424f9e884ef0e7cb76452b",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "8f5c034f450e4862a55896c1b48f38d0",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 7,
-      "parent_event_id": "d6eb957352174f46a6fa77f50b7d482e",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "f8a65d6bd9b54e58a4c5de4f0951ae93",
+      "parent_event_id": "57a7d9a41c86475c99d9d069fe58cf6e",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "ad63b348cb744692b855984523fed772",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:52.612343",
-      "duration_ms": 489.22,
+      "ts": "2026-08-06T20:39:44.457645",
+      "duration_ms": 489.26,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -245,16 +246,16 @@
       }
     },
     {
-      "id": "b5f46b61d4bc431086309e5fc413ac4d",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "903a30fd529648e396d7b3c15a9c1b6c",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 8,
-      "parent_event_id": "0de091fd72424f9e884ef0e7cb76452b",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "dce91d19542e4586a02c3477db63bfe1",
+      "parent_event_id": "8f5c034f450e4862a55896c1b48f38d0",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "57f5ad8258f44c43a8a69e73d6311673",
       "type": "tool_call",
       "name": "call calculator",
-      "ts": "2026-08-06T20:23:52.613769",
+      "ts": "2026-08-06T20:39:44.468613",
       "duration_ms": 0.0,
       "payload": {
         "tool": "calculator",
@@ -269,17 +270,17 @@
       "meta": {}
     },
     {
-      "id": "144c70d42c064fbebb18652b42035e89",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "f395dff3114145d89d12a0845d53bf40",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 9,
-      "parent_event_id": "b5f46b61d4bc431086309e5fc413ac4d",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "e4996235372a4274ab64ec231b748fe1",
+      "parent_event_id": "903a30fd529648e396d7b3c15a9c1b6c",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "4b308981731341eb9ada52c7d1665076",
       "type": "tool_result",
       "name": "calculator result",
-      "ts": "2026-08-06T20:23:52.617181",
-      "duration_ms": 1.62,
+      "ts": "2026-08-06T20:39:44.473362",
+      "duration_ms": 1.88,
       "payload": {
         "tool": "calculator",
         "output": {
@@ -295,16 +296,16 @@
       "meta": {}
     },
     {
-      "id": "fb0f81ece6a6459f9304dd497c9dcbbb",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "95d9b81cc1284033a43bbd3a885774f5",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 10,
-      "parent_event_id": "144c70d42c064fbebb18652b42035e89",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "7de50e9c50ca42f298f163745b499530",
+      "parent_event_id": "f395dff3114145d89d12a0845d53bf40",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "3f57503f091e4011a230663aab5c656e",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:53.443262",
+      "ts": "2026-08-06T20:39:45.302142",
       "duration_ms": 0.0,
       "payload": {
         "text": "Finally, what is actually worth seeing in November."
@@ -318,17 +319,17 @@
       }
     },
     {
-      "id": "1c81218f162b48bea33a1b5e9f261659",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "f809b4e93bc8451690e233bf99381d28",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 11,
-      "parent_event_id": "fb0f81ece6a6459f9304dd497c9dcbbb",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "b734b66943144c22b7c27d5ff56ea54b",
+      "parent_event_id": "95d9b81cc1284033a43bbd3a885774f5",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "ac1d204f416e4075b1627f26911bcc35",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:53.444656",
-      "duration_ms": 822.09,
+      "ts": "2026-08-06T20:39:45.303861",
+      "duration_ms": 824.12,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -350,16 +351,16 @@
       }
     },
     {
-      "id": "cb6deb812d7e45df8291a0bdd7048d58",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "a8e8ddb84b614a14a1c0d1b1880521c5",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 12,
-      "parent_event_id": "1c81218f162b48bea33a1b5e9f261659",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "d1bdca8ebdd84012bd77bbdcdd4ffa2d",
+      "parent_event_id": "f809b4e93bc8451690e233bf99381d28",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "2c08fc95af954286882368f829b5ffbd",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:53.446061",
+      "ts": "2026-08-06T20:39:45.305621",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -374,17 +375,17 @@
       "meta": {}
     },
     {
-      "id": "37751f08f1834de7ba99237c12839123",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "08ef456829004aa2adb040be330a598e",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 13,
-      "parent_event_id": "cb6deb812d7e45df8291a0bdd7048d58",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "8f40a72eee3443349f5169c2c2be5ace",
+      "parent_event_id": "a8e8ddb84b614a14a1c0d1b1880521c5",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "29088baf4629429894b5feb11675c598",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:53.449191",
-      "duration_ms": 1.59,
+      "ts": "2026-08-06T20:39:45.310186",
+      "duration_ms": 2.37,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -413,16 +414,16 @@
       "meta": {}
     },
     {
-      "id": "6997dda841bc4a0a967cae83a976b793",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "21086a6b12d842808df9fdba231eee06",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 14,
-      "parent_event_id": "37751f08f1834de7ba99237c12839123",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "09b0ade4bdf545d7ae9a3bd1dd4d9437",
+      "parent_event_id": "08ef456829004aa2adb040be330a598e",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "701898b9d04a4c90bc034b550226acc9",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:55.563536",
+      "ts": "2026-08-06T20:39:47.416069",
       "duration_ms": 0.0,
       "payload": {
         "text": "Forecast is clear, budget is fixed, sights are sourced — assembling the plan."
@@ -436,17 +437,17 @@
       }
     },
     {
-      "id": "57df70a784aa49a4be9b427e50d0fb62",
-      "run_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "branch_id": "3221b0d9125d4456bd6d332c9464cdb1",
+      "id": "45ca21c7e23a4265ae8694e0650cb620",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
       "seq": 15,
-      "parent_event_id": "6997dda841bc4a0a967cae83a976b793",
-      "trace_id": "f7fa840f97fa478ea81eb6d68dffeba7",
-      "span_id": "a6cf98c936914d95a1452475f7aa3ab2",
+      "parent_event_id": "21086a6b12d842808df9fdba231eee06",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "06ef17764c3743d9843a001f8342fd6a",
       "type": "completion",
       "name": "final answer",
-      "ts": "2026-08-06T20:23:55.564964",
-      "duration_ms": 2110.78,
+      "ts": "2026-08-06T20:39:47.417241",
+      "duration_ms": 2101.7,
       "payload": {
         "content": "**3-day Tokyo plan for mid-November**\n\n**Weather** — clear, around 10.7°C with 15 kph wind (68% humidity): pack layers, but outdoor days are on.\n\n**Budget** — 180×3 + 950 flight = **$1,490** total.\n\n**Itinerary** — Day 1: Senso-ji temple and Asakusa, evening at Shibuya crossing. Day 2: Meiji Shrine plus autumn-foliage walks (November is peak). Day 3: teamLab Planets, with a Mount Takao day trip as the clear-weather option."
       },
@@ -521,7 +522,7 @@
         "tokens_in": 526,
         "tokens_out": 150,
         "model": "scripted-demo-agent",
-        "duration_ms": 1961.49
+        "duration_ms": 1960.81
       }
     },
     {
@@ -541,7 +542,7 @@
         "tokens_in": 278,
         "tokens_out": 40,
         "model": "scripted-demo-agent",
-        "duration_ms": 784.99
+        "duration_ms": 786.6
       }
     },
     {
@@ -561,7 +562,7 @@
         "tokens_in": 202,
         "tokens_out": 30,
         "model": "scripted-demo-agent",
-        "duration_ms": 489.22
+        "duration_ms": 489.26
       }
     },
     {
@@ -573,7 +574,7 @@
         "tokens_in": 525,
         "tokens_out": 126,
         "model": "scripted-demo-agent",
-        "duration_ms": 2110.78
+        "duration_ms": 2101.7
       }
     },
     {
@@ -593,7 +594,7 @@
         "tokens_in": 105,
         "tokens_out": 31,
         "model": "scripted-demo-agent",
-        "duration_ms": 573.1
+        "duration_ms": 569.68
       }
     },
     {
@@ -613,7 +614,7 @@
         "tokens_in": 277,
         "tokens_out": 34,
         "model": "scripted-demo-agent",
-        "duration_ms": 822.09
+        "duration_ms": 824.12
       }
     },
     {
@@ -633,7 +634,7 @@
         "tokens_in": 203,
         "tokens_out": 38,
         "model": "scripted-demo-agent",
-        "duration_ms": 507.54
+        "duration_ms": 507.42
       }
     }
   ]

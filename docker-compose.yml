@@ -2,7 +2,7 @@ services:
   backend:
     build: ./backend
     environment:
-      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      AFR_MODE: ${AFR_MODE:-replay}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
       LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}

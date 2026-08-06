@@ -5,10 +5,18 @@
 
 import { useEffect, useState } from "react";
 import { api } from "../api/client";
-import type { BranchDiff } from "../api/types";
+import type { BranchDiff, EventOut } from "../api/types";
 import { wordDiff } from "../lib/diff";
-import { ANALYSIS_SOURCE_LABEL, EVENT_GLYPH, LABEL_TINT, laneColor } from "../lib/format";
-import { useStore } from "../store/useStore";
+import {
+  ANALYSIS_SOURCE_LABEL,
+  EVENT_GLYPH,
+  LABEL_TINT,
+  fmtCost,
+  fmtMs,
+  fmtTokens,
+  laneColor,
+} from "../lib/format";
+import { branchStats, useStore } from "../store/useStore";
 
 export function DiffPanel() {
   const run = useStore((s) => s.run);
@@ -91,6 +99,12 @@ export function DiffPanel() {
 
         {parent && diff && (
           <>
+            <StatDeltas
+              parentEvents={timelines[parent.id] ?? []}
+              branchEvents={timelines[branch.id] ?? []}
+              parentName={parent.name}
+              branchName={branch.name}
+            />
             <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
               <div className="stencil mb-1.5">
                 Steps — {parent.name} vs {branch.name}
@@ -144,6 +158,74 @@ export function DiffPanel() {
       </div>
     </Shell>
   );
+}
+
+/** Token / latency / cost deltas between the fork and its parent. */
+function StatDeltas({
+  parentEvents,
+  branchEvents,
+  parentName,
+  branchName,
+}: {
+  parentEvents: EventOut[];
+  branchEvents: EventOut[];
+  parentName: string;
+  branchName: string;
+}) {
+  const a = branchStats(parentEvents);
+  const b = branchStats(branchEvents);
+  const rows: Array<[string, string, string, string]> = [
+    [
+      "tokens",
+      fmtTokens(a.tokensIn + a.tokensOut),
+      fmtTokens(b.tokensIn + b.tokensOut),
+      signed(b.tokensIn + b.tokensOut - (a.tokensIn + a.tokensOut), fmtTokens),
+    ],
+    ["latency", fmtMs(a.durationMs), fmtMs(b.durationMs), signed(b.durationMs - a.durationMs, fmtMs)],
+    ["cost", fmtCost(a.costUsd), fmtCost(b.costUsd), signed(b.costUsd - a.costUsd, fmtCost)],
+    ["events", String(a.events), String(b.events), signed(b.events - a.events, String)],
+  ];
+  return (
+    <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+      <div className="stencil mb-1.5">Deltas — {branchName} vs {parentName}</div>
+      <table className="w-full text-[11px]">
+        <thead>
+          <tr className="text-left text-[9px] uppercase tracking-wider text-faint">
+            <th className="font-normal"></th>
+            <th className="font-normal">{parentName}</th>
+            <th className="font-normal">{branchName}</th>
+            <th className="text-right font-normal">Δ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([label, va, vb, delta]) => (
+            <tr key={label}>
+              <td className="py-0.5 text-dim">{label}</td>
+              <td className="text-ink">{va}</td>
+              <td className="text-ink">{vb}</td>
+              <td
+                className="text-right"
+                style={{
+                  color: delta.startsWith("+")
+                    ? "var(--color-warn)"
+                    : delta.startsWith("−")
+                      ? "var(--color-ok)"
+                      : "var(--color-dim)",
+                }}
+              >
+                {delta}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function signed(delta: number, fmt: (n: number) => string): string {
+  if (delta === 0) return "±0";
+  return delta > 0 ? `+${fmt(delta)}` : `−${fmt(-delta)}`;
 }
 
 function AnswerDiff({

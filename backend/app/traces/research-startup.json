@@ -1,7 +1,7 @@
 {
   "version": 2,
   "run": {
-    "id": "3fbd72fc163646a6be1ddb63d5aeaa20",
+    "id": "32a0ad638450416cabe82d4bc52fb948",
     "title": "Research a startup",
     "prompt": "Research the AI startup Anthropic: what does the company build, who founded it, and how much funding has it raised?",
     "model": "scripted-demo-agent",
@@ -31,7 +31,7 @@
         "fork_seq": 10,
         "edited_prompt": null,
         "tool_overrides": {
-          "7ac9ccaa4d6d4c27aa79617dc2573b72": {
+          "9a9c239f34cd4d8b83218f017e70699c": {
             "query": "Anthropic funding investors billion",
             "results": [],
             "total": 0,
@@ -42,12 +42,12 @@
         "recorded_diagnosis": "The overridden tool output erased the funding evidence. Instead of hallucinating a number, the recorded agent explicitly declined to answer that part of the question — compare the final answers to see the funding claim disappear while the grounded overview survives."
       }
     ],
-    "created_at": "2026-08-06T20:23:32.910619"
+    "created_at": "2026-08-06T20:39:24.821347"
   },
   "branches": [
     {
-      "id": "41f26172ee2c4e5b83e61ef54dd53f3e",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
+      "id": "326b89898bf74feab4663bc48bec32bd",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
       "name": "main",
       "parent_branch_id": null,
       "fork_seq": null,
@@ -57,24 +57,25 @@
       "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
       "analysis_source": "heuristic",
       "color_index": 0,
-      "created_at": "2026-08-06T20:23:32.911327"
+      "created_at": "2026-08-06T20:39:24.822138"
     }
   ],
   "events": [
     {
-      "id": "3c307fe837e648fca28f1a8d411d2bb4",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "fd772cf674134a47b50983f86da2a4d8",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 1,
       "parent_event_id": null,
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "e262ad69f95044fc9b33f84966e778cf",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "d220a45e8747474eafdec1d1e16d0189",
       "type": "run_started",
       "name": "run started",
-      "ts": "2026-08-06T20:23:32.918504",
+      "ts": "2026-08-06T20:39:24.829801",
       "duration_ms": 0.0,
       "payload": {
         "prompt": "Research the AI startup Anthropic: what does the company build, who founded it, and how much funding has it raised?",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
         "model": "scripted-demo-agent",
         "seed": 11
       },
@@ -87,16 +88,16 @@
       }
     },
     {
-      "id": "8f604dd0cb6e45b986368bd36fc96c92",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "466b6818a703474ba3ad478d84a2db73",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 2,
-      "parent_event_id": "3c307fe837e648fca28f1a8d411d2bb4",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "35fb153344f54e86a5496fb99fd0bb6a",
+      "parent_event_id": "fd772cf674134a47b50983f86da2a4d8",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "a6bdfe4ee5b2402399e6111523e3f1f7",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:33.713442",
+      "ts": "2026-08-06T20:39:25.621632",
       "duration_ms": 0.0,
       "payload": {
         "text": "The prompt asks for company facts — product, founders, funding — that I should ground in sources rather than answer from memory. Starting with an overview search."
@@ -110,17 +111,17 @@
       }
     },
     {
-      "id": "12924fbc430d4728b67205670083e257",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "da84b690b40e48f0b8cfdc44c9a44c28",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 3,
-      "parent_event_id": "8f604dd0cb6e45b986368bd36fc96c92",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "5cabc70a70c34c9d8f8469b8529cc077",
+      "parent_event_id": "466b6818a703474ba3ad478d84a2db73",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "792464edd92b4596b612c8ac618ddb2a",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:33.714668",
-      "duration_ms": 790.84,
+      "ts": "2026-08-06T20:39:25.622799",
+      "duration_ms": 787.12,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -142,16 +143,16 @@
       }
     },
     {
-      "id": "e4c215884c234912af6adea3ba9bdc81",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "ddf4d7560dbe4f7d85c19f519495ed87",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 4,
-      "parent_event_id": "12924fbc430d4728b67205670083e257",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "9d9da42296354ca3a31dd66a2c486832",
+      "parent_event_id": "da84b690b40e48f0b8cfdc44c9a44c28",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "e0111b42f8c14d5a946bce896104e257",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:33.716014",
+      "ts": "2026-08-06T20:39:25.623857",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -166,17 +167,17 @@
       "meta": {}
     },
     {
-      "id": "3c5c0f4496604ba4a595f44888369f1e",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "a3449b6e5da34d02993230f08d974f31",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 5,
-      "parent_event_id": "e4c215884c234912af6adea3ba9bdc81",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "dbc0febf5bec43abaef1bdf411f3039e",
+      "parent_event_id": "ddf4d7560dbe4f7d85c19f519495ed87",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "6846342b0fc7406b908e6ec8dbf678c1",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:33.723962",
-      "duration_ms": 5.34,
+      "ts": "2026-08-06T20:39:25.631039",
+      "duration_ms": 5.02,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -210,16 +211,16 @@
       "meta": {}
     },
     {
-      "id": "95d785b808df440394c5d25d1d18327d",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "5290392edfd24a7e94ed2171a739cde6",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 6,
-      "parent_event_id": "3c5c0f4496604ba4a595f44888369f1e",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "ee63783ebf3f4c149d61271836d91f7c",
+      "parent_event_id": "a3449b6e5da34d02993230f08d974f31",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "789ce9e1a90e4b42b31cf75e48dfc654",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:34.639891",
+      "ts": "2026-08-06T20:39:26.549437",
       "duration_ms": 0.0,
       "payload": {
         "text": "The overview covers product and founders. Funding needs its own search before I can answer that part."
@@ -233,17 +234,17 @@
       }
     },
     {
-      "id": "f37395a2e3db41d58eface6be32cf586",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "6cef7bba3d8d449b965700becd631652",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 7,
-      "parent_event_id": "95d785b808df440394c5d25d1d18327d",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "595f00d96bc941d39a477f843b4b0cfc",
+      "parent_event_id": "5290392edfd24a7e94ed2171a739cde6",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "d14b64b92744465291a667e42746e802",
       "type": "llm_message",
       "name": "assistant message",
-      "ts": "2026-08-06T20:23:34.641089",
-      "duration_ms": 912.32,
+      "ts": "2026-08-06T20:39:26.550642",
+      "duration_ms": 914.75,
       "payload": {
         "content": null,
         "tool_calls": [
@@ -265,16 +266,16 @@
       }
     },
     {
-      "id": "9677a685de564f54939abf24cb74f0e0",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "7dfb88ef49e64463b22b6b0c96e2fbce",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 8,
-      "parent_event_id": "f37395a2e3db41d58eface6be32cf586",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "f314317f3d3740819c0ccbae33599e18",
+      "parent_event_id": "6cef7bba3d8d449b965700becd631652",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "f75e73b973834c89b06b63854f8aae35",
       "type": "tool_call",
       "name": "call web_search",
-      "ts": "2026-08-06T20:23:34.642610",
+      "ts": "2026-08-06T20:39:26.551962",
       "duration_ms": 0.0,
       "payload": {
         "tool": "web_search",
@@ -289,17 +290,17 @@
       "meta": {}
     },
     {
-      "id": "7ac9ccaa4d6d4c27aa79617dc2573b72",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "9a9c239f34cd4d8b83218f017e70699c",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 9,
-      "parent_event_id": "9677a685de564f54939abf24cb74f0e0",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "7ca2af48f87949c6964d87cdc1cc013b",
+      "parent_event_id": "7dfb88ef49e64463b22b6b0c96e2fbce",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "bc2c653791ba444f98a8d3666a9cbee0",
       "type": "tool_result",
       "name": "web_search result",
-      "ts": "2026-08-06T20:23:34.645787",
-      "duration_ms": 1.68,
+      "ts": "2026-08-06T20:39:26.555514",
+      "duration_ms": 1.87,
       "payload": {
         "tool": "web_search",
         "output": {
@@ -333,16 +334,16 @@
       "meta": {}
     },
     {
-      "id": "8092e07f62a84748a94502340f9972ef",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "d3f6fce43afb412e9dd641100a73c010",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 10,
-      "parent_event_id": "7ac9ccaa4d6d4c27aa79617dc2573b72",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "b2b89a2fd38e4d72bf57272d4e7144f4",
+      "parent_event_id": "9a9c239f34cd4d8b83218f017e70699c",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "592c67e8a0204de7be7fae63f4769233",
       "type": "reasoning",
       "name": "reasoning",
-      "ts": "2026-08-06T20:23:36.081743",
+      "ts": "2026-08-06T20:39:27.985588",
       "duration_ms": 0.0,
       "payload": {
         "text": "Both halves of the question are grounded in search results — composing the final answer."
@@ -356,17 +357,17 @@
       }
     },
     {
-      "id": "53e598911e34497b9c7c30dc15aa7bf6",
-      "run_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "branch_id": "41f26172ee2c4e5b83e61ef54dd53f3e",
+      "id": "272686892d9f4bdba41c6f91acbd3eea",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
       "seq": 11,
-      "parent_event_id": "8092e07f62a84748a94502340f9972ef",
-      "trace_id": "3fbd72fc163646a6be1ddb63d5aeaa20",
-      "span_id": "39fcc41c6dfe4d799dd8768c13571fdd",
+      "parent_event_id": "d3f6fce43afb412e9dd641100a73c010",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "7ba324990afd4215b2daa265b832eb86",
       "type": "completion",
       "name": "final answer",
-      "ts": "2026-08-06T20:23:36.083224",
-      "duration_ms": 1432.45,
+      "ts": "2026-08-06T20:39:27.986955",
+      "duration_ms": 1426.2,
       "payload": {
         "content": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models, focused on reliable, interpretable and steerable AI systems.\n\nOn funding: Anthropic has raised over $7 billion in total, including a 2023 agreement with Amazon worth up to $4 billion and investment from Google (per the funding overview source)."
       },
@@ -478,7 +479,7 @@
         "tokens_in": 442,
         "tokens_out": 74,
         "model": "scripted-demo-agent",
-        "duration_ms": 1193.2
+        "duration_ms": 1183.19
       }
     },
     {
@@ -490,7 +491,7 @@
         "tokens_in": 773,
         "tokens_out": 119,
         "model": "scripted-demo-agent",
-        "duration_ms": 1432.45
+        "duration_ms": 1426.2
       }
     },
     {
@@ -510,7 +511,7 @@
         "tokens_in": 99,
         "tokens_out": 60,
         "model": "scripted-demo-agent",
-        "duration_ms": 790.84
+        "duration_ms": 787.12
       }
     },
     {
@@ -530,7 +531,7 @@
         "tokens_in": 443,
         "tokens_out": 47,
         "model": "scripted-demo-agent",
-        "duration_ms": 912.32
+        "duration_ms": 914.75
       }
     },
     {
@@ -542,7 +543,7 @@
         "tokens_in": 540,
         "tokens_out": 104,
         "model": "scripted-demo-agent",
-        "duration_ms": 1359.94
+        "duration_ms": 1360.85
       }
     },
     {
@@ -562,7 +563,7 @@
         "tokens_in": 99,
         "tokens_out": 45,
         "model": "scripted-demo-agent",
-        "duration_ms": 809.56
+        "duration_ms": 807.74
       }
     }
   ]
