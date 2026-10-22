@@ -30,6 +30,11 @@ export default function App() {
       setError(err instanceof Error ? err.message : String(err));
     loadMeta().catch(report);
     loadRuns().catch(report);
+    // Deep link: ?run=<id> or #run=<id> opens that trace directly.
+    const link =
+      /[?#]run=([a-f0-9]+)/.exec(window.location.search) ??
+      /[?#]run=([a-f0-9]+)/.exec(window.location.hash);
+    if (link) useStore.getState().openRun(link[1]).catch(report);
   }, [loadMeta, loadRuns, setError]);
 
   useEffect(() => {

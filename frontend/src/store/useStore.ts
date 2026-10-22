@@ -98,6 +98,7 @@ export const useStore = create<StoreState>((set, get) => ({
     for (const t of results) timelines[t.branch.id] = t.events;
     const root = run.branches.find((b) => !b.parent_branch_id);
     const rootEvents = root ? (timelines[root.id] ?? []) : [];
+    window.location.hash = `run=${run.id}`; // shareable deep link
     set({
       view: "trace",
       run,
@@ -112,6 +113,9 @@ export const useStore = create<StoreState>((set, get) => ({
   },
 
   goHome: () => {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname);
+    }
     set({
       view: "home",
       run: null,
