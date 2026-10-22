@@ -1,0 +1,570 @@
+{
+  "version": 2,
+  "run": {
+    "id": "32a0ad638450416cabe82d4bc52fb948",
+    "title": "Research a startup",
+    "prompt": "Research the AI startup Anthropic: what does the company build, who founded it, and how much funding has it raised?",
+    "model": "scripted-demo-agent",
+    "seed": 11,
+    "status": "completed",
+    "summary": "Two web searches ground a company profile of Anthropic — product, founders, funding — with every claim traceable to a search result.",
+    "source": "recorded",
+    "description": "A grounded research run: overview search, funding search, sourced answer. Its experiments swap the research target and erase the funding evidence.",
+    "tools_used": [
+      "web_search"
+    ],
+    "experiments": [
+      {
+        "id": "research-mistral",
+        "title": "Change the research target",
+        "description": "Edit the prompt to research Mistral AI instead and replay from the start.",
+        "fork_seq": 1,
+        "edited_prompt": "Research the AI startup Mistral AI: what does the company build, who founded it, and how much funding has it raised?",
+        "tool_overrides": {},
+        "recorded_label": "success",
+        "recorded_diagnosis": "The edited prompt changed the research target, so the fork planned a different search from the very first step. Every downstream fact — founders, product, funding — now grounds in the Mistral documents instead of the Anthropic ones; both branches remain fully source-grounded."
+      },
+      {
+        "id": "research-empty-search",
+        "title": "Erase the funding evidence",
+        "description": "Replace the funding search result with zero results and watch the recorded agent decline to invent a figure.",
+        "fork_seq": 10,
+        "edited_prompt": null,
+        "tool_overrides": {
+          "9a9c239f34cd4d8b83218f017e70699c": {
+            "query": "Anthropic funding investors billion",
+            "results": [],
+            "total": 0,
+            "source": "offline_corpus"
+          }
+        },
+        "recorded_label": "success",
+        "recorded_diagnosis": "The overridden tool output erased the funding evidence. Instead of hallucinating a number, the recorded agent explicitly declined to answer that part of the question — compare the final answers to see the funding claim disappear while the grounded overview survives."
+      }
+    ],
+    "created_at": "2026-08-06T20:39:24.821347"
+  },
+  "branches": [
+    {
+      "id": "326b89898bf74feab4663bc48bec32bd",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "name": "main",
+      "parent_branch_id": null,
+      "fork_seq": null,
+      "overrides": {},
+      "status": "completed",
+      "label": "success",
+      "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
+      "analysis_source": "heuristic",
+      "color_index": 0,
+      "created_at": "2026-08-06T20:39:24.822138"
+    }
+  ],
+  "events": [
+    {
+      "id": "fd772cf674134a47b50983f86da2a4d8",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 1,
+      "parent_event_id": null,
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "d220a45e8747474eafdec1d1e16d0189",
+      "type": "run_started",
+      "name": "run started",
+      "ts": "2026-08-06T20:39:24.829801",
+      "duration_ms": 0.0,
+      "payload": {
+        "prompt": "Research the AI startup Anthropic: what does the company build, who founded it, and how much funding has it raised?",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
+        "model": "scripted-demo-agent",
+        "seed": 11
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "mode": "replay",
+        "live": true
+      }
+    },
+    {
+      "id": "466b6818a703474ba3ad478d84a2db73",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 2,
+      "parent_event_id": "fd772cf674134a47b50983f86da2a4d8",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "a6bdfe4ee5b2402399e6111523e3f1f7",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:25.621632",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "The prompt asks for company facts — product, founders, funding — that I should ground in sources rather than answer from memory. Starting with an overview search."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "da84b690b40e48f0b8cfdc44c9a44c28",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 3,
+      "parent_event_id": "466b6818a703474ba3ad478d84a2db73",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "792464edd92b4596b612c8ac618ddb2a",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:25.622799",
+      "duration_ms": 787.12,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_1abd039aa1ec",
+            "name": "web_search",
+            "arguments": {
+              "query": "Anthropic AI startup company"
+            }
+          }
+        ]
+      },
+      "tokens_in": 99,
+      "tokens_out": 60,
+      "cost_usd": 5.085e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "ddf4d7560dbe4f7d85c19f519495ed87",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 4,
+      "parent_event_id": "da84b690b40e48f0b8cfdc44c9a44c28",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "e0111b42f8c14d5a946bce896104e257",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:39:25.623857",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "Anthropic AI startup company"
+        },
+        "tool_call_id": "call_1abd039aa1ec"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "a3449b6e5da34d02993230f08d974f31",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 5,
+      "parent_event_id": "ddf4d7560dbe4f7d85c19f519495ed87",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "6846342b0fc7406b908e6ec8dbf678c1",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:39:25.631039",
+      "duration_ms": 5.02,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "Anthropic AI startup company",
+          "results": [
+            {
+              "title": "Anthropic — company overview",
+              "url": "https://en.wikipedia.org/wiki/Anthropic",
+              "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+            },
+            {
+              "title": "Mistral AI — company overview",
+              "url": "https://en.wikipedia.org/wiki/Mistral_AI",
+              "snippet": "Mistral AI is a French startup founded in 2023 by former DeepMind and Meta researchers. It builds open-weight large language models and raised 600 million EUR in 2024 at a valuation near 6 billion EUR."
+            },
+            {
+              "title": "Anthropic funding and investors",
+              "url": "https://example.com/anthropic-funding",
+              "snippet": "Anthropic has raised billions in venture funding, including a 2023 agreement with Amazon worth up to 4 billion USD and investment from Google. The startup's total raised exceeds 7 billion USD across multiple rounds."
+            }
+          ],
+          "total": 3,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_1abd039aa1ec"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "5290392edfd24a7e94ed2171a739cde6",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 6,
+      "parent_event_id": "a3449b6e5da34d02993230f08d974f31",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "789ce9e1a90e4b42b31cf75e48dfc654",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:26.549437",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "The overview covers product and founders. Funding needs its own search before I can answer that part."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "6cef7bba3d8d449b965700becd631652",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 7,
+      "parent_event_id": "5290392edfd24a7e94ed2171a739cde6",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "d14b64b92744465291a667e42746e802",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:26.550642",
+      "duration_ms": 914.75,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_1bf376ecbbbb",
+            "name": "web_search",
+            "arguments": {
+              "query": "Anthropic funding investors billion"
+            }
+          }
+        ]
+      },
+      "tokens_in": 443,
+      "tokens_out": 47,
+      "cost_usd": 9.465e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "7dfb88ef49e64463b22b6b0c96e2fbce",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 8,
+      "parent_event_id": "6cef7bba3d8d449b965700becd631652",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "f75e73b973834c89b06b63854f8aae35",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:39:26.551962",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "Anthropic funding investors billion"
+        },
+        "tool_call_id": "call_1bf376ecbbbb"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "9a9c239f34cd4d8b83218f017e70699c",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 9,
+      "parent_event_id": "7dfb88ef49e64463b22b6b0c96e2fbce",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "bc2c653791ba444f98a8d3666a9cbee0",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:39:26.555514",
+      "duration_ms": 1.87,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "Anthropic funding investors billion",
+          "results": [
+            {
+              "title": "Anthropic funding and investors",
+              "url": "https://example.com/anthropic-funding",
+              "snippet": "Anthropic has raised billions in venture funding, including a 2023 agreement with Amazon worth up to 4 billion USD and investment from Google. The startup's total raised exceeds 7 billion USD across multiple rounds."
+            },
+            {
+              "title": "Anthropic — company overview",
+              "url": "https://en.wikipedia.org/wiki/Anthropic",
+              "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+            },
+            {
+              "title": "Amazon rainforest — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Amazon_rainforest",
+              "snippet": "The Amazon rainforest covers about 5.5 million square kilometres and contains an estimated 390 billion individual trees."
+            }
+          ],
+          "total": 3,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_1bf376ecbbbb"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "d3f6fce43afb412e9dd641100a73c010",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 10,
+      "parent_event_id": "9a9c239f34cd4d8b83218f017e70699c",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "592c67e8a0204de7be7fae63f4769233",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:27.985588",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Both halves of the question are grounded in search results — composing the final answer."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "272686892d9f4bdba41c6f91acbd3eea",
+      "run_id": "32a0ad638450416cabe82d4bc52fb948",
+      "branch_id": "326b89898bf74feab4663bc48bec32bd",
+      "seq": 11,
+      "parent_event_id": "d3f6fce43afb412e9dd641100a73c010",
+      "trace_id": "32a0ad638450416cabe82d4bc52fb948",
+      "span_id": "7ba324990afd4215b2daa265b832eb86",
+      "type": "completion",
+      "name": "final answer",
+      "ts": "2026-08-06T20:39:27.986955",
+      "duration_ms": 1426.2,
+      "payload": {
+        "content": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models, focused on reliable, interpretable and steerable AI systems.\n\nOn funding: Anthropic has raised over $7 billion in total, including a 2023 agreement with Amazon worth up to $4 billion and investment from Google (per the funding overview source)."
+      },
+      "tokens_in": 773,
+      "tokens_out": 119,
+      "cost_usd": 0.00018735,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    }
+  ],
+  "tool_cache": [
+    {
+      "cache_key": "0aeb6912ff1ca4181e39980822aa13d1aa4a19f3ffaa7d2ac037f30527806ab6",
+      "tool": "web_search",
+      "args": {
+        "query": "Mistral AI startup funding"
+      },
+      "output": {
+        "query": "Mistral AI startup funding",
+        "results": [
+          {
+            "title": "Mistral AI — company overview",
+            "url": "https://en.wikipedia.org/wiki/Mistral_AI",
+            "snippet": "Mistral AI is a French startup founded in 2023 by former DeepMind and Meta researchers. It builds open-weight large language models and raised 600 million EUR in 2024 at a valuation near 6 billion EUR."
+          },
+          {
+            "title": "Anthropic funding and investors",
+            "url": "https://example.com/anthropic-funding",
+            "snippet": "Anthropic has raised billions in venture funding, including a 2023 agreement with Amazon worth up to 4 billion USD and investment from Google. The startup's total raised exceeds 7 billion USD across multiple rounds."
+          },
+          {
+            "title": "Anthropic — company overview",
+            "url": "https://en.wikipedia.org/wiki/Anthropic",
+            "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "22f42e5af6aa1472a1fbc24560cca38c088ae61061c4da83317da2a57b23dc4b",
+      "tool": "web_search",
+      "args": {
+        "query": "Anthropic funding investors billion"
+      },
+      "output": {
+        "query": "Anthropic funding investors billion",
+        "results": [
+          {
+            "title": "Anthropic funding and investors",
+            "url": "https://example.com/anthropic-funding",
+            "snippet": "Anthropic has raised billions in venture funding, including a 2023 agreement with Amazon worth up to 4 billion USD and investment from Google. The startup's total raised exceeds 7 billion USD across multiple rounds."
+          },
+          {
+            "title": "Anthropic — company overview",
+            "url": "https://en.wikipedia.org/wiki/Anthropic",
+            "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+          },
+          {
+            "title": "Amazon rainforest — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Amazon_rainforest",
+            "snippet": "The Amazon rainforest covers about 5.5 million square kilometres and contains an estimated 390 billion individual trees."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "849f2a6075037514a40eda7acb1d5869825f5a1fa84e270b23ec55c6859cee5c",
+      "tool": "web_search",
+      "args": {
+        "query": "Anthropic AI startup company"
+      },
+      "output": {
+        "query": "Anthropic AI startup company",
+        "results": [
+          {
+            "title": "Anthropic — company overview",
+            "url": "https://en.wikipedia.org/wiki/Anthropic",
+            "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+          },
+          {
+            "title": "Mistral AI — company overview",
+            "url": "https://en.wikipedia.org/wiki/Mistral_AI",
+            "snippet": "Mistral AI is a French startup founded in 2023 by former DeepMind and Meta researchers. It builds open-weight large language models and raised 600 million EUR in 2024 at a valuation near 6 billion EUR."
+          },
+          {
+            "title": "Anthropic funding and investors",
+            "url": "https://example.com/anthropic-funding",
+            "snippet": "Anthropic has raised billions in venture funding, including a 2023 agreement with Amazon worth up to 4 billion USD and investment from Google. The startup's total raised exceeds 7 billion USD across multiple rounds."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    }
+  ],
+  "llm_cache": [
+    {
+      "cache_key": "01784d9b9200d0d11eb513261d790edeefdfbd41e2e754ca009caa73ea6c34ee",
+      "response": {
+        "content": "Mistral AI is a French AI startup founded in 2023 by former DeepMind and Meta researchers. It builds open-weight large language models, and raised €600 million in 2024 at a valuation near €6 billion (per the company overview source).",
+        "reasoning": "The overview result covers both product and funding — answering.",
+        "tool_calls": [],
+        "tokens_in": 442,
+        "tokens_out": 74,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1183.19
+      }
+    },
+    {
+      "cache_key": "0e346d769cf90ba5fd00e6b2d4c574d3ef706eca144bd1503892f03e77901a16",
+      "response": {
+        "content": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models, focused on reliable, interpretable and steerable AI systems.\n\nOn funding: Anthropic has raised over $7 billion in total, including a 2023 agreement with Amazon worth up to $4 billion and investment from Google (per the funding overview source).",
+        "reasoning": "Both halves of the question are grounded in search results — composing the final answer.",
+        "tool_calls": [],
+        "tokens_in": 773,
+        "tokens_out": 119,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1426.2
+      }
+    },
+    {
+      "cache_key": "1c32259d6080d301f837c9cd1b421e13c2ae00106c9c3673f74e46b803a3e7ef",
+      "response": {
+        "content": null,
+        "reasoning": "The prompt asks for company facts — product, founders, funding — that I should ground in sources rather than answer from memory. Starting with an overview search.",
+        "tool_calls": [
+          {
+            "id": "call_1abd039aa1ec",
+            "name": "web_search",
+            "arguments": {
+              "query": "Anthropic AI startup company"
+            }
+          }
+        ],
+        "tokens_in": 99,
+        "tokens_out": 60,
+        "model": "scripted-demo-agent",
+        "duration_ms": 787.12
+      }
+    },
+    {
+      "cache_key": "4dbd63adafdca810bebc2b5b2a6c34d9212531ade122125e47017e65b5d900be",
+      "response": {
+        "content": null,
+        "reasoning": "The overview covers product and founders. Funding needs its own search before I can answer that part.",
+        "tool_calls": [
+          {
+            "id": "call_1bf376ecbbbb",
+            "name": "web_search",
+            "arguments": {
+              "query": "Anthropic funding investors billion"
+            }
+          }
+        ],
+        "tokens_in": 443,
+        "tokens_out": 47,
+        "model": "scripted-demo-agent",
+        "duration_ms": 914.75
+      }
+    },
+    {
+      "cache_key": "66adbf5bf3b883337cb9c054d5868cf0cf705ca9320abf1b9abd61bb40c238c4",
+      "response": {
+        "content": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei, known for the Claude family of large language models.\n\nHowever, the funding search returned no results, so I cannot verify how much the company has raised — that part of the question remains unanswered rather than guessed.",
+        "reasoning": "The funding search returned zero results. I have no evidence for any funding figure, and I won't invent one.",
+        "tool_calls": [],
+        "tokens_in": 540,
+        "tokens_out": 104,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1360.85
+      }
+    },
+    {
+      "cache_key": "e1a13bc89bc2bdd7c4c2094ce948ad03337bef06d9db05ddb801144e87b3580a",
+      "response": {
+        "content": null,
+        "reasoning": "The target is Mistral AI; one search should cover product, founders and funding for a company this young.",
+        "tool_calls": [
+          {
+            "id": "call_22ab537ed9c8",
+            "name": "web_search",
+            "arguments": {
+              "query": "Mistral AI startup funding"
+            }
+          }
+        ],
+        "tokens_in": 99,
+        "tokens_out": 45,
+        "model": "scripted-demo-agent",
+        "duration_ms": 807.74
+      }
+    }
+  ]
+}

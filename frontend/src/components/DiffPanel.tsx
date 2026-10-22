@@ -5,10 +5,18 @@
 
 import { useEffect, useState } from "react";
 import { api } from "../api/client";
-import type { BranchDiff } from "../api/types";
+import type { BranchDiff, EventOut } from "../api/types";
 import { wordDiff } from "../lib/diff";
-import { EVENT_GLYPH, LABEL_TINT, laneColor } from "../lib/format";
-import { useStore } from "../store/useStore";
+import {
+  ANALYSIS_SOURCE_LABEL,
+  EVENT_GLYPH,
+  LABEL_TINT,
+  fmtCost,
+  fmtMs,
+  fmtTokens,
+  laneColor,
+} from "../lib/format";
+import { branchStats, useStore } from "../store/useStore";
 
 export function DiffPanel() {
   const run = useStore((s) => s.run);
@@ -46,7 +54,7 @@ export function DiffPanel() {
       <div className="flex flex-col gap-3 overflow-y-auto p-3">
         <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
           <div className="stencil mb-1.5">Verdict</div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className="rounded-sm border px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
               style={{
@@ -57,6 +65,14 @@ export function DiffPanel() {
               {branch.label}
             </span>
             <span className="text-[10px] text-dim">{branch.name}</span>
+            {branch.label !== "unlabeled" && (
+              <span
+                className="rounded-sm border border-line px-1.5 py-0.5 text-[8px] uppercase tracking-wider text-faint"
+                title="Where this verdict comes from"
+              >
+                {ANALYSIS_SOURCE_LABEL[branch.analysis_source] ?? branch.analysis_source}
+              </span>
+            )}
           </div>
           {branch.diagnosis && (
             <p className="mt-2 whitespace-pre-wrap text-[11px] leading-relaxed text-ink">
@@ -83,6 +99,12 @@ export function DiffPanel() {
 
         {parent && diff && (
           <>
+            <StatDeltas
+              parentEvents={timelines[parent.id] ?? []}
+              branchEvents={timelines[branch.id] ?? []}
+              parentName={parent.name}
+              branchName={branch.name}
+            />
             <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
               <div className="stencil mb-1.5">
                 Steps — {parent.name} vs {branch.name}
@@ -136,6 +158,74 @@ export function DiffPanel() {
       </div>
     </Shell>
   );
+}
+
+/** Token / latency / cost deltas between the fork and its parent. */
+function StatDeltas({
+  parentEvents,
+  branchEvents,
+  parentName,
+  branchName,
+}: {
+  parentEvents: EventOut[];
+  branchEvents: EventOut[];
+  parentName: string;
+  branchName: string;
+}) {
+  const a = branchStats(parentEvents);
+  const b = branchStats(branchEvents);
+  const rows: Array<[string, string, string, string]> = [
+    [
+      "tokens",
+      fmtTokens(a.tokensIn + a.tokensOut),
+      fmtTokens(b.tokensIn + b.tokensOut),
+      signed(b.tokensIn + b.tokensOut - (a.tokensIn + a.tokensOut), fmtTokens),
+    ],
+    ["latency", fmtMs(a.durationMs), fmtMs(b.durationMs), signed(b.durationMs - a.durationMs, fmtMs)],
+    ["cost", fmtCost(a.costUsd), fmtCost(b.costUsd), signed(b.costUsd - a.costUsd, fmtCost)],
+    ["events", String(a.events), String(b.events), signed(b.events - a.events, String)],
+  ];
+  return (
+    <div className="shrink-0 rounded border border-line bg-panel-2 p-2.5">
+      <div className="stencil mb-1.5">Deltas — {branchName} vs {parentName}</div>
+      <table className="w-full text-[11px]">
+        <thead>
+          <tr className="text-left text-[9px] uppercase tracking-wider text-faint">
+            <th className="font-normal"></th>
+            <th className="font-normal">{parentName}</th>
+            <th className="font-normal">{branchName}</th>
+            <th className="text-right font-normal">Δ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([label, va, vb, delta]) => (
+            <tr key={label}>
+              <td className="py-0.5 text-dim">{label}</td>
+              <td className="text-ink">{va}</td>
+              <td className="text-ink">{vb}</td>
+              <td
+                className="text-right"
+                style={{
+                  color: delta.startsWith("+")
+                    ? "var(--color-warn)"
+                    : delta.startsWith("−")
+                      ? "var(--color-ok)"
+                      : "var(--color-dim)",
+                }}
+              >
+                {delta}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function signed(delta: number, fmt: (n: number) => string): string {
+  if (delta === 0) return "±0";
+  return delta > 0 ? `+${fmt(delta)}` : `−${fmt(-delta)}`;
 }
 
 function AnswerDiff({

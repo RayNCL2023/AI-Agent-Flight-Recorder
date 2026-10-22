@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import __version__
 from .api import branches, runs, stream
+from .bundles import load_bundled_traces
 from .config import get_settings
 from .db import init_db
 
@@ -16,6 +17,7 @@ from .db import init_db
 async def lifespan(_app: FastAPI):
     logging.basicConfig(level=get_settings().log_level.upper())
     init_db()
+    load_bundled_traces()
     yield
 
 
@@ -46,5 +48,17 @@ def health() -> dict:
     return {
         "status": "ok",
         "version": __version__,
-        "llm_provider": settings.llm_provider,
+        "mode": settings.mode,
+    }
+
+
+@app.get("/api/meta", tags=["meta"])
+def meta() -> dict:
+    """Execution-mode facts the UI must surface truthfully."""
+    settings = get_settings()
+    return {
+        "mode": settings.mode,
+        "live_available": settings.live_available,
+        "model": settings.llm_model if settings.live_available else "recorded",
+        "version": __version__,
     }

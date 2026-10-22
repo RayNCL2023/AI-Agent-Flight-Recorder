@@ -2,30 +2,40 @@ import { useEffect } from "react";
 import { DiffPanel } from "./components/DiffPanel";
 import { ForkDialog } from "./components/ForkDialog";
 import { HelpOverlay } from "./components/HelpOverlay";
+import { Home } from "./components/Home";
 import { Inspector } from "./components/Inspector";
-import { RunLauncher } from "./components/RunLauncher";
+import { LiveRunDialog } from "./components/LiveRunDialog";
 import { Timeline } from "./components/Timeline";
 import { TopBar } from "./components/TopBar";
 import { useKeyboard } from "./hooks/useKeyboard";
+import { usePlayback } from "./hooks/usePlayback";
 import { useRunStream } from "./hooks/useRunStream";
 import { useStore } from "./store/useStore";
 
 export default function App() {
+  const view = useStore((s) => s.view);
   const run = useStore((s) => s.run);
+  const loadMeta = useStore((s) => s.loadMeta);
   const loadRuns = useStore((s) => s.loadRuns);
   const error = useStore((s) => s.error);
   const setError = useStore((s) => s.setError);
   const setHelpOpen = useStore((s) => s.setHelpOpen);
-  const setLauncherOpen = useStore((s) => s.setLauncherOpen);
 
   useRunStream(run?.id ?? null);
   useKeyboard();
+  usePlayback();
 
   useEffect(() => {
-    loadRuns().catch((err) =>
-      setError(err instanceof Error ? err.message : String(err)),
-    );
-  }, [loadRuns, setError]);
+    const report = (err: unknown) =>
+      setError(err instanceof Error ? err.message : String(err));
+    loadMeta().catch(report);
+    loadRuns().catch(report);
+    // Deep link: ?run=<id> or #run=<id> opens that trace directly.
+    const link =
+      /[?#]run=([a-f0-9]+)/.exec(window.location.search) ??
+      /[?#]run=([a-f0-9]+)/.exec(window.location.hash);
+    if (link) useStore.getState().openRun(link[1]).catch(report);
+  }, [loadMeta, loadRuns, setError]);
 
   useEffect(() => {
     if (!error) return;
@@ -37,7 +47,7 @@ export default function App() {
     <div className="flex h-full flex-col">
       <TopBar />
 
-      {run ? (
+      {view === "trace" && run ? (
         <main className="flex min-h-0 flex-1 flex-col">
           <div className="min-h-0 basis-[42%]">
             <Timeline />
@@ -48,12 +58,12 @@ export default function App() {
           </div>
         </main>
       ) : (
-        <EmptyState onStart={() => setLauncherOpen(true)} />
+        <Home />
       )}
 
       <footer className="flex h-7 shrink-0 items-center justify-between border-t border-line bg-panel px-3">
         <span className="stencil">
-          ⏺ black box · every step recorded · nothing erased
+          ⏺ black box · every step recorded · nothing fabricated
         </span>
         <button onClick={() => setHelpOpen(true)} className="stencil hover:text-ink">
           ? keyboard
@@ -69,32 +79,9 @@ export default function App() {
         </div>
       )}
 
-      <RunLauncher />
+      <LiveRunDialog />
       <ForkDialog />
       <HelpOverlay />
     </div>
-  );
-}
-
-function EmptyState({ onStart }: { onStart: () => void }) {
-  return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-4">
-      <div className="flex h-16 w-16 items-center justify-center rounded bg-accent text-3xl text-bg">
-        ⏺
-      </div>
-      <div className="text-center">
-        <h1 className="text-sm text-ink">No flights recorded yet</h1>
-        <p className="mt-1 max-w-sm text-[11px] leading-relaxed text-dim">
-          Start a run and every LLM call, thought and tool invocation will land
-          on the timeline — then scrub back, rewrite history, and fork.
-        </p>
-      </div>
-      <button
-        onClick={onStart}
-        className="rounded border border-accent bg-accent-soft px-4 py-2 text-accent transition-colors hover:bg-accent hover:text-bg"
-      >
-        ▶ Record first run
-      </button>
-    </main>
   );
 }

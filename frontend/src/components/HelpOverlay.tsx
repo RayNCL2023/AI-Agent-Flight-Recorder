@@ -2,19 +2,21 @@
 
 import { useStore } from "../store/useStore";
 
-const SHORTCUTS: Array<[string, string]> = [
-  ["← / →", "Scrub to previous / next step"],
-  ["↑ / ↓", "Switch branch lane"],
-  ["F", "Fork from the selected step"],
-  ["N", "Start a new run"],
-  ["?", "Toggle this reference"],
-  ["Esc", "Close dialogs"],
-];
-
 export function HelpOverlay() {
   const open = useStore((s) => s.helpOpen);
   const setOpen = useStore((s) => s.setHelpOpen);
+  const liveAvailable = useStore((s) => Boolean(s.meta?.live_available));
   if (!open) return null;
+
+  const SHORTCUTS: Array<[string, string]> = [
+    ["Space", "Play / pause the replay"],
+    ["← / →", "Scrub to previous / next step"],
+    ["↑ / ↓", "Switch branch lane"],
+    ["F", "Fork from the selected step"],
+    ...(liveAvailable ? ([["N", "Record a new live run"]] as Array<[string, string]>) : []),
+    ["?", "Toggle this reference"],
+    ["Esc", "Close dialogs"],
+  ];
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-bg/80 p-4"

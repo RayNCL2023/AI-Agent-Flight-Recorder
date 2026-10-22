@@ -1,0 +1,561 @@
+{
+  "version": 2,
+  "run": {
+    "id": "5518c00163284121bcecde20a4dc11a2",
+    "title": "Compare two programming languages",
+    "prompt": "Compare Python and Rust for building a high-throughput API server. Which would you pick and why?",
+    "model": "scripted-demo-agent",
+    "seed": 23,
+    "status": "completed",
+    "summary": "Evidence-gathering on both languages feeds a throughput-vs-velocity recommendation; the Go experiment shows the comparison axis pivoting with a one-word prompt edit.",
+    "source": "recorded",
+    "description": "Python vs Rust for a high-throughput API server, argued from tool evidence. The experiment swaps Rust for Go and replays the debate.",
+    "tools_used": [
+      "web_search"
+    ],
+    "experiments": [
+      {
+        "id": "compare-go",
+        "title": "Swap Rust for Go",
+        "description": "Edit the prompt to compare Python with Go instead and replay.",
+        "fork_seq": 1,
+        "edited_prompt": "Compare Python and Go for building a high-throughput API server. Which would you pick and why?",
+        "tool_overrides": {},
+        "recorded_label": "success",
+        "recorded_diagnosis": "Swapping Rust for Go changed the first search and the whole comparison axis: the fork's recommendation leans on Go's goroutines and single-binary deployment story rather than Rust's zero-cost memory safety. The Python evidence step is identical in both branches — same query, and the result replays from the run's tool cache."
+      }
+    ],
+    "created_at": "2026-08-06T20:39:31.485397"
+  },
+  "branches": [
+    {
+      "id": "ddd73110f8844de6b5c73e32eff640d0",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "name": "main",
+      "parent_branch_id": null,
+      "fork_seq": null,
+      "overrides": {},
+      "status": "completed",
+      "label": "success",
+      "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
+      "analysis_source": "heuristic",
+      "color_index": 0,
+      "created_at": "2026-08-06T20:39:31.485564"
+    }
+  ],
+  "events": [
+    {
+      "id": "588dbebde3474b1ca915c18a38b45ed3",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 1,
+      "parent_event_id": null,
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "35e9bf5689434b0e9eb110270da34d9a",
+      "type": "run_started",
+      "name": "run started",
+      "ts": "2026-08-06T20:39:31.491828",
+      "duration_ms": 0.0,
+      "payload": {
+        "prompt": "Compare Python and Rust for building a high-throughput API server. Which would you pick and why?",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
+        "model": "scripted-demo-agent",
+        "seed": 23
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "mode": "replay",
+        "live": true
+      }
+    },
+    {
+      "id": "64e65d6c884a41088bf815cee8a2265b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 2,
+      "parent_event_id": "588dbebde3474b1ca915c18a38b45ed3",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "7f1a8f487e0b49e3852baa1ae85b77f0",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:32.238586",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Two candidates to compare; gathering evidence on Rust's server story first."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "6cc34be5d96849ad90d7153f4e56f820",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 3,
+      "parent_event_id": "64e65d6c884a41088bf815cee8a2265b",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "a8f2a68524774ce18fc9fd8a8f6f2420",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:32.239750",
+      "duration_ms": 742.46,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_b534621d7b54",
+            "name": "web_search",
+            "arguments": {
+              "query": "Rust language memory safety high-throughput server"
+            }
+          }
+        ]
+      },
+      "tokens_in": 94,
+      "tokens_out": 44,
+      "cost_usd": 4.05e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "f5f4079fdba34cb59b43e14fcdfd663e",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 4,
+      "parent_event_id": "6cc34be5d96849ad90d7153f4e56f820",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "ca2d5850fe5c4207a129cb2f276a301d",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:39:32.240806",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "Rust language memory safety high-throughput server"
+        },
+        "tool_call_id": "call_b534621d7b54"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "32f4359f4aad4224a83ecf6fb4ef4fa2",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 5,
+      "parent_event_id": "f5f4079fdba34cb59b43e14fcdfd663e",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "a366d000d8bc444ea169d40d53f576ea",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:39:32.244827",
+      "duration_ms": 2.61,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "Rust language memory safety high-throughput server",
+          "results": [
+            {
+              "title": "Rust (programming language) — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+              "snippet": "Rust is a systems programming language that guarantees memory safety without garbage collection through ownership and borrowing. Stable since 2015, its async ecosystem (Tokio, hyper) powers very high-throughput network s"
+            },
+            {
+              "title": "Python (programming language) — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+              "snippet": "Python is a high-level, general-purpose programming language created by Guido van Rossum and first released in 1991. Python 3.13 was released in October 2024."
+            },
+            {
+              "title": "Anthropic — company overview",
+              "url": "https://en.wikipedia.org/wiki/Anthropic",
+              "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+            }
+          ],
+          "total": 3,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_b534621d7b54"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "bb3ef6635edb46f998ffaec59c5f862b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 6,
+      "parent_event_id": "32f4359f4aad4224a83ecf6fb4ef4fa2",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "37c90c2a300b446ba66b4b4c08e62144",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:32.945744",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Now the Python side, specifically async throughput characteristics."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "293a67be6926455cb79b7df85106c189",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 7,
+      "parent_event_id": "bb3ef6635edb46f998ffaec59c5f862b",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "69f9beee817a40ff9bc9d3c2f60feeb4",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:32.948753",
+      "duration_ms": 692.76,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_d709f8af6165",
+            "name": "web_search",
+            "arguments": {
+              "query": "Python asyncio API throughput GIL"
+            }
+          }
+        ]
+      },
+      "tokens_in": 456,
+      "tokens_out": 38,
+      "cost_usd": 9.12e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "588ae0274400497b84c678e345a5c6dc",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 8,
+      "parent_event_id": "293a67be6926455cb79b7df85106c189",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "5d4b2c37f8ff49eeafca2cf0c25398ce",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:39:32.951013",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "Python asyncio API throughput GIL"
+        },
+        "tool_call_id": "call_d709f8af6165"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "389a2c30f4e04d789ba8af65741904c6",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 9,
+      "parent_event_id": "588ae0274400497b84c678e345a5c6dc",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "9678efa56c8845618548191bb5708f4c",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:39:32.954855",
+      "duration_ms": 2.04,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "Python asyncio API throughput GIL",
+          "results": [
+            {
+              "title": "Python for web services — throughput notes",
+              "url": "https://example.com/python-async-apis",
+              "snippet": "Python with asyncio and frameworks like FastAPI handles I/O-bound API workloads well, though the GIL limits CPU-bound parallelism and raw throughput trails compiled languages. Developer velocity and ecosystem are its str"
+            },
+            {
+              "title": "Python (programming language) — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+              "snippet": "Python is a high-level, general-purpose programming language created by Guido van Rossum and first released in 1991. Python 3.13 was released in October 2024."
+            },
+            {
+              "title": "Rust (programming language) — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+              "snippet": "Rust is a systems programming language that guarantees memory safety without garbage collection through ownership and borrowing. Stable since 2015, its async ecosystem (Tokio, hyper) powers very high-throughput network s"
+            }
+          ],
+          "total": 3,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_d709f8af6165"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "874bdffa47d14d149bd384dac02f3a68",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 10,
+      "parent_event_id": "389a2c30f4e04d789ba8af65741904c6",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "1015b7025bae426d8e41643a5663da18",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:34.619093",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Evidence on both sides — weighing raw throughput against developer velocity."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "3b697f6f425c46ba9daf7f0ae03ad72b",
+      "run_id": "5518c00163284121bcecde20a4dc11a2",
+      "branch_id": "ddd73110f8844de6b5c73e32eff640d0",
+      "seq": 11,
+      "parent_event_id": "874bdffa47d14d149bd384dac02f3a68",
+      "trace_id": "5518c00163284121bcecde20a4dc11a2",
+      "span_id": "4c021ce1f133496ca18221d021481e7d",
+      "type": "completion",
+      "name": "final answer",
+      "ts": "2026-08-06T20:39:34.620402",
+      "duration_ms": 1660.55,
+      "payload": {
+        "content": "For a high-throughput API server, **Rust** is the stronger pick on raw performance: memory safety without garbage collection, and an async ecosystem (Tokio, hyper) built for very high-throughput network services. **Python** with asyncio and FastAPI handles I/O-bound workloads well and wins on developer velocity and ecosystem, but the GIL limits CPU-bound parallelism and raw throughput trails compiled languages.\n\nPick Rust when throughput is the hard requirement; pick Python when iteration speed matters more than the last order of magnitude."
+      },
+      "tokens_in": 814,
+      "tokens_out": 156,
+      "cost_usd": 0.0002157,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    }
+  ],
+  "tool_cache": [
+    {
+      "cache_key": "21e9a88dcb5d07317e5340e7dff4626ce7306d75d544751c009648b3a9e62d8d",
+      "tool": "web_search",
+      "args": {
+        "query": "Go language concurrent servers goroutines"
+      },
+      "output": {
+        "query": "Go language concurrent servers goroutines",
+        "results": [
+          {
+            "title": "Go (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+            "snippet": "Go is a statically typed language designed at Google and released in 2009. Goroutines and channels make concurrent servers simple to write; it is garbage collected, compiles fast, and deploys as a single static binary."
+          },
+          {
+            "title": "Rust (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+            "snippet": "Rust is a systems programming language that guarantees memory safety without garbage collection through ownership and borrowing. Stable since 2015, its async ecosystem (Tokio, hyper) powers very high-throughput network s"
+          },
+          {
+            "title": "Python (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+            "snippet": "Python is a high-level, general-purpose programming language created by Guido van Rossum and first released in 1991. Python 3.13 was released in October 2024."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "22d4f5a820d654734d766240df6cc82280ba0b33ed792348531c899130ab2e1b",
+      "tool": "web_search",
+      "args": {
+        "query": "Rust language memory safety high-throughput server"
+      },
+      "output": {
+        "query": "Rust language memory safety high-throughput server",
+        "results": [
+          {
+            "title": "Rust (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+            "snippet": "Rust is a systems programming language that guarantees memory safety without garbage collection through ownership and borrowing. Stable since 2015, its async ecosystem (Tokio, hyper) powers very high-throughput network s"
+          },
+          {
+            "title": "Python (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+            "snippet": "Python is a high-level, general-purpose programming language created by Guido van Rossum and first released in 1991. Python 3.13 was released in October 2024."
+          },
+          {
+            "title": "Anthropic — company overview",
+            "url": "https://en.wikipedia.org/wiki/Anthropic",
+            "snippet": "Anthropic is an AI safety company founded in 2021 by Dario Amodei and Daniela Amodei. It develops the Claude family of large language models and focuses on building reliable, interpretable and steerable AI systems."
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "d737aad002f75b83e4e68f453a7072e7375238dd88689691b6c478340e646e4c",
+      "tool": "web_search",
+      "args": {
+        "query": "Python asyncio API throughput GIL"
+      },
+      "output": {
+        "query": "Python asyncio API throughput GIL",
+        "results": [
+          {
+            "title": "Python for web services — throughput notes",
+            "url": "https://example.com/python-async-apis",
+            "snippet": "Python with asyncio and frameworks like FastAPI handles I/O-bound API workloads well, though the GIL limits CPU-bound parallelism and raw throughput trails compiled languages. Developer velocity and ecosystem are its str"
+          },
+          {
+            "title": "Python (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+            "snippet": "Python is a high-level, general-purpose programming language created by Guido van Rossum and first released in 1991. Python 3.13 was released in October 2024."
+          },
+          {
+            "title": "Rust (programming language) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+            "snippet": "Rust is a systems programming language that guarantees memory safety without garbage collection through ownership and borrowing. Stable since 2015, its async ecosystem (Tokio, hyper) powers very high-throughput network s"
+          }
+        ],
+        "total": 3,
+        "source": "offline_corpus"
+      }
+    }
+  ],
+  "llm_cache": [
+    {
+      "cache_key": "00bac80ab4e99b7231cf533d9b70b520964eb25ac012092b2a9d7d9d1cc3417c",
+      "response": {
+        "content": null,
+        "reasoning": "Now the Python side, specifically async throughput characteristics.",
+        "tool_calls": [
+          {
+            "id": "call_d709f8af6165",
+            "name": "web_search",
+            "arguments": {
+              "query": "Python asyncio API throughput GIL"
+            }
+          }
+        ],
+        "tokens_in": 456,
+        "tokens_out": 38,
+        "model": "scripted-demo-agent",
+        "duration_ms": 692.76
+      }
+    },
+    {
+      "cache_key": "2fb70632c32e29266f798112489181b4337e37699ad89245b7d9af7ea2452b1b",
+      "response": {
+        "content": null,
+        "reasoning": "Now the Python side, same throughput question as any comparison.",
+        "tool_calls": [
+          {
+            "id": "call_d709f8af6165",
+            "name": "web_search",
+            "arguments": {
+              "query": "Python asyncio API throughput GIL"
+            }
+          }
+        ],
+        "tokens_in": 459,
+        "tokens_out": 37,
+        "model": "scripted-demo-agent",
+        "duration_ms": 694.9
+      }
+    },
+    {
+      "cache_key": "39308d00f910521987b33ecb30090ed4dfb28b055fcf96d2bd33df11529defb6",
+      "response": {
+        "content": "For a high-throughput API server, **Rust** is the stronger pick on raw performance: memory safety without garbage collection, and an async ecosystem (Tokio, hyper) built for very high-throughput network services. **Python** with asyncio and FastAPI handles I/O-bound workloads well and wins on developer velocity and ecosystem, but the GIL limits CPU-bound parallelism and raw throughput trails compiled languages.\n\nPick Rust when throughput is the hard requirement; pick Python when iteration speed matters more than the last order of magnitude.",
+        "reasoning": "Evidence on both sides — weighing raw throughput against developer velocity.",
+        "tool_calls": [],
+        "tokens_in": 814,
+        "tokens_out": 156,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1660.55
+      }
+    },
+    {
+      "cache_key": "4a9f273eef329c6b99cb90b172c3eebb0fdc3db35a412e671c80cce9e08d5e92",
+      "response": {
+        "content": "For a high-throughput API server, **Go** is the pragmatic pick: goroutines and channels make concurrent servers simple, it compiles fast, and it deploys as a single static binary. **Python** with asyncio handles I/O-bound APIs well and offers unmatched ecosystem velocity, but the GIL constrains CPU-bound parallelism.\n\nChoose Go for sustained throughput with simple operations; choose Python when developer speed dominates.",
+        "reasoning": "Evidence on both sides — weighing operational simplicity against ecosystem.",
+        "tool_calls": [],
+        "tokens_in": 817,
+        "tokens_out": 125,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1503.68
+      }
+    },
+    {
+      "cache_key": "bb5945de67f27fc59282545a68225f4948b419b7976c2b60ba5d9fb2dcf44f9f",
+      "response": {
+        "content": null,
+        "reasoning": "Two candidates to compare; gathering evidence on Rust's server story first.",
+        "tool_calls": [
+          {
+            "id": "call_b534621d7b54",
+            "name": "web_search",
+            "arguments": {
+              "query": "Rust language memory safety high-throughput server"
+            }
+          }
+        ],
+        "tokens_in": 94,
+        "tokens_out": 44,
+        "model": "scripted-demo-agent",
+        "duration_ms": 742.46
+      }
+    },
+    {
+      "cache_key": "ccd5d0c8713cadf55b24cfb8be705edc18a485de15885016c23cb6d9c09905bf",
+      "response": {
+        "content": null,
+        "reasoning": "The candidates are Python and Go; gathering Go's concurrency evidence first.",
+        "tool_calls": [
+          {
+            "id": "call_1c993d34745c",
+            "name": "web_search",
+            "arguments": {
+              "query": "Go language concurrent servers goroutines"
+            }
+          }
+        ],
+        "tokens_in": 94,
+        "tokens_out": 42,
+        "model": "scripted-demo-agent",
+        "duration_ms": 713.16
+      }
+    }
+  ]
+}

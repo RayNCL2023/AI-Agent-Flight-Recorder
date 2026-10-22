@@ -1,6 +1,10 @@
 /**
  * Central Zustand store.
  *
+ * Views: "home" is the landing page + recorded trace library; "trace" is the
+ * replay workspace for one run. `meta` mirrors /api/meta — the UI must always
+ * reflect the true execution mode and never pretend live AI is available.
+ *
  * Timelines are kept per-branch as fully resolved event arrays (inherited +
  * own). Live SSE events are appended and de-duplicated by id; a branch fetch
  * replaces the array wholesale. `freshEventIds` drives entrance/typewriter
@@ -14,8 +18,9 @@ import type {
   BranchOut,
   BranchTimeline,
   EventOut,
+  Meta,
   RunDetail,
-  RunOut,
+  RunListItem,
   StreamMessage,
 } from "../api/types";
 
@@ -24,26 +29,36 @@ interface Selection {
   seq: number | null;
 }
 
+export type PlaybackSpeed = 1 | 2 | 4;
+
 interface StoreState {
-  runs: RunOut[];
+  view: "home" | "trace";
+  meta: Meta | null;
+  runs: RunListItem[];
   run: RunDetail | null;
   timelines: Record<string, EventOut[]>;
   freshEventIds: Set<string>;
   selection: Selection;
   followLive: boolean;
+  playing: boolean;
+  speed: PlaybackSpeed;
   helpOpen: boolean;
   forkOpen: boolean;
   launcherOpen: boolean;
   error: string | null;
 
+  loadMeta: () => Promise<void>;
   loadRuns: () => Promise<void>;
   openRun: (runId: string) => Promise<void>;
+  goHome: () => void;
   createRun: (prompt: string, seed?: number) => Promise<void>;
   deleteRun: (runId: string) => Promise<void>;
   refreshBranch: (branchId: string) => Promise<void>;
   handleStream: (msg: StreamMessage) => void;
   select: (branchId: string, seq: number) => void;
   moveSelection: (dSeq: number, dBranch: number) => void;
+  setPlaying: (playing: boolean) => void;
+  cycleSpeed: () => void;
   setForkOpen: (open: boolean) => void;
   setHelpOpen: (open: boolean) => void;
   setLauncherOpen: (open: boolean) => void;
@@ -51,22 +66,27 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>((set, get) => ({
+  view: "home",
+  meta: null,
   runs: [],
   run: null,
   timelines: {},
   freshEventIds: new Set(),
   selection: { branchId: null, seq: null },
-  followLive: true,
+  followLive: false,
+  playing: false,
+  speed: 1,
   helpOpen: false,
   forkOpen: false,
   launcherOpen: false,
   error: null,
 
+  loadMeta: async () => {
+    set({ meta: await api.getMeta() });
+  },
+
   loadRuns: async () => {
-    const runs = await api.listRuns();
-    set({ runs });
-    const { run } = get();
-    if (!run && runs.length > 0) await get().openRun(runs[0].id);
+    set({ runs: await api.listRuns() });
   },
 
   openRun: async (runId) => {
@@ -78,20 +98,38 @@ export const useStore = create<StoreState>((set, get) => ({
     for (const t of results) timelines[t.branch.id] = t.events;
     const root = run.branches.find((b) => !b.parent_branch_id);
     const rootEvents = root ? (timelines[root.id] ?? []) : [];
+    window.location.hash = `run=${run.id}`; // shareable deep link
     set({
+      view: "trace",
       run,
       timelines,
       freshEventIds: new Set(),
+      playing: false,
       followLive: run.status === "running" || run.status === "pending",
       selection: root
-        ? { branchId: root.id, seq: rootEvents.at(-1)?.seq ?? null }
+        ? { branchId: root.id, seq: rootEvents[0]?.seq ?? null }
         : { branchId: null, seq: null },
     });
   },
 
+  goHome: () => {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname);
+    }
+    set({
+      view: "home",
+      run: null,
+      timelines: {},
+      playing: false,
+      selection: { branchId: null, seq: null },
+    });
+    void get().loadRuns();
+  },
+
   createRun: async (prompt, seed = 42) => {
     const run = await api.createRun(prompt, seed);
-    set((s) => ({ runs: [toRunOut(run), ...s.runs], launcherOpen: false }));
+    await get().loadRuns();
+    set({ launcherOpen: false });
     await get().openRun(run.id);
     set({ followLive: true });
   },
@@ -100,10 +138,7 @@ export const useStore = create<StoreState>((set, get) => ({
     await api.deleteRun(runId);
     const runs = get().runs.filter((r) => r.id !== runId);
     set({ runs });
-    if (get().run?.id === runId) {
-      set({ run: null, timelines: {}, selection: { branchId: null, seq: null } });
-      if (runs.length > 0) await get().openRun(runs[0].id);
-    }
+    if (get().run?.id === runId) get().goHome();
   },
 
   refreshBranch: async (branchId) => {
@@ -119,7 +154,7 @@ export const useStore = create<StoreState>((set, get) => ({
       if (msg.run.id !== run.id) return;
       set((s) => ({
         run: s.run ? { ...s.run, ...msg.run, branches: s.run.branches } : null,
-        runs: s.runs.map((r) => (r.id === msg.run.id ? msg.run : r)),
+        runs: s.runs.map((r) => (r.id === msg.run.id ? { ...r, ...msg.run } : r)),
       }));
       return;
     }
@@ -192,7 +227,11 @@ export const useStore = create<StoreState>((set, get) => ({
     });
   },
 
-  setForkOpen: (forkOpen) => set({ forkOpen }),
+  setPlaying: (playing) => set({ playing, followLive: false }),
+  cycleSpeed: () =>
+    set((s) => ({ speed: s.speed === 1 ? 2 : s.speed === 2 ? 4 : 1 })),
+
+  setForkOpen: (forkOpen) => set({ forkOpen, ...(forkOpen ? { playing: false } : {}) }),
   setHelpOpen: (helpOpen) => set({ helpOpen }),
   setLauncherOpen: (launcherOpen) => set({ launcherOpen }),
   setError: (error) => set({ error }),
@@ -228,11 +267,6 @@ export function branchStats(events: EventOut[]) {
     costUsd: events.reduce((n, e) => n + e.cost_usd, 0),
     durationMs: events.reduce((n, e) => n + e.duration_ms, 0),
   };
-}
-
-function toRunOut(run: RunDetail): RunOut {
-  const { branches: _branches, ...rest } = run;
-  return rest;
 }
 
 function clamp(n: number, lo: number, hi: number) {

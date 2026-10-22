@@ -35,6 +35,15 @@ class Run(Base):
     seed: Mapped[int] = mapped_column(Integer, default=42)
     status: Mapped[str] = mapped_column(String(20), default=RunStatus.PENDING)
     summary: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # "recorded" = immutable library trace shipped with the app; "live" = a run
+    # a user executed in live mode.
+    source: Mapped[str] = mapped_column(String(20), default="live")
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    tools_used: Mapped[list] = mapped_column(JSON, default=list)
+    # Curated fork variants recorded alongside the trace:
+    #   [{id, title, description, fork_seq, edited_prompt, tool_overrides,
+    #     recorded_label, recorded_diagnosis}]
+    experiments: Mapped[list] = mapped_column(JSON, default=list)
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
     branches: Mapped[list["Branch"]] = relationship(
@@ -61,6 +70,8 @@ class Branch(Base):
     status: Mapped[str] = mapped_column(String(20), default=BranchStatus.PENDING)
     label: Mapped[str] = mapped_column(String(20), default=BranchLabel.UNLABELED)
     diagnosis: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Provenance of label/diagnosis: "recorded" | "heuristic" | "llm".
+    analysis_source: Mapped[str] = mapped_column(String(20), default="heuristic")
     color_index: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
@@ -108,6 +119,27 @@ class Event(Base):
     @property
     def event_type(self) -> EventType:
         return EventType(self.type)
+
+
+class LLMCacheEntry(Base):
+    """Deterministic-replay cache for LLM completions.
+
+    Keyed by a hash of the full conversation state (model + seed + messages), so
+    replaying any recorded path — including recorded fork variants — resolves
+    each LLM step from the recording instead of calling a model. A state with no
+    entry is a *replay miss*: the honest "no recorded execution" stop.
+    """
+
+    __tablename__ = "llm_cache"
+    __table_args__ = (
+        Index("ix_llm_cache_key", "run_id", "cache_key", unique=True),
+    )
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=_uuid)
+    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id", ondelete="CASCADE"))
+    cache_key: Mapped[str] = mapped_column(String(64))  # sha256(model + seed + messages)
+    response: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
 
 class ToolCacheEntry(Base):

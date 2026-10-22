@@ -5,8 +5,9 @@ import type {
   BranchOut,
   BranchTimeline,
   ForkRequest,
+  Meta,
   RunDetail,
-  RunOut,
+  RunListItem,
 } from "./types";
 
 const BASE = "";
@@ -39,7 +40,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  listRuns: () => request<RunOut[]>("/api/runs"),
+  getMeta: () => request<Meta>("/api/meta"),
+  listRuns: () => request<RunListItem[]>("/api/runs"),
   getRun: (id: string) => request<RunDetail>(`/api/runs/${id}`),
   createRun: (prompt: string, seed = 42) =>
     request<RunDetail>("/api/runs", {

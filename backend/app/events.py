@@ -17,6 +17,7 @@ class EventType(StrEnum):
     RETRY = "retry"                      # a failed step being retried
     ERROR = "error"                      # unrecoverable step failure
     COMPLETION = "completion"            # final answer, terminates the branch
+    REPLAY_MISS = "replay_miss"          # honest stop: no recorded execution covers this state
 
 
 class RunStatus(StrEnum):
@@ -40,6 +41,7 @@ class BranchLabel(StrEnum):
     HALLUCINATION = "hallucination"
     LOOP = "loop"
     FAILED = "failed"
+    UNRECORDED = "unrecorded"  # replay left recorded coverage; nothing was fabricated
     UNLABELED = "unlabeled"
 
 

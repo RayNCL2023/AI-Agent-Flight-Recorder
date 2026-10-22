@@ -1,0 +1,641 @@
+{
+  "version": 2,
+  "run": {
+    "id": "c1804366297243528b1f688075ae05e8",
+    "title": "Plan a trip",
+    "prompt": "Plan a 3-day Tokyo trip for mid-November: check the weather, estimate the budget at $180/day plus a $950 flight, and suggest what to see.",
+    "model": "scripted-demo-agent",
+    "seed": 4,
+    "status": "completed",
+    "summary": "Three tools — weather, calculator, search — compose an itinerary whose outdoor/indoor balance is decided by the forecast; the budget is pure arithmetic and replays identically in every fork.",
+    "source": "recorded",
+    "description": "Weather, budget arithmetic and an attractions search feed a 3-day Tokyo itinerary. The experiment storms the forecast and only the itinerary responds.",
+    "tools_used": [
+      "calculator",
+      "weather",
+      "web_search"
+    ],
+    "experiments": [
+      {
+        "id": "trip-storm",
+        "title": "Storm the forecast",
+        "description": "Override the weather with thunderstorms and watch the itinerary go indoors while the budget replays untouched.",
+        "fork_seq": 6,
+        "edited_prompt": null,
+        "tool_overrides": {
+          "30b1a9169a9f4e1fad3cc664bcd4b990": {
+            "city": "Tokyo",
+            "temperature_c": 8.4,
+            "condition": "thunderstorms",
+            "humidity_pct": 88,
+            "wind_kph": 41.0,
+            "source": "mock-weather-api"
+          }
+        },
+        "recorded_label": "success",
+        "recorded_diagnosis": "Only the weather evidence changed, and only the itinerary responds: the budget arithmetic replays byte-identically from the tool cache while the recommendation flips from outdoor-first to indoor-first. A clean single-input counterfactual."
+      }
+    ],
+    "created_at": "2026-08-06T20:39:43.376564"
+  },
+  "branches": [
+    {
+      "id": "909c07fe9d554b5e875da18880dfba38",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "name": "main",
+      "parent_branch_id": null,
+      "fork_seq": null,
+      "overrides": {},
+      "status": "completed",
+      "label": "success",
+      "diagnosis": "The agent gathered tool evidence and produced a grounded final answer.",
+      "analysis_source": "heuristic",
+      "color_index": 0,
+      "created_at": "2026-08-06T20:39:43.376780"
+    }
+  ],
+  "events": [
+    {
+      "id": "350dccdd550342a49f78be5d922c32a2",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 1,
+      "parent_event_id": null,
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "72009614b8c94b92b7649646fa376614",
+      "type": "run_started",
+      "name": "run started",
+      "ts": "2026-08-06T20:39:43.382974",
+      "duration_ms": 0.0,
+      "payload": {
+        "prompt": "Plan a 3-day Tokyo trip for mid-November: check the weather, estimate the budget at $180/day plus a $950 flight, and suggest what to see.",
+        "system_prompt": "You are a precise research agent. Use the available tools to gather facts, then answer concisely. Prefer tool evidence over memory. When you have enough information, reply with the final answer instead of calling tools.",
+        "model": "scripted-demo-agent",
+        "seed": 4
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "mode": "replay",
+        "live": true
+      }
+    },
+    {
+      "id": "3a0897da074d45ee91ffc3c9ea7fc537",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 2,
+      "parent_event_id": "350dccdd550342a49f78be5d922c32a2",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "1904732342ac4de9917692be254ca7ea",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:43.956673",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Weather first — it decides whether this is an outdoor or indoor itinerary."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "2981fd3dedfb4915a3b320948f62e380",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 3,
+      "parent_event_id": "3a0897da074d45ee91ffc3c9ea7fc537",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "fe4afa8969b94053b1f1035d3b2a2c0f",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:43.958280",
+      "duration_ms": 569.68,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_934a9f04f883",
+            "name": "weather",
+            "arguments": {
+              "city": "Tokyo"
+            }
+          }
+        ]
+      },
+      "tokens_in": 105,
+      "tokens_out": 31,
+      "cost_usd": 3.435e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "6cf74fb195494b7f98d827f93890a35f",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 4,
+      "parent_event_id": "2981fd3dedfb4915a3b320948f62e380",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "9e068b6c9b734b0ab7893cbe466c76d3",
+      "type": "tool_call",
+      "name": "call weather",
+      "ts": "2026-08-06T20:39:43.959616",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "weather",
+        "arguments": {
+          "city": "Tokyo"
+        },
+        "tool_call_id": "call_934a9f04f883"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "30b1a9169a9f4e1fad3cc664bcd4b990",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 5,
+      "parent_event_id": "6cf74fb195494b7f98d827f93890a35f",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "00258e523f874840a8e53bacbf5f8862",
+      "type": "tool_result",
+      "name": "weather result",
+      "ts": "2026-08-06T20:39:43.962869",
+      "duration_ms": 1.73,
+      "payload": {
+        "tool": "weather",
+        "output": {
+          "city": "Tokyo",
+          "temperature_c": 10.7,
+          "condition": "clear",
+          "humidity_pct": 68,
+          "wind_kph": 15.4,
+          "source": "mock-weather-api"
+        },
+        "cached": false,
+        "tool_call_id": "call_934a9f04f883"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "57a7d9a41c86475c99d9d069fe58cf6e",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 6,
+      "parent_event_id": "30b1a9169a9f4e1fad3cc664bcd4b990",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "41261a3cf53d4c209465f338462e5a0a",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:44.456002",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Now the arithmetic: three days at $180 plus the flight."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "8f5c034f450e4862a55896c1b48f38d0",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 7,
+      "parent_event_id": "57a7d9a41c86475c99d9d069fe58cf6e",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "ad63b348cb744692b855984523fed772",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:44.457645",
+      "duration_ms": 489.26,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_53c011bc9d39",
+            "name": "calculator",
+            "arguments": {
+              "expression": "180*3+950"
+            }
+          }
+        ]
+      },
+      "tokens_in": 202,
+      "tokens_out": 30,
+      "cost_usd": 4.83e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "903a30fd529648e396d7b3c15a9c1b6c",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 8,
+      "parent_event_id": "8f5c034f450e4862a55896c1b48f38d0",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "57f5ad8258f44c43a8a69e73d6311673",
+      "type": "tool_call",
+      "name": "call calculator",
+      "ts": "2026-08-06T20:39:44.468613",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "calculator",
+        "arguments": {
+          "expression": "180*3+950"
+        },
+        "tool_call_id": "call_53c011bc9d39"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "f395dff3114145d89d12a0845d53bf40",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 9,
+      "parent_event_id": "903a30fd529648e396d7b3c15a9c1b6c",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "4b308981731341eb9ada52c7d1665076",
+      "type": "tool_result",
+      "name": "calculator result",
+      "ts": "2026-08-06T20:39:44.473362",
+      "duration_ms": 1.88,
+      "payload": {
+        "tool": "calculator",
+        "output": {
+          "expression": "180*3+950",
+          "result": 1490
+        },
+        "cached": false,
+        "tool_call_id": "call_53c011bc9d39"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "95d9b81cc1284033a43bbd3a885774f5",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 10,
+      "parent_event_id": "f395dff3114145d89d12a0845d53bf40",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "3f57503f091e4011a230663aab5c656e",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:45.302142",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Finally, what is actually worth seeing in November."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "f809b4e93bc8451690e233bf99381d28",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 11,
+      "parent_event_id": "95d9b81cc1284033a43bbd3a885774f5",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "ac1d204f416e4075b1627f26911bcc35",
+      "type": "llm_message",
+      "name": "assistant message",
+      "ts": "2026-08-06T20:39:45.303861",
+      "duration_ms": 824.12,
+      "payload": {
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_6bf660e2d75c",
+            "name": "web_search",
+            "arguments": {
+              "query": "Tokyo attractions November autumn"
+            }
+          }
+        ]
+      },
+      "tokens_in": 277,
+      "tokens_out": 34,
+      "cost_usd": 6.195e-05,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "a8e8ddb84b614a14a1c0d1b1880521c5",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 12,
+      "parent_event_id": "f809b4e93bc8451690e233bf99381d28",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "2c08fc95af954286882368f829b5ffbd",
+      "type": "tool_call",
+      "name": "call web_search",
+      "ts": "2026-08-06T20:39:45.305621",
+      "duration_ms": 0.0,
+      "payload": {
+        "tool": "web_search",
+        "arguments": {
+          "query": "Tokyo attractions November autumn"
+        },
+        "tool_call_id": "call_6bf660e2d75c"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "08ef456829004aa2adb040be330a598e",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 13,
+      "parent_event_id": "a8e8ddb84b614a14a1c0d1b1880521c5",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "29088baf4629429894b5feb11675c598",
+      "type": "tool_result",
+      "name": "web_search result",
+      "ts": "2026-08-06T20:39:45.310186",
+      "duration_ms": 2.37,
+      "payload": {
+        "tool": "web_search",
+        "output": {
+          "query": "Tokyo attractions November autumn",
+          "results": [
+            {
+              "title": "Tokyo travel guide — autumn highlights",
+              "url": "https://example.com/tokyo-travel-november",
+              "snippet": "Top Tokyo attractions include the Senso-ji temple in Asakusa, Shibuya crossing, teamLab Planets and the Meiji Shrine. November brings autumn foliage, mild days and low rainfall, making it one of the best months to visit."
+            },
+            {
+              "title": "Tokyo — Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Tokyo",
+              "snippet": "Tokyo is the capital of Japan and the most populous metropolitan area in the world, with over 37 million residents in the greater Tokyo area."
+            }
+          ],
+          "total": 2,
+          "source": "offline_corpus"
+        },
+        "cached": false,
+        "tool_call_id": "call_6bf660e2d75c"
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {}
+    },
+    {
+      "id": "21086a6b12d842808df9fdba231eee06",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 14,
+      "parent_event_id": "08ef456829004aa2adb040be330a598e",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "701898b9d04a4c90bc034b550226acc9",
+      "type": "reasoning",
+      "name": "reasoning",
+      "ts": "2026-08-06T20:39:47.416069",
+      "duration_ms": 0.0,
+      "payload": {
+        "text": "Forecast is clear, budget is fixed, sights are sourced — assembling the plan."
+      },
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    },
+    {
+      "id": "45ca21c7e23a4265ae8694e0650cb620",
+      "run_id": "c1804366297243528b1f688075ae05e8",
+      "branch_id": "909c07fe9d554b5e875da18880dfba38",
+      "seq": 15,
+      "parent_event_id": "21086a6b12d842808df9fdba231eee06",
+      "trace_id": "c1804366297243528b1f688075ae05e8",
+      "span_id": "06ef17764c3743d9843a001f8342fd6a",
+      "type": "completion",
+      "name": "final answer",
+      "ts": "2026-08-06T20:39:47.417241",
+      "duration_ms": 2101.7,
+      "payload": {
+        "content": "**3-day Tokyo plan for mid-November**\n\n**Weather** — clear, around 10.7°C with 15 kph wind (68% humidity): pack layers, but outdoor days are on.\n\n**Budget** — 180×3 + 950 flight = **$1,490** total.\n\n**Itinerary** — Day 1: Senso-ji temple and Asakusa, evening at Shibuya crossing. Day 2: Meiji Shrine plus autumn-foliage walks (November is peak). Day 3: teamLab Planets, with a Mount Takao day trip as the clear-weather option."
+      },
+      "tokens_in": 525,
+      "tokens_out": 126,
+      "cost_usd": 0.00015435,
+      "meta": {
+        "model": "scripted-demo-agent",
+        "replayed": false
+      }
+    }
+  ],
+  "tool_cache": [
+    {
+      "cache_key": "150bddecd171304d05c6669a64c12b455360b25abffe1b2bc0b0dc8856caa3d1",
+      "tool": "calculator",
+      "args": {
+        "expression": "180*3+950"
+      },
+      "output": {
+        "expression": "180*3+950",
+        "result": 1490
+      }
+    },
+    {
+      "cache_key": "1fcb5ee881950d01041b4096aadbbae27227eb145db29b0af4685e449fb4a319",
+      "tool": "web_search",
+      "args": {
+        "query": "Tokyo attractions November autumn"
+      },
+      "output": {
+        "query": "Tokyo attractions November autumn",
+        "results": [
+          {
+            "title": "Tokyo travel guide — autumn highlights",
+            "url": "https://example.com/tokyo-travel-november",
+            "snippet": "Top Tokyo attractions include the Senso-ji temple in Asakusa, Shibuya crossing, teamLab Planets and the Meiji Shrine. November brings autumn foliage, mild days and low rainfall, making it one of the best months to visit."
+          },
+          {
+            "title": "Tokyo — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Tokyo",
+            "snippet": "Tokyo is the capital of Japan and the most populous metropolitan area in the world, with over 37 million residents in the greater Tokyo area."
+          }
+        ],
+        "total": 2,
+        "source": "offline_corpus"
+      }
+    },
+    {
+      "cache_key": "38c3d8189f91d9c6e51ae4eb95113ad6e7d9541d2148d0cebf9fa8d714568783",
+      "tool": "weather",
+      "args": {
+        "city": "Tokyo"
+      },
+      "output": {
+        "city": "Tokyo",
+        "temperature_c": 10.7,
+        "condition": "clear",
+        "humidity_pct": 68,
+        "wind_kph": 15.4,
+        "source": "mock-weather-api"
+      }
+    }
+  ],
+  "llm_cache": [
+    {
+      "cache_key": "029d2837d4147418135c8622a09bc4991ca55e3822e9122e1afff691a4842f08",
+      "response": {
+        "content": "**Storm-proofed 3-day Tokyo plan for mid-November**\n\n**Weather** — thunderstorms, 8.4°C, 41 kph wind: this is an indoor itinerary.\n\n**Budget** — unchanged at **$1,490** (180×3 + 950).\n\n**Itinerary** — Day 1: teamLab Planets, then the covered Asakusa arcades beside Senso-ji. Day 2: museums and department-store food halls; keep Meiji Shrine's open grounds for a gap between cells. Day 3: Shibuya's indoor observation decks for the crossing view — and drop the Mount Takao trip; exposed ridgelines and lightning don't mix.",
+        "reasoning": "Storm forecast, fixed budget, sourced sights — assembling an indoor-first plan.",
+        "tool_calls": [],
+        "tokens_in": 526,
+        "tokens_out": 150,
+        "model": "scripted-demo-agent",
+        "duration_ms": 1960.81
+      }
+    },
+    {
+      "cache_key": "05283d71526869e980c2e1d2c627ba4f9ce27487b420ed1cf3e8185c1c50da00",
+      "response": {
+        "content": null,
+        "reasoning": "Same sights question — the answer just has to filter for covered venues now.",
+        "tool_calls": [
+          {
+            "id": "call_6bf660e2d75c",
+            "name": "web_search",
+            "arguments": {
+              "query": "Tokyo attractions November autumn"
+            }
+          }
+        ],
+        "tokens_in": 278,
+        "tokens_out": 40,
+        "model": "scripted-demo-agent",
+        "duration_ms": 786.6
+      }
+    },
+    {
+      "cache_key": "38926480e9673c3c5e2691e0ec434c2b78982d5c6dcdcb05f0995f31e22af0f1",
+      "response": {
+        "content": null,
+        "reasoning": "Now the arithmetic: three days at $180 plus the flight.",
+        "tool_calls": [
+          {
+            "id": "call_53c011bc9d39",
+            "name": "calculator",
+            "arguments": {
+              "expression": "180*3+950"
+            }
+          }
+        ],
+        "tokens_in": 202,
+        "tokens_out": 30,
+        "model": "scripted-demo-agent",
+        "duration_ms": 489.26
+      }
+    },
+    {
+      "cache_key": "45d0db684ec5c2e3bb0b18cd03dd97a04a48a110dcdef6e8eeb68e17ac742560",
+      "response": {
+        "content": "**3-day Tokyo plan for mid-November**\n\n**Weather** — clear, around 10.7°C with 15 kph wind (68% humidity): pack layers, but outdoor days are on.\n\n**Budget** — 180×3 + 950 flight = **$1,490** total.\n\n**Itinerary** — Day 1: Senso-ji temple and Asakusa, evening at Shibuya crossing. Day 2: Meiji Shrine plus autumn-foliage walks (November is peak). Day 3: teamLab Planets, with a Mount Takao day trip as the clear-weather option.",
+        "reasoning": "Forecast is clear, budget is fixed, sights are sourced — assembling the plan.",
+        "tool_calls": [],
+        "tokens_in": 525,
+        "tokens_out": 126,
+        "model": "scripted-demo-agent",
+        "duration_ms": 2101.7
+      }
+    },
+    {
+      "cache_key": "991d54a8f70daac32a0a799e5c83e23cec704a8e52636d198bc648624e81f2e7",
+      "response": {
+        "content": null,
+        "reasoning": "Weather first — it decides whether this is an outdoor or indoor itinerary.",
+        "tool_calls": [
+          {
+            "id": "call_934a9f04f883",
+            "name": "weather",
+            "arguments": {
+              "city": "Tokyo"
+            }
+          }
+        ],
+        "tokens_in": 105,
+        "tokens_out": 31,
+        "model": "scripted-demo-agent",
+        "duration_ms": 569.68
+      }
+    },
+    {
+      "cache_key": "bf59ea4b252db4644d07db0345c503d5cedfdcdf6590c0ed24711fbf21629d05",
+      "response": {
+        "content": null,
+        "reasoning": "Finally, what is actually worth seeing in November.",
+        "tool_calls": [
+          {
+            "id": "call_6bf660e2d75c",
+            "name": "web_search",
+            "arguments": {
+              "query": "Tokyo attractions November autumn"
+            }
+          }
+        ],
+        "tokens_in": 277,
+        "tokens_out": 34,
+        "model": "scripted-demo-agent",
+        "duration_ms": 824.12
+      }
+    },
+    {
+      "cache_key": "fd749d4c8e73ad609021f279a7bab7fd7d8c0e89780be6b79ff874a71c1bb4d5",
+      "response": {
+        "content": null,
+        "reasoning": "Thunderstorms change everything about the itinerary — but the budget math is unchanged.",
+        "tool_calls": [
+          {
+            "id": "call_53c011bc9d39",
+            "name": "calculator",
+            "arguments": {
+              "expression": "180*3+950"
+            }
+          }
+        ],
+        "tokens_in": 203,
+        "tokens_out": 38,
+        "model": "scripted-demo-agent",
+        "duration_ms": 507.42
+      }
+    }
+  ]
+}

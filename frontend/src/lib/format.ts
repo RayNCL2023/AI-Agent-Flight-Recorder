@@ -31,6 +31,7 @@ export const EVENT_GLYPH: Record<EventType, string> = {
   retry: "↻",
   error: "✕",
   completion: "■",
+  replay_miss: "∅",
 };
 
 export const EVENT_TINT: Record<EventType, string> = {
@@ -42,6 +43,7 @@ export const EVENT_TINT: Record<EventType, string> = {
   retry: "var(--color-warn)",
   error: "var(--color-err)",
   completion: "var(--color-ok)",
+  replay_miss: "var(--color-warn)",
 };
 
 export function laneColor(index: number): string {
@@ -53,5 +55,20 @@ export const LABEL_TINT: Record<string, string> = {
   hallucination: "var(--color-lane-2)",
   loop: "var(--color-warn)",
   failed: "var(--color-err)",
+  unrecorded: "var(--color-warn)",
   unlabeled: "var(--color-faint)",
 };
+
+/** Human labels for verdict provenance — the UI never blurs these. */
+export const ANALYSIS_SOURCE_LABEL: Record<string, string> = {
+  recorded: "recorded post-mortem",
+  heuristic: "heuristic analysis",
+  llm: "LLM judge (live)",
+};
+
+export function fmtDuration(ms: number): string {
+  if (ms < 1000) return `${Math.round(ms)}ms`;
+  const s = ms / 1000;
+  if (s < 60) return `${s.toFixed(1)}s`;
+  return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
+}

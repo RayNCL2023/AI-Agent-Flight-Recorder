@@ -5,7 +5,28 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit -q -m 'chore: baseline before honest-replay-demo refactor *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(./.venv/Scripts/python.exe -m pytest -q)",
+      "Bash(npm run *)",
+      "Bash(./.venv/Scripts/python.exe -m pytest)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py -q)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_llm_cache.py)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_engine_replay.py tests/test_llm_cache.py)",
+      "Bash(grep -vE \"warning|Deprecat|noqa|^$|Docs:\")",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_api_modes.py tests/test_engine_replay.py tests/test_llm_cache.py)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_api_modes.py::test_export_import_v2_roundtrips_caches)",
+      "Bash(./.venv/Scripts/python.exe -)",
+      "Bash(./.venv/Scripts/python.exe scripts/record_fixtures.py)",
+      "Bash(./.venv/Scripts/python.exe -m pytest tests/test_library.py tests/test_tools.py)",
+      "Bash(git rm *)",
+      "Bash(chromium-cli --session afr)",
+      "PowerShell(Get-Item *)",
+      "PowerShell($candidates = @\\(\"C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\", \"C:\\\\Program Files\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\", \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\", \"$env:LOCALAPPDATA\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\"\\); $found = $candidates | Where-Object { Test-Path $_ }; $found)",
+      "PowerShell(Set-Location *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell($out = \"C:\\\\Users\\\\bitan\\\\onedrive\\\\desktop\\\\project-1\\\\afr-trace.png\"; & \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\" --headless --disable-gpu --no-sandbox --enable-logging=stderr --window-size=1600,1000 --timeout=12000 --screenshot=\"$out\" \"http://localhost:5173/#run=2122802580774b608459d57df2603839\" 2>&1 | Select-String -Pattern \"CONSOLE|error\" | Select-Object -First 10)",
+      "Bash(curl -s \"http://localhost:5173/src/App.tsx\")"
     ]
   }
 }

@@ -58,6 +58,11 @@ export function Inspector() {
             <div className="text-sm text-ink">{event.name}</div>
             <div className="text-[10px] text-dim">
               step #{event.seq} · {event.type} · {fmtTime(event.ts)}
+              {Boolean(event.meta.replayed) && (
+                <span className="ml-2 rounded-sm border border-line px-1 py-px text-[8px] uppercase tracking-wider text-lane-1">
+                  replayed from recording
+                </span>
+              )}
             </div>
           </div>
         </header>
@@ -94,6 +99,16 @@ function EventBody({ event, fresh }: { event: EventOut; fresh: boolean }) {
           <p className="mt-2 text-[10px] text-dim">
             model {String(p.model)} · seed {String(p.seed)}
           </p>
+          {Boolean(p.system_prompt) && (
+            <details className="mt-2">
+              <summary className="stencil cursor-pointer select-none list-none">
+                ▸ System prompt
+              </summary>
+              <p className="mt-1 whitespace-pre-wrap rounded border border-line bg-bg p-2 text-[11px] leading-relaxed text-dim">
+                {String(p.system_prompt)}
+              </p>
+            </details>
+          )}
         </Block>
       );
     case "reasoning":
@@ -156,7 +171,36 @@ function EventBody({ event, fresh }: { event: EventOut; fresh: boolean }) {
           </p>
         </Block>
       );
+    case "replay_miss":
+      return <ReplayMissBlock detail={String(p.detail ?? "")} />;
   }
+}
+
+/**
+ * The honest stop: replay left recorded coverage. Nothing was fabricated;
+ * point the user at the recorded experiments that do replay end-to-end.
+ */
+function ReplayMissBlock({ detail }: { detail: string }) {
+  const setForkOpen = useStore((s) => s.setForkOpen);
+  const experiments = useStore((s) => s.run?.experiments ?? []);
+  return (
+    <div className="shrink-0 rounded border border-warn/50 bg-panel-2 p-2.5">
+      <div className="stencil mb-1.5 !text-warn">Replay stopped</div>
+      <p className="text-[13px] text-ink">
+        No recorded execution matches this request.
+      </p>
+      <p className="mt-2 text-[11px] leading-relaxed text-dim">{detail}</p>
+      {experiments.length > 0 && (
+        <button
+          onClick={() => setForkOpen(true)}
+          className="mt-3 rounded border border-line px-2.5 py-1 text-[11px] text-dim transition-colors hover:border-accent hover:text-accent"
+        >
+          ⑂ Browse {experiments.length} recorded experiment
+          {experiments.length === 1 ? "" : "s"} that replay end-to-end
+        </button>
+      )}
+    </div>
+  );
 }
 
 function Panel({

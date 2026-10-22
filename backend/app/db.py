@@ -44,6 +44,32 @@ def init_db() -> None:
     from . import models  # noqa: F401  (register mappings)
 
     Base.metadata.create_all(bind=engine)
+    _migrate_sqlite_columns()
+
+
+#: Columns added after the first release; SQLite `create_all` does not alter
+#: existing tables, so add them in place (values are SQL literals).
+_COLUMN_MIGRATIONS: list[tuple[str, str, str]] = [
+    ("runs", "source", "VARCHAR(20) NOT NULL DEFAULT 'live'"),
+    ("runs", "description", "TEXT"),
+    ("runs", "tools_used", "JSON NOT NULL DEFAULT '[]'"),
+    ("runs", "experiments", "JSON NOT NULL DEFAULT '[]'"),
+    ("branches", "analysis_source", "VARCHAR(20) NOT NULL DEFAULT 'heuristic'"),
+]
+
+
+def _migrate_sqlite_columns() -> None:
+    if not get_settings().database_url.startswith("sqlite"):
+        return
+    from sqlalchemy import text
+
+    with engine.begin() as conn:
+        for table, column, ddl in _COLUMN_MIGRATIONS:
+            existing = {
+                row[1] for row in conn.execute(text(f"PRAGMA table_info({table})"))
+            }
+            if column not in existing:
+                conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {column} {ddl}"))
 
 
 def get_db() -> Iterator[Session]:
